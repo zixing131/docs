@@ -1,0 +1,20 @@
+{
+  "version": "2.0",
+  "clipId": "1706233035",
+  "format": "md",
+  "title": "Schneider Electric EcoStruxure PME RCE 漏洞分析",
+  "link": "https://xz.aliyun.com/t/13385?time__1311=mqmxnDBG0QQDqGXYYK0%3DtG%3DmcR%3D5deq4D",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-01-26 09:37:15",
+  "mainPath": "Schneider-Electric-EcoStruxure-PME-RCE-漏洞分析.md",
+  "paths": [
+    "Schneider-Electric-EcoStruxure-PME-RCE-漏洞分析.index.json",
+    "assets/1706233035-e85e6cecf6f899abc0f02f2d9bb3e63d.png",
+    "assets/1706233035-7134d1e55882e8767f9c68b80ebbc1f3.png",
+    "assets/1706233035-de654391145099c0601b8e985dc42118.png",
+    "Schneider-Electric-EcoStruxure-PME-RCE-漏洞分析.md"
+  ]
+}

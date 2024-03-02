@@ -1,0 +1,29 @@
+{
+  "version": "2.0",
+  "clipId": "1709279497",
+  "format": "md",
+  "title": "java 原生反序列化 OverlongEncoding 分析及实战 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13932?time__1311=mqmxnQ0%3DuD9nD%2FD0Dx2mmppxQqhWxGwD&u_atoken=a600c91994e6e61aef188595ed9f1dbb&u_asession=01dlXZHfw4DTzO7tqsgGhTZhB4AbhMoaxcX2otKYZu0bm_xmlZEzkN5hrgmLXeJNyldlmHJsN3PcAI060GRB4YZGyPlBJUEqctiaTooWaXr7I&u_asig=05Q1zftrVkKmj0Kg6FU0cRZdk8xkDkXw1JaXiEAjBhEQ1uQzKtQTL6XUjolaPtkYu4IenQ6HfuNWBHhCT16GBXO9Cv7pEK3Yv3j_1PjhpFCrSRFb4kUE_e6X27G31DthSaAI2mIczwq8yCSHLtTzZGYFejGv5q9uLbyVWOApp7Di1g2QMxYs6lyXb1lFWKql56q2qNqG6wqfSZB1j6i68Ruyn22ozrZ_R22twV6kHzLhaW6-qEPu9TOE4e7mu5QuX2g1QWOETzqj1ECi3LkZC4IuzXpeM3jzys5fGQpJh7Gox6gx6UxFgdF3ARCQ86jS_u_XR5hatHQVh06VuUZ-D1wA&u_aref=G2zNPKhqy2M7VHTVhw0Mqo2JDNY%3D",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-03-01 15:51:37",
+  "mainPath": "java 原生反序列化 OverlongEncoding 分析及实战 - 先知社区.md",
+  "paths": [
+    "java 原生反序列化 OverlongEncoding 分析及实战 - 先知社区.index.json",
+    "assets/1709279497-713747a374c261c752042fd84f2e29b2.png",
+    "assets/1709279497-f09c6126b9cca381abb55f47bc90f285.png",
+    "assets/1709279497-d31c1ae925139a9ed80a16837a8aa82d.png",
+    "assets/1709279497-b3cfb5b97bcdad5f9a1f493fdce6f6fc.png",
+    "assets/1709279497-45784add94e9197ffac5a57db0e383af.png",
+    "assets/1709279497-6bc8a964dc50e701cb12a1c349c78371.png",
+    "assets/1709279497-7154f0795935dd5587de5620f062573e.png",
+    "assets/1709279497-94da0d2ac3e10fb72428a2af564b4d40.png",
+    "assets/1709279497-8b63ecfad96006206dc1bb9e6a86a296.png",
+    "assets/1709279497-bb7e890a8b7d044f68e42384a4614bc6.png",
+    "assets/1709279497-89bf064cf2aad930dbf21d3a32885fa0.png",
+    "assets/1709279497-11b761736f973ed94c048eded67b185d.png",
+    "java 原生反序列化 OverlongEncoding 分析及实战 - 先知社区.md"
+  ]
+}

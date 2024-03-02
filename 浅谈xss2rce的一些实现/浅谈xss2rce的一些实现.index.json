@@ -1,0 +1,21 @@
+{
+  "version": "2.0",
+  "clipId": "1707954600",
+  "format": "md",
+  "title": "浅谈 xss2rce 的一些实现",
+  "link": "http://xz.aliyun.com/t/13547",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-15 07:50:00",
+  "mainPath": "浅谈 xss2rce 的一些实现.md",
+  "paths": [
+    "浅谈 xss2rce 的一些实现.index.json",
+    "assets/1707954600-fc305c7c283d952d673cb98243277203.png",
+    "assets/1707954600-8ea0aa64c5d01b514e91e28f91927d8a.png",
+    "assets/1707954600-fa11bdf02ab0cf8f0f9709b57fc27063.png",
+    "assets/1707954600-4473287d82c9440d77b01c20fa6f40e1.png",
+    "浅谈 xss2rce 的一些实现.md"
+  ]
+}

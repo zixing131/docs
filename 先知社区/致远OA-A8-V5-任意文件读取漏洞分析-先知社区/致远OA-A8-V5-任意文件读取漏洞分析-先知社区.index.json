@@ -1,0 +1,33 @@
+{
+  "version": "2.0",
+  "clipId": "1708507091",
+  "format": "md",
+  "title": "致远 OA A8-V5 任意文件读取漏洞分析 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13742?u_atoken=12e64af65d70149c1cea16d592c805a9&u_asession=01RKyrs2POycxZlaLzU7Qqlis6oGLqp2qj_6TK2yE7SnFi2qMFk3fkf2Ui49KNwNVcdlmHJsN3PcAI060GRB4YZGyPlBJUEqctiaTooWaXr7I&u_asig=05G9QFhUWGzSlWijABBFaBFoHeVDvinh8hm0ONymx6TzmgfurwGp_u5budBYQcVDWnLwLOO9G7ZhCpNxLvDml7hYzZKBmY40Ue8osCYuvTS6ycMZmAZWnITsKeWAmaxJx3fFRyx0bYzthEc5FbzHUoVT2utblUzh_HZp33H7xvI5lg2QMxYs6lyXb1lFWKql56vRpT9kldYkm9bTX8Ne0d4gbUTZu3J_4qabKdcBidBaIZ1G3mniVjr_zOanzVIdJOSA_CMRNJgFyhBOucwycXmpUGbbB7KsmDhLdtGAv6j156gx6UxFgdF3ARCQ86jS_u_XR5hatHQVh06VuUZ-D1wA&u_aref=5bWv4Ma%2BVyeO0tQeRCXAIE2Msp4%3D",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-21 17:18:11",
+  "mainPath": "致远 OA-A8-V5-任意文件读取漏洞分析 - 先知社区.md",
+  "paths": [
+    "致远 OA-A8-V5-任意文件读取漏洞分析 - 先知社区.index.json",
+    "assets/1708507091-feeb9424458a6cb9355a45d9e9a78b57.png",
+    "assets/1708507091-639e4e8af7a79a2028a4f75d5c7d9a8b.png",
+    "assets/1708507091-8e450e55e6c9a27749b8fc2977a30bcd.png",
+    "assets/1708507091-ddcaa522c2848ae8440fbebbda9c3e06.png",
+    "assets/1708507091-14b07f3c355dc3c5962dab712a3d2e3c.png",
+    "assets/1708507091-6efe7e5385c8b73a2e27fc3185b99f20.png",
+    "assets/1708507091-bda6e1f32d587f20b75fbf96a7c6eeab.png",
+    "assets/1708507091-6893b4c988a497064adb0115e007a106.png",
+    "assets/1708507091-13a1d8e7c49a1ba4e38eba55115c1b60.png",
+    "assets/1708507091-ee18dcf0247ffd3afdfca7b7bbae74fe.png",
+    "assets/1708507091-7d7eb65ba6a4dc660c5d7e7ae056e109.png",
+    "assets/1708507091-965c9a4146d634048e98268310fa137d.png",
+    "assets/1708507091-040216f46fe19a0b991cf2c9963315b1.png",
+    "assets/1708507091-8235d122eadf43174caa65a31ae62265.png",
+    "assets/1708507091-469e8a5081644b4028d9a9c3368cc9ea.png",
+    "assets/1708507091-48f81346602ff556542ed587347aeb79.png",
+    "致远 OA-A8-V5-任意文件读取漏洞分析 - 先知社区.md"
+  ]
+}

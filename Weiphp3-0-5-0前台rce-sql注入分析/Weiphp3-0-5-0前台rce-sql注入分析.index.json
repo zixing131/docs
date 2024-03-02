@@ -1,0 +1,22 @@
+{
+  "version": "2.0",
+  "clipId": "1706959760",
+  "format": "md",
+  "title": "Weiphp3.0&&5.0 前台 rce&&sql 注入分析",
+  "link": "https://xz.aliyun.com/t/13526",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-03 19:29:20",
+  "mainPath": "Weiphp3-0-5-0 前台 rce-sql 注入分析.md",
+  "paths": [
+    "Weiphp3-0-5-0 前台 rce-sql 注入分析.index.json",
+    "assets/1706959760-0a5a1b7279a797dcfb107035f18895c9.png",
+    "assets/1706959760-45b780fa27f524f10560786b50ae95a8.png",
+    "assets/1706959760-acf8b7e53098a11105a0682917afb27a.png",
+    "assets/1706959760-ca39b35da01584b44b5cb1349f0f4787.png",
+    "assets/1706959760-571f445fb4b867309fc5fcdd9034fd43.png",
+    "Weiphp3-0-5-0 前台 rce-sql 注入分析.md"
+  ]
+}

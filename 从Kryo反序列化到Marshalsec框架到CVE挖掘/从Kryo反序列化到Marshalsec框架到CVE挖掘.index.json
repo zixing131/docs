@@ -1,0 +1,33 @@
+{
+  "version": "2.0",
+  "clipId": "1706496982",
+  "format": "md",
+  "title": "从 Kryo 反序列化到 Marshalsec 框架到 CVE 挖掘",
+  "link": "https://cloud.tencent.com/developer/article/1624416",
+  "category": "default",
+  "tags": [
+    "cloud.tencent.com"
+  ],
+  "created_at": "2024-01-29 10:56:22",
+  "mainPath": "从 Kryo 反序列化到 Marshalsec 框架到 CVE 挖掘.md",
+  "paths": [
+    "从 Kryo 反序列化到 Marshalsec 框架到 CVE 挖掘.index.json",
+    "assets/1706496982-595a2c9de01b2d5d2792483a1277adf0.png",
+    "assets/1706496982-4d8f9cb27aa0e3d9efa569ea26762cf2.png",
+    "assets/1706496982-49ba1df9a238890016fe2d04a6dfb350.png",
+    "assets/1706496982-9990d284e2c5c78c3fec6feca0ea851f.png",
+    "assets/1706496982-603382963b8977dcb669b0fbb03eda83.png",
+    "assets/1706496982-aabe0400cdc918d4d52f866b64b58cd6.png",
+    "assets/1706496982-11cbd66067aa709b1f72d6a5e886d670.png",
+    "assets/1706496982-361e30c2d8e146d3a79e147b02e1061e.png",
+    "assets/1706496982-5e743d73652eeedf07624e0d8e2d3be6.png",
+    "assets/1706496982-51ff8a1977a9395e465418feeda62de5.png",
+    "assets/1706496982-8e2ae0bd38cfcf81622ae31977ce3b7b.png",
+    "assets/1706496982-60aedc8dd723e234b6167db035f75834.png",
+    "assets/1706496982-32b3ce69b53d43e7af62ccec2c0a6030.png",
+    "assets/1706496982-e3f5d86cef1533ce9bd264d09497bda9.png",
+    "assets/1706496982-2b0a84b1bd1b16b26f45f857e1cbd4f5.png",
+    "assets/1706496982-e633a936ea1b487b17386e3e15b348d1.png",
+    "从 Kryo 反序列化到 Marshalsec 框架到 CVE 挖掘.md"
+  ]
+}

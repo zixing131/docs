@@ -1,0 +1,23 @@
+{
+  "version": "2.0",
+  "clipId": "1708940669",
+  "format": "md",
+  "title": "shellcode 进阶之手写 shellcode",
+  "link": "https://xz.aliyun.com/t/13813?time__1311=mqmxnQG%3D0Qi%3DDtKDsD7mG7Dyisqq%3DEOOB3rD",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-26 17:44:29",
+  "mainPath": "shellcode 进阶之手写 shellcode.md",
+  "paths": [
+    "shellcode 进阶之手写 shellcode.index.json",
+    "assets/1708940669-2de8ae6ece632592066049c360c5a215.png",
+    "assets/1708940669-ac362b39c47ee5005d56ebb6693c3472.png",
+    "assets/1708940669-e1a9a349a7e5526ffade3d9da33ef8f2.png",
+    "assets/1708940669-6f83884bca7dbe31f84adce35604b442.png",
+    "assets/1708940669-33f3926abe2d525b1c46ff0bb8fda887.png",
+    "assets/1708940669-ce80c5aa03ba9500048a253e1ed9a37e.png",
+    "shellcode 进阶之手写 shellcode.md"
+  ]
+}

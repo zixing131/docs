@@ -1,0 +1,71 @@
+name: Format and Push Changes
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - '**.md'
+      - '**.json'
+
+jobs:
+  format_and_push_changes:
+    name: Format and Push Changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies and format files
+        run: |
+          sudo apt-get install -y dos2unix curl vim git npm tree gifsicle
+          curl -sSL https://git.io/JcGER | /bin/bash
+          npm install -g markdownlint-cli2
+          find . -name "*.md" -exec dos2unix {} + -o -name "*.json" -exec dos2unix {} +
+
+      - name: Cleanup and autocorrect
+        run: |
+          /bin/bash .github/script/find_sed_cleanup.sh
+          autocorrect --fix
+
+      - name: Install dependencies and format files
+        run: |
+          find . -name "*.gif" -type f -exec sh -c 'for gif; do gifsicle -O3 "$gif" --colors 256 -o "${gif}.1.gif" && rm -rf "$gif" && mv "${gif}.1.gif" "$gif"; done' sh {} +
+
+      # - name: Format markdown files
+      #   run: |
+      #     ls -la
+      #     tree
+      #     markdownlint-cli2 --config ".github/.markdownlint.yaml" --fix "**/*.md" "#.git" "#.github" 
+
+      - name: Compress images
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.DOCS_PUSH_TOKEN }}
+          compressOnly: true
+          jpegQuality: '60'
+          jpegProgressive: false
+          pngQuality: '60'
+          webpQuality: '60'
+
+      - name: Commit files
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git reflog expire --expire=now --all 
+          git gc --prune=now --aggressive
+          git add -A
+          git commit -m "Autocorrect Format" -a || exit 0  # If no changes, exit without error
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.8.0
+        with:
+          github_token: ${{ secrets.DOCS_PUSH_TOKEN }}
+          branch: ${{ github.ref }}

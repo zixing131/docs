@@ -1,0 +1,27 @@
+{
+  "version": "2.0",
+  "clipId": "1708482534",
+  "format": "md",
+  "title": "zhicms 从前台 SQL 注入到 RCE - 先知社区",
+  "link": "https://xz.aliyun.com/t/13722",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-21 10:28:54",
+  "mainPath": "zhicms 从前台 SQL 注入到 RCE-先知社区.md",
+  "paths": [
+    "zhicms 从前台 SQL 注入到 RCE-先知社区.index.json",
+    "assets/1708482534-befd593f70035e6e576529b897a9616a.png",
+    "assets/1708482534-1cbf88ae942266dfd2ed4d62962f3da1.png",
+    "assets/1708482534-aeb6ee94684a3bbb5ac76a2644a6821a.png",
+    "assets/1708482534-d9130f7bd88e1eec8789731424ae5d0b.png",
+    "assets/1708482534-c6be667a9efe3faa4432d2693c559a3a.png",
+    "assets/1708482534-4a27468c3cdc1053ef2cf779502b13d1.gif",
+    "assets/1708482534-8d92d6c425037a742e4214c99dbdfe86.png",
+    "assets/1708482534-df48ee09e29a89203c7919f07d3011c0.png",
+    "assets/1708482534-5197188db4788040f2ce1987df8c9aaf.png",
+    "assets/1708482534-b5cf52faca7a90459984dc81e98aa617.png",
+    "zhicms 从前台 SQL 注入到 RCE-先知社区.md"
+  ]
+}

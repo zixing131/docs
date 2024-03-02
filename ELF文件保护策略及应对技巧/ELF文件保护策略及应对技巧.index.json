@@ -1,0 +1,26 @@
+{
+  "version": "2.0",
+  "clipId": "1706090564",
+  "format": "md",
+  "title": "ELF 文件保护策略及应对技巧",
+  "link": "https://xz.aliyun.com/t/13368?time__1311=mqmxnDBG0Qi%3D0%3DqDsD7mG7zWG%3Dnx6xS7iD",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-01-24 18:02:44",
+  "mainPath": "ELF 文件保护策略及应对技巧.md",
+  "paths": [
+    "ELF 文件保护策略及应对技巧.index.json",
+    "assets/1706090564-1c4f47eb7eb48621a6e798c1f81728c5.png",
+    "assets/1706090564-dcc7575884e3526937b620d7e48b0812.png",
+    "assets/1706090564-38fdbeb007231f97194b56768377f32b.png",
+    "assets/1706090564-7f497484da36dda552d96189de1b258a.png",
+    "assets/1706090564-b2b806d7a0eb434c894ce9d105e22682.png",
+    "assets/1706090564-4c017699f61b134f814703b3328a4fac.png",
+    "assets/1706090564-cbdd187408492d351e1fa035bff3e9df.png",
+    "assets/1706090564-de85963595dc47519784274638f07ff9.png",
+    "assets/1706090564-f05e9e170b32573f822e2cf54d061a27.png",
+    "ELF 文件保护策略及应对技巧.md"
+  ]
+}

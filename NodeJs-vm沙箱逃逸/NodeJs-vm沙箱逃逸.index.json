@@ -1,0 +1,33 @@
+{
+  "version": "2.0",
+  "clipId": "1706959000",
+  "format": "md",
+  "title": "NodeJs vm 沙箱逃逸",
+  "link": "http://xz.aliyun.com/t/13427",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-03 19:16:40",
+  "mainPath": "NodeJs-vm 沙箱逃逸.md",
+  "paths": [
+    "NodeJs-vm 沙箱逃逸.index.json",
+    "assets/1706959000-d698f6012d6c39fef720d962395b4358.png",
+    "assets/1706959000-39ce6adc2473215b8e1781e48d234641.png",
+    "assets/1706959000-ebc00848f386a9387e9e038dead05197.png",
+    "assets/1706959000-e6c8c4903488366491c4924f853c21c0.png",
+    "assets/1706959000-4b3707ae689ba70a03c7d13e37908d75.png",
+    "assets/1706959000-1cb9eb0c3886abdd5107502e61526be9.png",
+    "assets/1706959000-fb5a78d27732466be29c49749cfced06.png",
+    "assets/1706959000-762e2827d2d147422410a1ff20242023.png",
+    "assets/1706959000-02cfbae6acc43c91d2f66354704c33cd.png",
+    "assets/1706959000-e18669c5e1fd047ddec459f023e2e24b.png",
+    "assets/1706959000-ea8420053f72cdb5cf2bfd6d2be67efe.png",
+    "assets/1706959000-7af5aa484d87e2648fcabaf3a33505c2.png",
+    "assets/1706959000-bfa7d10da13f43eb7fe7dea6f50d5714.png",
+    "assets/1706959000-ce6a6cdbf4b5d938ba3eab0ac44e9bb2.png",
+    "assets/1706959000-98574a49327438e758c2d096b500404d.png",
+    "assets/1706959000-7088f74f4e44a577f44e3dd64f545b03.png",
+    "NodeJs-vm 沙箱逃逸.md"
+  ]
+}

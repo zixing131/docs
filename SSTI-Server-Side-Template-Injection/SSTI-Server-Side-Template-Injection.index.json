@@ -1,0 +1,21 @@
+{
+  "version": "2.0",
+  "clipId": "1708583840",
+  "format": "md",
+  "title": "SSTI (Server Side Template Injection)",
+  "link": "https://www.raingray.com/archives/4183.html",
+  "category": "default",
+  "tags": [
+    "www.raingray.com"
+  ],
+  "created_at": "2024-02-22 14:37:20",
+  "mainPath": "SSTI-Server-Side-Template-Injection.md",
+  "paths": [
+    "SSTI-Server-Side-Template-Injection.index.json",
+    "assets/1708583840-8e7f630b7f06fabb589a0835ee48db7c.png",
+    "assets/1708583840-42d467997d451e8beb0ac977b427968b.png",
+    "assets/1708583840-667bb06891973924caec68f6d345fab6.png",
+    "assets/1708583840-008cfe39c230972d38476f73af07b56a.png",
+    "SSTI-Server-Side-Template-Injection.md"
+  ]
+}

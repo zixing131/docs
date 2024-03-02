@@ -1,0 +1,25 @@
+{
+  "version": "2.0",
+  "clipId": "1706059789",
+  "format": "md",
+  "title": "从简单的数字加减到发现 IDOR 漏洞 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13341?time__1311=mqmxnDBG0Qdeq405DIAqCue7ueWuAM4rk2iD#toc-0",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-01-24 09:29:49",
+  "mainPath": "从简单的数字加减到发现-IDOR-漏洞 - 先知社区.md",
+  "paths": [
+    "从简单的数字加减到发现-IDOR-漏洞 - 先知社区.index.json",
+    "assets/1706059789-d4b084bee99a6f9ca7f83fe776332e11.png",
+    "assets/1706059789-da6f0711430b1480244c7a9d9c54fc14.png",
+    "assets/1706059789-f544f79f88f9a3c7d3fbc300a4c51321.png",
+    "assets/1706059789-7211b9337e7a7d2b6bba3634a3297c41.png",
+    "assets/1706059789-00cd04c56f32e8472959eea540cd6f50.png",
+    "assets/1706059789-b48eed97912ca0e49e69ec0cc43abb24.png",
+    "assets/1706059789-1c52cbdc78c6f961873c55c74080bb37.png",
+    "assets/1706059789-d6539445eb2dc7d34ce8308c6de248ae.png",
+    "从简单的数字加减到发现-IDOR-漏洞 - 先知社区.md"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "clipId": "1708583854",
+  "format": "md",
+  "title": "Directory Traversal",
+  "link": "https://www.raingray.com/archives/4129.html",
+  "category": "default",
+  "tags": [
+    "www.raingray.com"
+  ],
+  "created_at": "2024-02-22 14:37:34",
+  "mainPath": "Directory-Traversal.md",
+  "paths": [
+    "Directory-Traversal.index.json",
+    "Directory-Traversal.md"
+  ]
+}

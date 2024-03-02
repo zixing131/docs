@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "clipId": "1708583461",
+  "format": "md",
+  "title": "Subdomain Takeover",
+  "link": "https://www.raingray.com/archives/4368.html",
+  "category": "default",
+  "tags": [
+    "www.raingray.com"
+  ],
+  "created_at": "2024-02-22 14:31:01",
+  "mainPath": "Subdomain-Takeover.md",
+  "paths": [
+    "Subdomain-Takeover.index.json",
+    "Subdomain-Takeover.md"
+  ]
+}

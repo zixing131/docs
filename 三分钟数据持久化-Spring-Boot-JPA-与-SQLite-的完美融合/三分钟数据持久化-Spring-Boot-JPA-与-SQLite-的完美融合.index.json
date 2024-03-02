@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "clipId": "1709195636",
+  "format": "md",
+  "title": "三分钟数据持久化：Spring Boot, JPA 与 SQLite 的完美融合",
+  "link": "https://mp.weixin.qq.com/s?__biz=MzI1MDIxNjQ1OQ==&mid=2247485590&idx=1&sn=d4df0173f3b209eb5a5aaa75a6ad3f97&chksm=e984e1f2def368e4d4b83122188fd00a8666a5e12476e22c0344d9e8467793aacabce9cdfb35&mpshare=1&scene=1&srcid=0229jn2LtsPBoV7qBKF1zUmm&sharer_shareinfo=1689130cadc216020c04d288d780055b&sharer_shareinfo_first=1689130cadc216020c04d288d780055b#rd",
+  "category": "default",
+  "tags": [
+    "mp.weixin.qq.com"
+  ],
+  "created_at": "2024-02-29 16:33:56",
+  "mainPath": "三分钟数据持久化-Spring-Boot-JPA-与-SQLite-的完美融合.md",
+  "paths": [
+    "三分钟数据持久化-Spring-Boot-JPA-与-SQLite-的完美融合.index.json",
+    "assets/1709195636-6ababfd1e2cbe54908b145b9121b5f93.png",
+    "三分钟数据持久化-Spring-Boot-JPA-与-SQLite-的完美融合.md"
+  ]
+}

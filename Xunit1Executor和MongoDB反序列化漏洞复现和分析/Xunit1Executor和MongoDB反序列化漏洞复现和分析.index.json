@@ -1,0 +1,24 @@
+{
+  "version": "2.0",
+  "clipId": "1706959594",
+  "format": "md",
+  "title": "Xunit1Executor 和 MongoDB 反序列化漏洞复现和分析",
+  "link": "http://xz.aliyun.com/t/13419",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-03 19:26:34",
+  "mainPath": "Xunit1Executor 和 MongoDB 反序列化漏洞复现和分析.md",
+  "paths": [
+    "Xunit1Executor 和 MongoDB 反序列化漏洞复现和分析.index.json",
+    "assets/1706959594-cc64dbbd650f067f2f7df6fd237ffb06.png",
+    "assets/1706959594-262fa1a4a5cd8adf7db83dd85f4cc3b6.png",
+    "assets/1706959594-220bf6f5a580691f859fba86d70e9e4c.png",
+    "assets/1706959594-22efad294e8965dfbb2e8c0008cf8f74.png",
+    "assets/1706959594-cc2eaeb0dbaac7a545ebb4d50854ddec.png",
+    "assets/1706959594-a3db6f7811c1d200a2b96b95ac5ee92a.png",
+    "assets/1706959594-0a366f1ed0e82e291d788b91bd70cfe8.png",
+    "Xunit1Executor 和 MongoDB 反序列化漏洞复现和分析.md"
+  ]
+}

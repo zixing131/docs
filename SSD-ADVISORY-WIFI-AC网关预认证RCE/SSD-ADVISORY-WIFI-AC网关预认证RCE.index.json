@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "clipId": "1706773746",
+  "format": "md",
+  "title": "SSD ADVISORY -WIFI AC 网关预认证 RCE",
+  "link": "https://ssd-disclosure.com/ssd-advisory-wifikey-ac-gateway-pre-auth-rce/",
+  "category": "default",
+  "tags": [
+    "ssd-disclosure.com"
+  ],
+  "created_at": "2024-02-01 15:49:06",
+  "mainPath": "SSD-ADVISORY-WIFI-AC 网关预认证 RCE.md",
+  "paths": [
+    "SSD-ADVISORY-WIFI-AC 网关预认证 RCE.index.json",
+    "SSD-ADVISORY-WIFI-AC 网关预认证 RCE.md"
+  ]
+}

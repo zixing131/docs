@@ -1,0 +1,28 @@
+{
+  "version": "2.0",
+  "clipId": "1707040437",
+  "format": "md",
+  "title": "Thymeleaf ssti 3.1.2 黑名单绕过",
+  "link": "https://blog.0kami.cn/blog/2024/thymeleaf%20ssti%203.1.2%20%E9%BB%91%E5%90%8D%E5%8D%95%E7%BB%95%E8%BF%87/",
+  "category": "default",
+  "tags": [
+    "blog.0kami.cn"
+  ],
+  "created_at": "2024-02-04 17:53:57",
+  "mainPath": "Thymeleaf-ssti-3-1-2-黑名单绕过.md",
+  "paths": [
+    "Thymeleaf-ssti-3-1-2-黑名单绕过.index.json",
+    "assets/1707040437-230eac6cb8082d95eb128fb2235b61fa.png",
+    "assets/1707040437-8d1c6339915ccce8b1cdab16d44d4ed5.png",
+    "assets/1707040437-69b3afba320d9b6fea6980681b36df51.png",
+    "assets/1707040437-94461fe1d4610e7ef2f5e829619ad19a.png",
+    "assets/1707040437-69170564197383d5cd32f726a402c210.png",
+    "assets/1707040437-0002ac6af646ebc49989cf44f6dda7d6.png",
+    "assets/1707040437-1d255c75160cf816cdc8d49f8e793022.png",
+    "assets/1707040437-5bfba2d03469a6009420864965ba19ab.png",
+    "assets/1707040437-84656c883264563afb704b1596f851ad.png",
+    "assets/1707040437-20863da077c87c195a85bedd56f6218f.png",
+    "assets/1707040437-a8691beb2c99bf18ce131f81d3a0f9c2.png",
+    "Thymeleaf-ssti-3-1-2-黑名单绕过.md"
+  ]
+}

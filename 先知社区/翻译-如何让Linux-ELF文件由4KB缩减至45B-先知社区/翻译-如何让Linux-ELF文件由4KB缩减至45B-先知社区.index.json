@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "clipId": "1709193398",
+  "format": "md",
+  "title": "【翻译】如何让 Linux ELF 文件由 4KB 缩减至 45B！ - 先知社区",
+  "link": "https://xz.aliyun.com/t/13898",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-29 15:56:38",
+  "mainPath": "翻译 - 如何让 Linux-ELF 文件由 4KB 缩减至 45B-先知社区.md",
+  "paths": [
+    "翻译 - 如何让 Linux-ELF 文件由 4KB 缩减至 45B-先知社区.index.json",
+    "翻译 - 如何让 Linux-ELF 文件由 4KB 缩减至 45B-先知社区.md"
+  ]
+}

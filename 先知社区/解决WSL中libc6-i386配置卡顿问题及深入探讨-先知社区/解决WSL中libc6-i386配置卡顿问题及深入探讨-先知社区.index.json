@@ -1,0 +1,20 @@
+{
+  "version": "2.0",
+  "clipId": "1707954738",
+  "format": "md",
+  "title": "解决 WSL 中 libc6:i386 配置卡顿问题及深入探讨 - 先知社区",
+  "link": "http://xz.aliyun.com/t/13541",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-15 07:52:18",
+  "mainPath": "解决 WSL 中 libc6-i386 配置卡顿问题及深入探讨 - 先知社区.md",
+  "paths": [
+    "解决 WSL 中 libc6-i386 配置卡顿问题及深入探讨 - 先知社区.index.json",
+    "assets/1707954738-e0f9d75c9049de4d9d894bd0a200fb11.png",
+    "assets/1707954738-042c2594ca5e0ed15d9cf7c2c9b57b74.png",
+    "assets/1707954738-bee0e0efc5e9b23a332a15e999668f5b.png",
+    "解决 WSL 中 libc6-i386 配置卡顿问题及深入探讨 - 先知社区.md"
+  ]
+}

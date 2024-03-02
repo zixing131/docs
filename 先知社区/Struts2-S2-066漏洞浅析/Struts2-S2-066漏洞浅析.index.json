@@ -1,0 +1,31 @@
+{
+  "version": "2.0",
+  "clipId": "1709014345",
+  "format": "md",
+  "title": "Struts2 S2-066 漏洞浅析",
+  "link": "https://xz.aliyun.com/t/13834",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-27 14:12:25",
+  "mainPath": "Struts2-S2-066 漏洞浅析.md",
+  "paths": [
+    "Struts2-S2-066 漏洞浅析.index.json",
+    "assets/1709014345-ca3a68555f3514be258bb0003c12e509.png",
+    "assets/1709014345-17eadf157bbe54fe0803255a11dcd296.png",
+    "assets/1709014345-db56cee23aac32ba94e63052d0ab9aa4.png",
+    "assets/1709014345-c0ecdeb7cd24c956c176f86a00b4eb1c.png",
+    "assets/1709014345-3781241275c1b092d9aa69daa080df62.png",
+    "assets/1709014345-e263e7206266d434d761e74a2e75e905.png",
+    "assets/1709014345-5ce9804c4f176376fa441bb0484cd9f5.png",
+    "assets/1709014345-e79c1df0bfb552d393ff0c01f49b1094.png",
+    "assets/1709014345-f7e070d635ef8fc345d606dc99dbbb40.png",
+    "assets/1709014345-c7c2206d2556a5f6790487e8d07b5ba9.png",
+    "assets/1709014345-30892ebd073fa828ea50748641697d1c.png",
+    "assets/1709014345-631b15c7c7b554f935935e0c07e1edbe.png",
+    "assets/1709014345-8ff7fdb50206a985b1ec8703cb85a439.png",
+    "assets/1709014345-405557a88d704c0e4fbfe43447d4063d.png",
+    "Struts2-S2-066 漏洞浅析.md"
+  ]
+}

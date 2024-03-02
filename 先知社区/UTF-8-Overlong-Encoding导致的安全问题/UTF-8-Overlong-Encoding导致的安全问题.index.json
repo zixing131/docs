@@ -1,0 +1,21 @@
+{
+  "version": "2.0",
+  "clipId": "1708693286",
+  "format": "md",
+  "title": "UTF-8 Overlong Encoding 导致的安全问题",
+  "link": "https://www.leavesongs.com/PENETRATION/utf-8-overlong-encoding.html",
+  "category": "default",
+  "tags": [
+    "www.leavesongs.com"
+  ],
+  "created_at": "2024-02-23 21:01:26",
+  "mainPath": "UTF-8-Overlong-Encoding 导致的安全问题.md",
+  "paths": [
+    "UTF-8-Overlong-Encoding 导致的安全问题.index.json",
+    "assets/1708693286-e8a2dc7f7517a43828f7c75750be9292.png",
+    "assets/1708693286-692ca2f3117f6bc22102f4a04f7e6e1f.png",
+    "assets/1708693286-a87dd945fbe5c2bfa798ac60c40fd7bc.png",
+    "assets/1708693286-07969fc8102eb6035f2ba7b9bfca6106.png",
+    "UTF-8-Overlong-Encoding 导致的安全问题.md"
+  ]
+}

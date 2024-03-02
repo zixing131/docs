@@ -1,0 +1,19 @@
+{
+  "version": "2.0",
+  "clipId": "1709197101",
+  "format": "md",
+  "title": "Docker 是怎么工作的？",
+  "link": "https://mp.weixin.qq.com/s?__biz=MzkxMDE5NzE4Mg==&mid=2247484254&idx=1&sn=4c1cd0a0cd777ca34ce9ff8e0c19802b&chksm=c12e6b8ff659e2998b03c03a74a094675a4019f19edb044ce01e0a245b4bbe328380e8e2cb66&mpshare=1&scene=1&srcid=0216gHGpFLOV8VrGhOAbUsET&sharer_shareinfo=71a8f8de2c42388847275f306738ecab&sharer_shareinfo_first=71a8f8de2c42388847275f306738ecab#rd",
+  "category": "default",
+  "tags": [
+    "mp.weixin.qq.com"
+  ],
+  "created_at": "2024-02-29 16:58:21",
+  "mainPath": "Docker-是怎么工作的.md",
+  "paths": [
+    "Docker-是怎么工作的.index.json",
+    "assets/1709197101-0557516a155cd8ab5bb4bc4b2d7a48e9.gif",
+    "assets/1709197101-86c21c61855d589704b458aec8f918f1.png",
+    "Docker-是怎么工作的.md"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "version": "2.0",
+  "clipId": "1709022915",
+  "format": "md",
+  "title": "金和 OA saveAsOtherFormatServlet 接口任意文件上传漏洞和多个 SQL 注入漏洞分析 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13853?u_atoken=7d4f824f0fc1a2eb4032bca7250c164a&u_asession=01q9IDPbWTkX6al0w87bvSB_zDYU3MrGUxbs2IfTiszY-Q-Cxlr2bh45EKsKd27jIkdlmHJsN3PcAI060GRB4YZGyPlBJUEqctiaTooWaXr7I&u_asig=05t-qPxP7Fc-TDkVQ2pHJkM9Ry4-YuK5NIpvCU4Ifm5B_NNgVw4dHbW_rON5-OnuMDHarP1Z4cwShWvIcuaG-2hjlhkuqqgxXQjH-1LViY0rm-aNKanbxT-ZkbjlnH2wfflY8RAiFjboHbnxlIu9z08CZqz4ylLgGQLs8rng7_xkNg2QMxYs6lyXb1lFWKql56Ys6rZzFouNwDDPynM73Z-YOjkDsrRAkl0X-0_8Ivx1hFLcvvIx3tz8kjSwLVjJAF1HSl5nXFlhTbt1W28m0f7jkGQ4a2qeYDJx7Rs_aRdT56gx6UxFgdF3ARCQ86jS_u_XR5hatHQVh06VuUZ-D1wA&u_aref=XCFeWYsJSsEkv5S%2BZOUVsVEr%2BuQ%3D",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-27 16:35:15",
+  "mainPath": "金和 OA-saveAsOtherFormatServlet 接口任意文件上传漏洞和多个 SQL 注入漏洞分析 - 先知社区.md",
+  "paths": [
+    "金和 OA-saveAsOtherFormatServlet 接口任意文件上传漏洞和多个 SQL 注入漏洞分析 - 先知社区.index.json",
+    "assets/1709022915-e17470ad8562d720717af6879a7b0ec0.png",
+    "assets/1709022915-a61c279b6d0f1d4295ab342e1b2f6845.png",
+    "assets/1709022915-9a72d364311f78ce669f261de6ca771e.png",
+    "assets/1709022915-8aee9755c67c70d75b030a7cd3e4ba1a.png",
+    "assets/1709022915-51a689fe932f79c6dec7c4b4b25435aa.png",
+    "assets/1709022915-dea07a220196abcb90cf33aeb1758292.png",
+    "assets/1709022915-f0962bced6bb9a4f1176df9b07e48eb7.png",
+    "assets/1709022915-555327328655f7735ed45cd2f98b4f59.png",
+    "assets/1709022915-7c75060d8ace76f320a219805efa7fa1.png",
+    "assets/1709022915-d00ec3f66f1db0f70d2ba03157b145a5.png",
+    "assets/1709022915-c23308dfdafe5196bc0187d08a059e37.png",
+    "assets/1709022915-81babc3d790a4c62f62dec5d4e0aa503.png",
+    "assets/1709022915-b04ecef7bc97c4bc6a5a7fe0be6ed3b6.png",
+    "assets/1709022915-ce29e340d23a9d6fa2f1d96baf755894.png",
+    "assets/1709022915-9a50b8b86b08ea9da765de4e603d48c8.png",
+    "assets/1709022915-b628ed70c83458a7a7bf6b5f641cc849.png",
+    "assets/1709022915-d56a5984ddb64d3068a68d9fc47cd915.png",
+    "assets/1709022915-0c27024e1fa381f218feaed098f79486.png",
+    "assets/1709022915-4a98d78973f84bf5c2366dfb556cf3b7.png",
+    "assets/1709022915-ee5d297d26e5791061de5a9a633a72bb.png",
+    "assets/1709022915-1841fce6da1698caafed4c31d2c05deb.png",
+    "assets/1709022915-3b5ef7977842c16c5f38ed276de82879.png",
+    "assets/1709022915-e9b82a532c55301a8dc8c34ba7e04aa6.png",
+    "assets/1709022915-87b3ac1e6d56c5ce31b9f360bb7f664e.png",
+    "assets/1709022915-dd0dfb0ae9d9fbf2f72e92cad9d71678.png",
+    "金和 OA-saveAsOtherFormatServlet 接口任意文件上传漏洞和多个 SQL 注入漏洞分析 - 先知社区.md"
+  ]
+}

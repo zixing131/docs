@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "clipId": "1708582975",
+  "format": "md",
+  "title": "Docker 使用笔记",
+  "link": "https://wiki.teamssix.com/cloudnative/docker/docker-use-notes.html",
+  "category": "default",
+  "tags": [
+    "wiki.teamssix.com"
+  ],
+  "created_at": "2024-02-22 14:22:55",
+  "mainPath": "Docker-使用笔记.md",
+  "paths": [
+    "Docker-使用笔记.index.json",
+    "assets/1708582975-82511bd397c0c6525edf409a0d6a0d5d.png",
+    "Docker-使用笔记.md"
+  ]
+}

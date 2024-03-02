@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "clipId": "1708939004",
+  "format": "md",
+  "title": "搭建 Anki 自托管同步服务器",
+  "link": "https://blog.gazer.win/essay/build-anki-self-hosted-sync-server.html",
+  "category": "default",
+  "tags": [
+    "blog.gazer.win"
+  ],
+  "created_at": "2024-02-26 17:16:44",
+  "mainPath": "搭建-Anki-自托管同步服务器.md",
+  "paths": [
+    "搭建-Anki-自托管同步服务器.index.json",
+    "搭建-Anki-自托管同步服务器.md"
+  ]
+}

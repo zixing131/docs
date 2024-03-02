@@ -1,0 +1,30 @@
+{
+  "version": "2.0",
+  "clipId": "1709014184",
+  "format": "md",
+  "title": "Windows 下 SafeSEH 保护机制详解及其绕过方式 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13849",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-27 14:09:44",
+  "mainPath": "Windows 下 SafeSEH 保护机制详解及其绕过方式 - 先知社区.md",
+  "paths": [
+    "Windows 下 SafeSEH 保护机制详解及其绕过方式 - 先知社区.index.json",
+    "assets/1709014184-4b44a73a064e37b0d4b7804a0c773bd6.png",
+    "assets/1709014184-c877d2b12d8d021daf1b0217edf4285e.png",
+    "assets/1709014184-98f8e3f473997c925f957e96ab3e2d28.png",
+    "assets/1709014184-0f812daf9ee8b37a9a6b5ba35bb5c861.png",
+    "assets/1709014184-0d3d0c0e21c9e8fbae8a7925fe6666f1.png",
+    "assets/1709014184-6e32bef83573587a3d75ec7237aaa3d2.png",
+    "assets/1709014184-83ad0a722d1a199b1b567a9e9f1e41bd.png",
+    "assets/1709014184-21fceecf600f2a9e1b8b779f9f168add.png",
+    "assets/1709014184-bcf4c709522a15cacc5d9c5d8b9f89ff.png",
+    "assets/1709014184-e4116bf8a46c9af2b1db51703a5cf37e.png",
+    "assets/1709014184-d665bcebf3e6a80488f06d811f9d8a04.png",
+    "assets/1709014184-f78f35f0077fe1d271493254fea740e5.png",
+    "assets/1709014184-74e51a828cf63b27e59c1d78330c8750.png",
+    "Windows 下 SafeSEH 保护机制详解及其绕过方式 - 先知社区.md"
+  ]
+}

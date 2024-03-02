@@ -1,0 +1,17 @@
+{
+  "version": "2.0",
+  "clipId": "1708584176",
+  "format": "md",
+  "title": "Metasploit 基操",
+  "link": "https://www.raingray.com/archives/2160.html",
+  "category": "default",
+  "tags": [
+    "www.raingray.com"
+  ],
+  "created_at": "2024-02-22 14:42:56",
+  "mainPath": "Metasploit-基操.md",
+  "paths": [
+    "Metasploit-基操.index.json",
+    "Metasploit-基操.md"
+  ]
+}

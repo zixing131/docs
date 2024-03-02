@@ -1,0 +1,30 @@
+{
+  "version": "2.0",
+  "clipId": "1709000152",
+  "format": "md",
+  "title": "Joomla：PHP Bug 引入多个 XSS 漏洞",
+  "link": "https://www.sonarsource.com/blog/joomla-multiple-xss-vulnerabilities/",
+  "category": "default",
+  "tags": [
+    "www.sonarsource.com"
+  ],
+  "created_at": "2024-02-27 10:15:52",
+  "mainPath": "Joomla-PHP-Bug 引入多个 XSS 漏洞.md",
+  "paths": [
+    "Joomla-PHP-Bug 引入多个 XSS 漏洞.index.json",
+    "assets/1709000152-a80e81ead0a1eb68c496663426a94d25.svg",
+    "assets/1709000152-eb89ed304a6164f895d036935da0a562.png",
+    "assets/1709000152-e1de2b4003f652e95aa72cd4cb5cefee.svg",
+    "assets/1709000152-2846dd5cbe7fc6950d3a8401b779906d.png",
+    "assets/1709000152-a15ccf0191b3d33c43e5ce195b4efe0f.svg",
+    "assets/1709000152-08de43863ab9ce0764c3f492044f96f6.png",
+    "assets/1709000152-e26437a77a50a804946b3b6d8b6bf3cc.png",
+    "assets/1709000152-c91811ad91c87a87eecdf41fdcdd1409.svg",
+    "assets/1709000152-9823e8e3cfc14a107eac1a602a2b411d.png",
+    "assets/1709000152-e032a3c474b78c8d64514adc64129614.svg",
+    "assets/1709000152-796e208946028336acdc04de6c9d0fbc.png",
+    "assets/1709000152-133db029892c739c97061f0c8c19aa35.svg",
+    "assets/1709000152-e2403fbbfca7da5549908bb03bfb1ad6.png",
+    "Joomla-PHP-Bug 引入多个 XSS 漏洞.md"
+  ]
+}

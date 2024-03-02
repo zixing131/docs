@@ -1,0 +1,21 @@
+{
+  "version": "2.0",
+  "clipId": "1705989159",
+  "format": "md",
+  "title": ".NET 分布式事务反序列化漏洞 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13333?time__1311=mqmxnDBG0QiQu405DI7qCueWuD%3D87H8d4D",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-01-23 13:52:39",
+  "mainPath": "NET-分布式事务反序列化漏洞 - 先知社区.md",
+  "paths": [
+    "NET-分布式事务反序列化漏洞 - 先知社区.index.json",
+    "assets/1705989159-ac9254f955a72959831e6e16f642475d.png",
+    "assets/1705989159-173cf7ec90b2879c6af4161ee174f476.png",
+    "assets/1705989159-8dfeb4b4511d1b44d3ee2bad5b5025df.png",
+    "assets/1705989159-1b895f55fc97e6550f3bd2cbbf8ade45.png",
+    "NET-分布式事务反序列化漏洞 - 先知社区.md"
+  ]
+}

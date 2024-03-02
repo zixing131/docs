@@ -1,0 +1,27 @@
+{
+  "version": "2.0",
+  "clipId": "1706959648",
+  "format": "md",
+  "title": "Finebi 反序列化漏洞分析",
+  "link": "http://xz.aliyun.com/t/13389",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-03 19:27:28",
+  "mainPath": "Finebi 反序列化漏洞分析.md",
+  "paths": [
+    "Finebi 反序列化漏洞分析.index.json",
+    "assets/1706959648-5060f36ce3d11817e83e454cccf20850.png",
+    "assets/1706959648-5d82913357dae14cc4fbe1a5ff6c716e.png",
+    "assets/1706959648-a62e220458a2c2e011d99ec84f3ccd44.png",
+    "assets/1706959648-3b37713f2354c01cc63a7d96153234df.png",
+    "assets/1706959648-bfce133a076b9adf8ceac90596066577.png",
+    "assets/1706959648-f9ec302553c771bca089ee761f9ec4df.png",
+    "assets/1706959648-3c5a70b6069cec5e837006fcb9064797.png",
+    "assets/1706959648-12dfd82fae8ab0cfc26c0c76aefd456c.png",
+    "assets/1706959648-6a5b87f9d2434d7eb64b16c4099d9d56.png",
+    "assets/1706959648-32e640c6db5fe9a8f77909ad703dcc9d.png",
+    "Finebi 反序列化漏洞分析.md"
+  ]
+}

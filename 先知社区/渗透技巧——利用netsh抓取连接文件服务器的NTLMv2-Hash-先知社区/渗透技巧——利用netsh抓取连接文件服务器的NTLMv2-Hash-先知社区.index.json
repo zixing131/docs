@@ -1,0 +1,24 @@
+{
+  "version": "2.0",
+  "clipId": "1708095461",
+  "format": "md",
+  "title": "渗透技巧——利用 netsh 抓取连接文件服务器的 NTLMv2 Hash - 先知社区",
+  "link": "https://xz.aliyun.com/t/1945",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-02-16 22:57:41",
+  "mainPath": "渗透技巧——利用 netsh 抓取连接文件服务器的 NTLMv2-Hash-先知社区.md",
+  "paths": [
+    "渗透技巧——利用 netsh 抓取连接文件服务器的 NTLMv2-Hash-先知社区.index.json",
+    "assets/1708095461-78b533a0346dd3f79a21d5866cb4862d.png",
+    "assets/1708095461-18474c14fec1be2dc6444ea5f6838477.png",
+    "assets/1708095461-dc745dc61ad5271769ab2b144dd605a6.png",
+    "assets/1708095461-08782638474b419e4e40b445f251518a.png",
+    "assets/1708095461-277195eb05152eb5d0abdabd95564fd9.png",
+    "assets/1708095461-648196caa33d07db399948d73905d6e8.png",
+    "assets/1708095461-530f6634238520c9e175372e289eb64d.png",
+    "渗透技巧——利用 netsh 抓取连接文件服务器的 NTLMv2-Hash-先知社区.md"
+  ]
+}
