@@ -1,14 +1,14 @@
 
 
-# [翻译]-通过EDR预加载来绕过EDR - 先知社区
+# [翻译]-通过 EDR 预加载来绕过 EDR - 先知社区
 
-\[翻译\]-通过EDR预加载来绕过EDR
+\[翻译\]-通过 EDR 预加载来绕过 EDR
 
 - - -
 
 原文链接：[https://malwaretech.com/2024/02/bypassing-edrs-with-edr-preload.html](https://malwaretech.com/2024/02/bypassing-edrs-with-edr-preload.html)
 
-之前，我写了一篇[文章](https://malwaretech.com/2023/12/an-introduction-to-bypassing-user-mode-edr-hooks.html "文章")，详细介绍了如何利用系统调用来绕过用户层 EDR 挂钩。现在，我想介绍另一种技术，“EDR-Preloading”，它涉及在将 EDR 的 DLL 加载到进程之前运行恶意代码，使我们能够完全阻止它运行。通过抵消 EDR 模块，我们可以正常自由调用函数，而不必担心用户层hook，因此不需要依赖直接或间接的系统调用。
+之前，我写了一篇[文章](https://malwaretech.com/2023/12/an-introduction-to-bypassing-user-mode-edr-hooks.html "文章")，详细介绍了如何利用系统调用来绕过用户层 EDR 挂钩。现在，我想介绍另一种技术，“EDR-Preloading”，它涉及在将 EDR 的 DLL 加载到进程之前运行恶意代码，使我们能够完全阻止它运行。通过抵消 EDR 模块，我们可以正常自由调用函数，而不必担心用户层 hook，因此不需要依赖直接或间接的系统调用。
 
 此技术利用了 EDR 加载其用户层组件的方式中的一些假设和缺陷。EDR 需要将其 DLL 注入到每个进程中才能挂钩用户层函数，但过早运行 DLL 会导致进程崩溃，运行太晚，进程可能已经执行了恶意代码。大多数 EDR 的最佳点是在进程初始化时尽可能晚地启动其 DLL，同时仍然能够在调用进程入口点之前执行所需的所有操作。
 
@@ -18,7 +18,7 @@
 
 若要了解 EDR DLL 何时可以加载和不能加载，我们需要了解一些进程初始化。
 
-每当创建新进程时，内核都会将目标可执行文件的映像与ntdll.dll一起映射到内存中。然后创建一个线程，该线程最终将作为入口点线程。此时，进程只是一个空壳（PEB、TEB 和导入都是未初始化的）。在进程入口点可以被调用之前，必须执行相当多的设置。
+每当创建新进程时，内核都会将目标可执行文件的映像与 ntdll.dll 一起映射到内存中。然后创建一个线程，该线程最终将作为入口点线程。此时，进程只是一个空壳（PEB、TEB 和导入都是未初始化的）。在进程入口点可以被调用之前，必须执行相当多的设置。
 
 每当一个新线程启动时，其起始地址都将设置为 ntdll!LdrInitializeThunk()，负责调用 ntdll!LdrpInitialize()。
 
@@ -31,31 +31,31 @@ ntdll!LdrpInitialize() 首先检查全局变量 ntdll!LdrpProcessInitialized，�
 
 ntdll!LdrpInitializeProcess() 按照它字面描述的操作，它将设置 PEB，解析进程导入，并加载任何所需的 DLL。
 
-在ntdll!LdrpInitialize()的最后 是对 ntdll !ZwTestAlert()的调用，这是用于运行当前线程的 APC 队列中的所有异步进程调用 （APCs） 的函数。将代码注入目标进程并调用ntoskrnl !NtQueueApcThread() ，EDR 驱动程序将在此处执行它们的代码。
+在 ntdll!LdrpInitialize() 的最后 是对 ntdll !ZwTestAlert() 的调用，这是用于运行当前线程的 APC 队列中的所有异步进程调用（APCs）的函数。将代码注入目标进程并调用 ntoskrnl !NtQueueApcThread() ，EDR 驱动程序将在此处执行它们的代码。
 
-一旦线程和进程初始化完成，并且ntdll!LdrpInitialize() 返回有效值，ntdll!LdrInitializeThunk() 将调用 ntdll!ZwContinue() 来执行传输到内核。然后，内核会将线程指令指针设置为指向 ntdll!RtlUserThreadStart()，它将调用可执行的入口点，进程的生命正式开始。
+一旦线程和进程初始化完成，并且 ntdll!LdrpInitialize() 返回有效值，ntdll!LdrInitializeThunk() 将调用 ntdll!ZwContinue() 来执行传输到内核。然后，内核会将线程指令指针设置为指向 ntdll!RtlUserThreadStart()，它将调用可执行的入口点，进程的生命正式开始。
 
 [![](assets/1709531057-87bc8a19a577921231010ab56821ae18.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229235341-b5a8c96e-d71a-1.png)
 
-# 较老的bypass技术和缺点
+# 较老的 bypass 技术和缺点
 
 ## 早期异步过程调用（APC）队列
 
-由于 APC 以先进先出的顺序执行，因此有时可以通过先将自己的 APC 排入队列来抢占某些 EDR。许多 EDR 通过使用 ntoskrnl !PsSetLoadImageNotifyRoutine()注册内核回调来监视新进程。每当新进程启动时，它都会自动加载ntdll.dll和kernel32.dll，因此这是检测何时初始化新进程的好方法。通过在挂起状态下启动进程，您可以在初始化之前对 APC 进行排队，从而最终排在队列的前面。这种技术有时被称为“Early Bird injection早鸟注入”。
+由于 APC 以先进先出的顺序执行，因此有时可以通过先将自己的 APC 排入队列来抢占某些 EDR。许多 EDR 通过使用 ntoskrnl !PsSetLoadImageNotifyRoutine() 注册内核回调来监视新进程。每当新进程启动时，它都会自动加载 ntdll.dll 和 kernel32.dll，因此这是检测何时初始化新进程的好方法。通过在挂起状态下启动进程，您可以在初始化之前对 APC 进行排队，从而最终排在队列的前面。这种技术有时被称为“Early Bird injection 早鸟注入”。
 
-APC队列的问题在于它们长期以来一直用于代码注入，因此 ntdll!NtQueueApcThread() 由大多数 EDR 挂钩和监控。将 APC 队列进入暂停的进程是高度可疑的，并且有据可查。EDR 也有可能挂钩 APC、重新排序 APC 队列或执行任何其他操作以确保其 DLL 首先运行。
+APC 队列的问题在于它们长期以来一直用于代码注入，因此 ntdll!NtQueueApcThread() 由大多数 EDR 挂钩和监控。将 APC 队列进入暂停的进程是高度可疑的，并且有据可查。EDR 也有可能挂钩 APC、重新排序 APC 队列或执行任何其他操作以确保其 DLL 首先运行。
 
 ## TLS 回调
 
-TLS 回调在 ntdll !LdrpInitializeProcess()末尾执行，但在 ntdll !ZwTestAlert()之前，因此，它在任何 APC 之前运行。在应用程序使用 TLS 回调的情况下，某些 EDR 可能会注入代码来截获回调，或者稍微提前加载 EDR DLL 以进行补偿。令我惊讶的是，我测试的一个 EDR 仍然可以使用 TLS 回调绕过。
+TLS 回调在 ntdll !LdrpInitializeProcess() 末尾执行，但在 ntdll !ZwTestAlert() 之前，因此，它在任何 APC 之前运行。在应用程序使用 TLS 回调的情况下，某些 EDR 可能会注入代码来截获回调，或者稍微提前加载 EDR DLL 以进行补偿。令我惊讶的是，我测试的一个 EDR 仍然可以使用 TLS 回调绕过。
 
 # 寻找新东西
 
-我的目标很简单，但实际上完全不简单，而且非常耗时。我想找到一种方法，在入口点之前，在TLS回调之前，在所有可能干扰我的代码之前执行代码。这意味着对整个过程和 DLL 加载程序进行逆向，以查找我可以使用的任何内容。最后，我找到了我需要的东西。
+我的目标很简单，但实际上完全不简单，而且非常耗时。我想找到一种方法，在入口点之前，在 TLS 回调之前，在所有可能干扰我的代码之前执行代码。这意味着对整个过程和 DLL 加载程序进行逆向，以查找我可以使用的任何内容。最后，我找到了我需要的东西。
 
 ## 看，AppVerifier 和 ShimEnginer 接口
 
-很久以前，Microsoft创建了一个名为AppVerifier的工具，用于应用程序验证。它的设计是为了在运行时监视应用程序是否存在 bug、兼容性问题等。AppVerifier 的大部分功能都是通过在 ntdll 中添加大量新回调函数来促成的。
+很久以前，Microsoft 创建了一个名为 AppVerifier 的工具，用于应用程序验证。它的设计是为了在运行时监视应用程序是否存在 bug、兼容性问题等。AppVerifier 的大部分功能都是通过在 ntdll 中添加大量新回调函数来促成的。
 
 在对 AppVerifier 层进行逆向工程时，我实际上发现了两组有用的回调函数（AppVerifier 和 ShimEngine）。
 
@@ -63,11 +63,11 @@ TLS 回调在 ntdll !LdrpInitializeProcess()末尾执行，但在 ntdll !ZwTestA
 
 [![](assets/1709531057-8683bdf257335f193041f6d0a1f03504.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229235311-a422bf38-d71a-1.png)
 
-引起我注意的两个指针是 ntdll!g\_pfnSE\_GetProcAddressForCaller 和 ntdll!AvrfpAPILookupCallbackRoutine，分别是 ShimEngine 和 AppVerifier 的一部分。这两个指针都在 ntdll !LdrGetProcedureAddressForCaller()的末尾调用，这是 GetProcAddress() 内部用于解析导出函数地址的函数。
+引起我注意的两个指针是 ntdll!g\_pfnSE\_GetProcAddressForCaller 和 ntdll!AvrfpAPILookupCallbackRoutine，分别是 ShimEngine 和 AppVerifier 的一部分。这两个指针都在 ntdll !LdrGetProcedureAddressForCaller() 的末尾调用，这是 GetProcAddress() 内部用于解析导出函数地址的函数。
 
 [![](assets/1709531057-ca9ea8fa9f9448d791d5133f4e628b38.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229235258-9c2c82be-d71a-1.png)
 
-这些回调函数是完美的，因为 LdrGetProcedureAddress() 在加载 LdrpInitializeProcess() 时保证kernelbase.dll被调用。每当任何尝试使用 GetProcAddress() / LdrGetProcedureAddress() 解析导出时，它也会被调用，包括 EDR，它有很多有趣的潜力。 更好的是，这些指针存在于内存部分中，该内存部分在进程初始化之前是可写的。
+这些回调函数是完美的，因为 LdrGetProcedureAddress() 在加载 LdrpInitializeProcess() 时保证 kernelbase.dll 被调用。每当任何尝试使用 GetProcAddress() / LdrGetProcedureAddress() 解析导出时，它也会被调用，包括 EDR，它有很多有趣的潜力。更好的是，这些指针存在于内存部分中，该内存部分在进程初始化之前是可写的。
 
 ## 决定对钩子的回调
 
@@ -132,11 +132,11 @@ ULONG_PTR find_avrfp_address(ULONG_PTR mrdata_base) {
 
 ## 第 2 步：设置回调以调用我们的恶意代码
 
-设置回调的最简单方法是在挂起状态下启动我们自己的进程的第二个副本。由于ntdll在每个进程中都位于相同的地址，因此我们只需要在自己的进程中找到回调指针即可。一旦我们的进程启动但处于挂起状态，我们就可以使用 WriteProcessMemory() 来设置指针。
+设置回调的最简单方法是在挂起状态下启动我们自己的进程的第二个副本。由于 ntdll 在每个进程中都位于相同的地址，因此我们只需要在自己的进程中找到回调指针即可。一旦我们的进程启动但处于挂起状态，我们就可以使用 WriteProcessMemory() 来设置指针。
 
 我们还可以将这种技术用于进程空心化、shellcode 注入等，因为它允许我们在不创建或劫持线程或排队 APC 的情况下执行代码。但对于这个 PoC，我们将保持简单。
 
-注意：由于许多NTDLL指针都是加密的，因此我们不能只设置指向目标地址的指针。我们必须先加密它。幸运的是，密钥是相同的值，并且存储在所有进程中的同一位置。
+注意：由于许多 NTDLL 指针都是加密的，因此我们不能只设置指向目标地址的指针。我们必须先加密它。幸运的是，密钥是相同的值，并且存储在所有进程中的同一位置。
 
 ```plain
 LPVOID encode_system_ptr(LPVOID ptr) {
@@ -169,7 +169,7 @@ LPVOID encode_system_ptr(LPVOID ptr) {
 
 ## 第 3 步：执行回调并中和 EDR
 
-一旦我们在挂起的进程上调用 ResumeThread()，每次调用 LdrpGetProcedureAddress() 时都会执行我们的回调，其中第一个应该是在 LdrpInitializeProcess() 加载kernelbase.dll时。
+一旦我们在挂起的进程上调用 ResumeThread()，每次调用 LdrpGetProcedureAddress() 时都会执行我们的回调，其中第一个应该是在 LdrpInitializeProcess() 加载 kernelbase.dll 时。
 
 [![](assets/1709531057-f0a79cff642a52c838dc4fcad8f1bbe3.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229235150-738d4f1e-d71a-1.png)
 
@@ -181,7 +181,7 @@ LPVOID encode_system_ptr(LPVOID ptr) {
 
 ### DLL 破坏
 
-在流程生命周期的早期，只应加载ntdll.dll、kernel32.dll和kernelbase.dll。某些 EDR 可能会抢先将其 DLL 映射到内存中，但要等到稍后再调用入口点。虽然我们可以通过调用 ntdll !LdrUnloadDll()来卸载这些 DLL 一旦加载程序锁被释放（或手动执行），一个快速而肮脏的解决方案就是破坏它们的入口点。
+在流程生命周期的早期，只应加载 ntdll.dll、kernel32.dll 和 kernelbase.dll。某些 EDR 可能会抢先将其 DLL 映射到内存中，但要等到稍后再调用入口点。虽然我们可以通过调用 ntdll !LdrUnloadDll() 来卸载这些 DLL 一旦加载程序锁被释放（或手动执行），一个快速而肮脏的解决方案就是破坏它们的入口点。
 
 我们要做的是遍历 LDR 模块列表，并替换任何不应该存在的 DLL 的入口点地址。
 
@@ -216,7 +216,7 @@ void DisablePreloadedEdrModules() {
 
 ### 禁用 APC 调度程序
 
-当 APCs 排队到线程时，它们会被 ntdll !KiUserApcDispatcher()处理，然后调用 ntdll!NtContinue() 将线程返回到其原始上下文。通过挂钩 KiUserApcDispatcher 并将其替换为我们自己的函数，该函数仅在循环中调用 NtContinue()，任何 APC 都不能排队到我们的进程中（包括来自 EDR 内核驱动程序的 APC）。
+当 APCs 排队到线程时，它们会被 ntdll !KiUserApcDispatcher() 处理，然后调用 ntdll!NtContinue() 将线程返回到其原始上下文。通过挂钩 KiUserApcDispatcher 并将其替换为我们自己的函数，该函数仅在循环中调用 NtContinue()，任何 APC 都不能排队到我们的进程中（包括来自 EDR 内核驱动程序的 APC）。
 
 ```plain
 ; simple APC dispatcher that does everything except dispatch APCs
@@ -233,7 +233,7 @@ KiUserApcDispatcher ENDP
 
 ### 代理 LdrLoadDll 调用
 
-通过在ntdll!LdrLoadDll()上放置一个钩子，我们可以监视正在加载的 DLL。如果任何 EDR 尝试使用 LdrLoadDll 加载其 DLL，我们可以卸载或禁用它。理想情况下，我们可能想要挂钩ntdll!LdrpLoadDll()，它是较低级别的，由一些 EDR 直接调用，但为了简单起见，我们将只使用 LdrLoadDll。
+通过在 ntdll!LdrLoadDll() 上放置一个钩子，我们可以监视正在加载的 DLL。如果任何 EDR 尝试使用 LdrLoadDll 加载其 DLL，我们可以卸载或禁用它。理想情况下，我们可能想要挂钩 ntdll!LdrpLoadDll()，它是较低级别的，由一些 EDR 直接调用，但为了简单起见，我们将只使用 LdrLoadDll。
 
 ```plain
 // we can use this hook to prevent new modules from being loaded (though with both EDRs I tested, we don't need to)

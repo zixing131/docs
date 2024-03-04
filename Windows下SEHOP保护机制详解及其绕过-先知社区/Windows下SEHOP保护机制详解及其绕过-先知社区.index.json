@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709530881",
   "format": "md",
-  "title": "Windows下SEHOP保护机制详解及其绕过 - 先知社区",
+  "title": "Windows 下 SEHOP 保护机制详解及其绕过 - 先知社区",
   "link": "https://xz.aliyun.com/t/13992",
   "category": "default",
   "tags": [
     "xz.aliyun.com"
   ],
   "created_at": "2024-03-04 13:41:21",
-  "mainPath": "Windows下SEHOP保护机制详解及其绕过-先知社区.md",
+  "mainPath": "Windows 下 SEHOP 保护机制详解及其绕过 - 先知社区.md",
   "paths": [
-    "Windows下SEHOP保护机制详解及其绕过-先知社区.index.json",
+    "Windows 下 SEHOP 保护机制详解及其绕过 - 先知社区.index.json",
     "assets/1709530881-24acc0bb01d07ccdf6cab7cad52f0ea1.png",
     "assets/1709530881-3dadf8fb931cd3b366f2a9d6eb06cfa9.png",
     "assets/1709530881-2f2760a0ca3fd54bf7ee8866a1269b5b.png",
@@ -25,6 +25,6 @@
     "assets/1709530881-98931ce94332a61e0762053727cae8ab.png",
     "assets/1709530881-cfcf6c8f3bfa7ee1f16070d1d2666df9.png",
     "assets/1709530881-9dea21d9230cc80e44fc30ecab00ae75.png",
-    "Windows下SEHOP保护机制详解及其绕过-先知社区.md"
+    "Windows 下 SEHOP 保护机制详解及其绕过 - 先知社区.md"
   ]
 }

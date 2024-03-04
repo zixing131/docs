@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709530557",
   "format": "md",
-  "title": "记一次黑名单后缀+文件头双重效验的文件上传和getshell命令执行绕过 - 先知社区",
+  "title": "记一次黑名单后缀 + 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区",
   "link": "https://xz.aliyun.com/t/14030?time__1311=mqmx9DBG0QiQAx05DI7qCuCDfO%3DyDnDUnoD",
   "category": "default",
   "tags": [
     "xz.aliyun.com"
   ],
   "created_at": "2024-03-04 13:35:57",
-  "mainPath": "记一次黑名单后缀-文件头双重效验的文件上传和getshell命令执行绕过-先知社区.md",
+  "mainPath": "记一次黑名单后缀 - 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区.md",
   "paths": [
-    "记一次黑名单后缀-文件头双重效验的文件上传和getshell命令执行绕过-先知社区.index.json",
+    "记一次黑名单后缀 - 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区.index.json",
     "assets/1709530557-7b2b9a7ba46d7c5e20888ee8d7fac5e2.png",
     "assets/1709530557-1add558260b0d1a455fc30f8a1f76421.png",
     "assets/1709530557-b0e49a136f22a59a2ef6a520d7d878ca.png",
@@ -38,6 +38,6 @@
     "assets/1709530557-3dea2c73e100e91cfa7d7c24ad7bfa47.png",
     "assets/1709530557-a1725e225ebd3cffdcc3f37a6534a2f8.png",
     "assets/1709530557-2bcbb01c66a8bb94ef55e6d1d8187cb1.png",
-    "记一次黑名单后缀-文件头双重效验的文件上传和getshell命令执行绕过-先知社区.md"
+    "记一次黑名单后缀 - 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区.md"
   ]
 }

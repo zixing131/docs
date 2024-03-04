@@ -1,15 +1,15 @@
 
-JS敏感泄露小帮手----WIH介绍
+JS 敏感泄露小帮手----WIH 介绍
 
 - - -
 
-# JS敏感泄露小帮手----WIH介绍
+# JS 敏感泄露小帮手----WIH 介绍
 
-​ 相信大家对ARL（Asset Reconnaissance Lighthouse资产侦察灯塔系统，并不陌生，在最近版本中我发现多了一个功能WIH（WebInfoHunter），经过一段时间的使用，我发现这个WIH确实还挺好用的但是看网上似乎没有多少人介绍过这个工具，于是便有了这篇文章来介绍ARL---WIH工具。
+​ 相信大家对 ARL（Asset Reconnaissance Lighthouse 资产侦察灯塔系统，并不陌生，在最近版本中我发现多了一个功能 WIH（WebInfoHunter），经过一段时间的使用，我发现这个 WIH 确实还挺好用的但是看网上似乎没有多少人介绍过这个工具，于是便有了这篇文章来介绍 ARL---WIH 工具。
 
-​ 这篇文章不涉及ARL的基础搭建过程和基础使用过程，如果您之前没有使用过ARL，详情可以参考官网教程：[https://tophanttechnology.github.io/ARL-doc/system\_install/](https://tophanttechnology.github.io/ARL-doc/system_install/)
+​ 这篇文章不涉及 ARL 的基础搭建过程和基础使用过程，如果您之前没有使用过 ARL，详情可以参考官网教程：[https://tophanttechnology.github.io/ARL-doc/system\_install/](https://tophanttechnology.github.io/ARL-doc/system_install/)
 
-​ 在搭建好ARL之后我们使用下面的命令将`arl_worker`docker容器中的wih从容器中拖出来单独使用：
+​ 在搭建好 ARL 之后我们使用下面的命令将`arl_worker`docker 容器中的 wih 从容器中拖出来单独使用：
 
 ```plain
 root@VM-8-6-ubuntu:/home# mkdir wih
@@ -33,16 +33,16 @@ rules:
   # 域名，内置规则
   - id: domain
     enabled: false
-  # IP， 内置规则
+  # IP，内置规则
   - id: ip
     enabled: false
   # 路径，内置规则
   - id: path
     enabled: false
-  # URL主机部分为域名，内置规则
+  # URL 主机部分为域名，内置规则
   - id: domain_url
     enabled: false
-  # URL主机部分为IP，内置规则
+  # URL 主机部分为 IP，内置规则
   - id: ip_url
     enabled: false
   # 邮箱
@@ -57,19 +57,19 @@ rules:
   - id: phone
     enabled: false
     pattern: \b1[3-9]\d{9}\b
-  # jwt token (不要修改ID)
+  # jwt token (不要修改 ID)
   - id: jwt_token
     enabled: true
     pattern: eyJ[A-Za-z0-9_/+\-]{10,}={0,2}\.[A-Za-z0-9_/+\-\\]{15,}={0,2}\.[A-Za-z0-9_/+\-\\]{10,}={0,2}
-  # 阿里云 AccessKey ID (不要修改ID)
+  # 阿里云 AccessKey ID (不要修改 ID)
   - id: Aliyun_AK_ID
     enabled: true
     pattern: \bLTAI[A-Za-z\d]{12,30}\b
-  # 腾讯云 AccessKey ID (不要修改ID)
+  # 腾讯云 AccessKey ID (不要修改 ID)
   - id: QCloud_AK_ID
     enabled: true
     pattern: \bAKID[A-Za-z\d]{13,40}\b
-  # 京东云 AccessKey ID (不要修改ID)
+  # 京东云 AccessKey ID (不要修改 ID)
   - id: JDCloud_AK_ID
     enabled: true
     pattern: \bJDC_[0-9A-Z]{25,40}\b
@@ -116,7 +116,7 @@ rules:
   - id: github_token
     enabled: true
     pattern: \b((?:ghp|gho|ghu|ghs|ghr|github_pat)_[a-zA-Z0-9_]{36,255})\b
-  #腾讯云 API网关 APPKEY
+  #腾讯云 API 网关 APPKEY
   - id: qcloud_api_gateway_appkey
     enabled: true
     pattern: \bAPID[a-zA-Z0-9]{32,42}\b
@@ -168,7 +168,7 @@ rules:
     enabled: true
     pattern: \b(?:VUE|APP|REACT)_[A-Z_0-9]{1,15}_(?:KEY|PASS|PASSWORD|TOKEN|APIKEY)['"]*[:=]"(?:[A-Za-z0-9_\-]{15,50}|[a-z0-9/+]{50,100}==?)"
 
-# 排除规则， 支持字段 id, content, target , source 逻辑为 and ，如果是正则匹配，需要使用 regex: 开头
+# 排除规则，支持字段 id, content, target , source 逻辑为 and，如果是正则匹配，需要使用 regex: 开头
 exclude_rules:
     # 排除站点 https://cc.163.com 中 类型为 secret_key 的内容
   - name: "不收集 cc.163.com 的 secret_key" # 排除规则名称，无实际意义
@@ -211,7 +211,7 @@ exclude_rules:
 
 [![](assets/1709530864-6a7d2604df0bfdd3051024d84dfefece.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301153425-20ea7398-d79e-1.png)
 
-​ 然后如果收集到的ak这些更敏感的信息的话，wih会把他们单独存放在`ak_leak.txt`，然后就可以进行后续利用。
+​ 然后如果收集到的 ak 这些更敏感的信息的话，wih 会把他们单独存放在`ak_leak.txt`，然后就可以进行后续利用。
 
 # 参考链接
 

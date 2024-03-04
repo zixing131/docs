@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709531247",
   "format": "md",
-  "title": "基于TLS回调的PE文件导入表项混淆 - 混淆部分 - 先知社区",
+  "title": "基于 TLS 回调的 PE 文件导入表项混淆 - 混淆部分 - 先知社区",
   "link": "https://xz.aliyun.com/t/13998",
   "category": "default",
   "tags": [
     "xz.aliyun.com"
   ],
   "created_at": "2024-03-04 13:47:27",
-  "mainPath": "基于TLS回调的PE文件导入表项混淆-混淆部分-先知社区.md",
+  "mainPath": "基于 TLS 回调的 PE 文件导入表项混淆 - 混淆部分 - 先知社区.md",
   "paths": [
-    "基于TLS回调的PE文件导入表项混淆-混淆部分-先知社区.index.json",
+    "基于 TLS 回调的 PE 文件导入表项混淆 - 混淆部分 - 先知社区.index.json",
     "assets/1709531247-9e80ebd64f0e0e70d1f01d6f39f8e541.png",
     "assets/1709531247-b186a2fe8728aa1e68330e74b5f089cb.png",
     "assets/1709531247-4a5a4bee055efcd30aab45ab4643db23.png",
@@ -21,6 +21,6 @@
     "assets/1709531247-550b81a748bc37674e3afb1f2699eb59.png",
     "assets/1709531247-959063413585d598c9a16177ab2f286b.png",
     "assets/1709531247-79eaa47ca870e65210f22525f9484d64.png",
-    "基于TLS回调的PE文件导入表项混淆-混淆部分-先知社区.md"
+    "基于 TLS 回调的 PE 文件导入表项混淆 - 混淆部分 - 先知社区.md"
   ]
 }

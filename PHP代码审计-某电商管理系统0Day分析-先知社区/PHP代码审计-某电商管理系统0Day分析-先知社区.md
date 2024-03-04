@@ -1,28 +1,28 @@
 
 
-# PHP代码审计-某电商管理系统0Day分析 - 先知社区
+# PHP 代码审计 - 某电商管理系统 0Day 分析 - 先知社区
 
-PHP代码审计-某电商管理系统0Day分析
+PHP 代码审计 - 某电商管理系统 0Day 分析
 
 - - -
 
-最新源码下载，最近一次更新在22天前
+最新源码下载，最近一次更新在 22 天前
 
 [![](assets/1709530737-9b3bdee704b1fa39b678eb4a633472e7.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301140751-09001834-d792-1.png)
 
 ## 代码审计
 
-### 后台文件上传Getshell(web和小程序)
+### 后台文件上传 Getshell(web 和小程序)
 
 [![](assets/1709530737-386fc25bacafe1a494ad0e585b152073.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301142431-5d8a71ea-d794-1.png)
 
 尝试上传点随便上传点东西看看上传接口在哪里，虽然报错了但至少知道了源码的位置
 
-进行代码分析在/app/webapp/modules/system/actions/uploadImgAction.class.php中结合请求包我们尝试进行debug
+进行代码分析在/app/webapp/modules/system/actions/uploadImgAction.class.php 中结合请求包我们尝试进行 debug
 
 [![](assets/1709530737-b9a0b2f77e243350871fb02999dc9417.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301141145-94cce874-d792-1.png)
 
-在debug过程中发现一个replace语句其中将我们的$\_FILES\['imgFile'\]\['type'\]中的image/换成了点，那么我们的 $\_FILES\['imgFile'\]\['type'\]为请求包中的Content-Type: application/octet-stream部分
+在 debug 过程中发现一个 replace 语句其中将我们的$\_FILES\['imgFile'\]\['type'\]中的 image/换成了点，那么我们的 $\_FILES\['imgFile'\]\['type'\]为请求包中的 Content-Type: application/octet-stream部分
 
 ```plain
 $type = str_replace('image/', '.', $_FILES['imgFile']['type']);
@@ -44,7 +44,7 @@ $image = $uploadImg . $imgURL_name;
 echo json_encode(array("error"=>$error,"url"=>$image,'message'=>$msg));
 ```
 
-如果我们将Content-Type: application/octet-stream修改为Content-Type: image/php那么拼接时会变成.php的后缀。
+如果我们将 Content-Type: application/octet-stream修改为Content-Type: image/php那么拼接时会变成.php的后缀。
 
 [![](assets/1709530737-58049edeff8ebc43bb10f30658bd2026.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301141335-d6137b86-d792-1.png)
 
@@ -84,7 +84,7 @@ Content-Type: image/php
 
 ### 后台文件上传
 
-通过审计我们发现触发文件上传的点是因为存在str\_replace函数那么利用审计工具查看是否还有其他地方存在该漏洞点
+通过审计我们发现触发文件上传的点是因为存在 str\_replace 函数那么利用审计工具查看是否还有其他地方存在该漏洞点
 
 ```plain
 str_replace('image/', '.', $_FILES['file']['type']);
@@ -151,7 +151,7 @@ public function upload(){
 ```
 
 和刚刚看到的后台内容类似，也是替换后拼接可以控制后缀，尝试上传  
-因为是基于TP的因此我们构造接口调用，直接上传报错
+因为是基于 TP 的因此我们构造接口调用，直接上传报错
 
 ```plain
 POST /index.php?module=api&action=user&m=upload HTTP/1.1
@@ -182,7 +182,7 @@ Content-Type:image/php
 
 [![](assets/1709530737-ee0054d594656d18c2b434cbfc0ed268.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301142054-dc17a2d6-d793-1.png)
 
-修改name为file即可，并且为测试是未授权将Cookie删除,这里虽然只返回了文件名但根据代码的审计发现其路径依旧为/images
+修改 name 为 file 即可，并且为测试是未授权将 Cookie 删除，这里虽然只返回了文件名但根据代码的审计发现其路径依旧为/images
 
 ```plain
 POST /index.php?module=api&action=user&m=upload HTTP/1.1
@@ -212,13 +212,13 @@ Content-Type:image/php
 
 [![](assets/1709530737-98e3231451ae0ede6e96cd43f9a0ab89.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301142202-04afdac4-d794-1.png)
 
-### 前台SQL注入
+### 前台 SQL 注入
 
-代码分析/webapp/modules/api/actions/orderAction.class.php，发现back\_remark字段没有添加过滤
+代码分析/webapp/modules/api/actions/orderAction.class.php，发现 back\_remark 字段没有添加过滤
 
 [![](assets/1709530737-c1086e1d25eb23b02996d79f7270f6a2.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240303141616-8b246254-d925-1.png)
 
-sqlmap语句
+sqlmap 语句
 
 ```plain
 #module=api&action=order&m=ReturnData

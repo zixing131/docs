@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709531263",
   "format": "md",
-  "title": "基于TLS回调的PE文件导入表项混淆 - 构造精心的解混淆Shellcode - 先知社区",
+  "title": "基于 TLS 回调的 PE 文件导入表项混淆 - 构造精心的解混淆 Shellcode - 先知社区",
   "link": "https://xz.aliyun.com/t/14005",
   "category": "default",
   "tags": [
     "xz.aliyun.com"
   ],
   "created_at": "2024-03-04 13:47:43",
-  "mainPath": "基于TLS回调的PE文件导入表项混淆-构造精心的解混淆Shellcode-先知社区.md",
+  "mainPath": "基于 TLS 回调的 PE 文件导入表项混淆 - 构造精心的解混淆 Shellcode-先知社区.md",
   "paths": [
-    "基于TLS回调的PE文件导入表项混淆-构造精心的解混淆Shellcode-先知社区.index.json",
+    "基于 TLS 回调的 PE 文件导入表项混淆 - 构造精心的解混淆 Shellcode-先知社区.index.json",
     "assets/1709531263-565f0fc2f5bd4f0cd0380c39510f1c8c.png",
     "assets/1709531263-f8484f6671a02175a9d007dd715db659.png",
     "assets/1709531263-0e1931a067ca971856b446d8b929a83a.png",
@@ -24,6 +24,6 @@
     "assets/1709531263-ec2ef54927bc7d0aff5907a08c194a51.png",
     "assets/1709531263-093dde224e31a9dc99665a827b8bc63b.png",
     "assets/1709531263-9caac6a6133f125c6c27edc1316183d8.png",
-    "基于TLS回调的PE文件导入表项混淆-构造精心的解混淆Shellcode-先知社区.md"
+    "基于 TLS 回调的 PE 文件导入表项混淆 - 构造精心的解混淆 Shellcode-先知社区.md"
   ]
 }

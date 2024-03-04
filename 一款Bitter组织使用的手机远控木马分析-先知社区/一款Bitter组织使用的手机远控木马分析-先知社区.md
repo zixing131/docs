@@ -1,18 +1,18 @@
 
 
-# 一款Bitter组织使用的手机远控木马分析 - 先知社区
+# 一款 Bitter 组织使用的手机远控木马分析 - 先知社区
 
-一款Bitter组织使用的手机远控木马分析
+一款 Bitter 组织使用的手机远控木马分析
 
 - - -
 
 ## 概述
 
-近期，笔者在对电脑文件进行整理的时候，无意间发现了一款Bitter组织使用的Android端远控样本，本着学习的态度，笔者尝试对其进行了详细分析。
+近期，笔者在对电脑文件进行整理的时候，无意间发现了一款 Bitter 组织使用的 Android 端远控样本，本着学习的态度，笔者尝试对其进行了详细分析。
 
-通过分析，发现此款Android 端远控样本除了会对自身行为进行隐藏执行外，还会从Android端监视和窃取大量个人用户信息：
+通过分析，发现此款 Android 端远控样本除了会对自身行为进行隐藏执行外，还会从 Android 端监视和窃取大量个人用户信息：
 
--   设备GPS信息
+-   设备 GPS 信息
 -   短信信息
 -   联系人信息
 -   通话记录信息
@@ -24,11 +24,11 @@
 
 ## 样本家族
 
-基于样本行为及外联信息进行网络调研，同时结合VT平台进行关联分析，关联发现此样本为Bitter组织Android端远控样本。
+基于样本行为及外联信息进行网络调研，同时结合 VT 平台进行关联分析，关联发现此样本为 Bitter 组织 Android 端远控样本。
 
 [![](assets/1709531068-af18f973c7ca2a5a9bab3198bbacdbf5.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301092146-122dc9ec-d76a-1.png)
 
-网络中bitdefender公司针对Bitter组织攻击活动发布的分析报告截图如下：
+网络中 bitdefender 公司针对 Bitter 组织攻击活动发布的分析报告截图如下：
 
 [![](assets/1709531068-70f423144bbe1b93f931ba0fa97b6b04.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240301092159-19a1037e-d76a-1.png)
 
@@ -49,9 +49,9 @@ SHA1   ：B6353DAC1E425C3081F672ADF24D49B33E53A902
 
 CRC32  ：4D82C814
 
-package.name：google.comgooglesettings
+package.name: google.comgooglesettings
 
-cer.sha1：1173C15E0E3E69EE088CE0654CAB314F94DBD018
+cer.sha1:1173C15E0E3E69EE088CE0654CAB314F94DBD018
 ```
 
 ### 安装情况
@@ -66,9 +66,9 @@ cer.sha1：1173C15E0E3E69EE088CE0654CAB314F94DBD018
 
 ### 伪装行为
 
-样本将POST请求`http://playstorenet.ddns.net/Youtube/index.php?`地址，从接收数据中提取“MSG”、“URL”数据，最后以弹框方式显示“MSG”数据和浏览“URL”网页（网页已失效，因此不清楚具体的“MSG”和“URL”值），以达到伪装效果（因为获取的“URL”数据未在其他代码处有相关的访问行为，因此猜测此行为只是为了迷惑用户，将自身伪装成一个服务程序弹框报错）。
+样本将 POST 请求`http://playstorenet.ddns.net/Youtube/index.php?`地址，从接收数据中提取“MSG”、“URL”数据，最后以弹框方式显示“MSG”数据和浏览“URL”网页（网页已失效，因此不清楚具体的“MSG”和“URL”值），以达到伪装效果（因为获取的“URL”数据未在其他代码处有相关的访问行为，因此猜测此行为只是为了迷惑用户，将自身伪装成一个服务程序弹框报错）。
 
-POST请求代码截图如下：
+POST 请求代码截图如下：
 
 [![](assets/1709531068-91c09463fe4973356bcdfd102b2d9b46.jpg)](https://xzfile.aliyuncs.com/media/upload/picture/20240301092240-32600a86-d76a-1.jpg)
 
@@ -84,15 +84,15 @@ POST请求代码截图如下：
 
 ### 窃取数据
 
-样本将获取设备GPS信息、短信信息、联系人信息、通话记录信息、设备基本信息、已安装应用信息、设备账户信息、指定文件路径信息、基站信息等，并将获取的数据信息写入“/storage/sdcard0/systemservice”文件中，然后POST请求`http://playstorenet.ddns.net/Youtube/home.php?IMEI=[DeviceId]&SIMNO=[SimSerialNumber]`地址上传获取的窃密数据。
+样本将获取设备 GPS 信息、短信信息、联系人信息、通话记录信息、设备基本信息、已安装应用信息、设备账户信息、指定文件路径信息、基站信息等，并将获取的数据信息写入“/storage/sdcard0/systemservice”文件中，然后 POST 请求`http://playstorenet.ddns.net/Youtube/home.php?IMEI=[DeviceId]&SIMNO=[SimSerialNumber]`地址上传获取的窃密数据。
 
 相关代码截图如下：
 
 [![](assets/1709531068-6cf5d3baa3993ad49a29873033bf9bd1.jpg)](https://xzfile.aliyuncs.com/media/upload/picture/20240301092329-4f673654-d76a-1.jpg)
 
-### 获取GPS信息
+### 获取 GPS 信息
 
-样本将获取GPS信息；
+样本将获取 GPS 信息；
 
 相关代码截图如下：
 
@@ -148,7 +148,7 @@ POST请求代码截图如下：
 
 ### 获取指定文件路径
 
-样本将获取设备SD卡上所有".pdf"、".txt"、".xml"、".doc"、".xls"、".xlsx"、".amr"、".docx"、".apk"、".rec"文件类型的文件路径；
+样本将获取设备 SD 卡上所有".pdf"、".txt"、".xml"、".doc"、".xls"、".xlsx"、".amr"、".docx"、".apk"、".rec"文件类型的文件路径；
 
 相关代码截图如下：
 
@@ -172,7 +172,7 @@ POST请求代码截图如下：
 
 [![](assets/1709531068-5cb48c748cb776f9146103f6fb91319e.jpg)](https://xzfile.aliyuncs.com/media/upload/picture/20240301092604-ac002a6a-d76a-1.jpg)
 
-### 写入systemservice文件
+### 写入 systemservice 文件
 
 样本将把获取的数据写入“/storage/sdcard0/systemservice”文件中，以便后续上传行为；
 

@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709530899",
   "format": "md",
-  "title": "apache-cayenne代码审计 - 先知社区",
+  "title": "apache-cayenne 代码审计 - 先知社区",
   "link": "https://xz.aliyun.com/t/13990",
   "category": "default",
   "tags": [
     "xz.aliyun.com"
   ],
   "created_at": "2024-03-04 13:41:39",
-  "mainPath": "apache-cayenne代码审计-先知社区.md",
+  "mainPath": "apache-cayenne 代码审计 - 先知社区.md",
   "paths": [
-    "apache-cayenne代码审计-先知社区.index.json",
+    "apache-cayenne 代码审计 - 先知社区.index.json",
     "assets/1709530899-32e41597cc8c756ef5d4102ef57fbe4f.png",
     "assets/1709530899-bfd90dc737f38af75da7dae63fa3238c.png",
     "assets/1709530899-d827b0668b15309eebe89d6b07a0dc50.png",
@@ -23,6 +23,6 @@
     "assets/1709530899-17205d2f86bbbf971764b3c8e0183d8d.png",
     "assets/1709530899-ded37118e1ef8c5ab7b771ea14cc98ae.png",
     "assets/1709530899-ed2ce32d1b7f3bb774d9f30455221906.png",
-    "apache-cayenne代码审计-先知社区.md"
+    "apache-cayenne 代码审计 - 先知社区.md"
   ]
 }
