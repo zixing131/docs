@@ -31,7 +31,7 @@ GraphStrike：进攻性工具开发剖析
 
 从第一个问题开始，这是否是一种明显的技术改进，和/或是否是威胁行为者的独特代表？
 
-当我第一次深入研究这个概念时，仅凭它所提供的技术优势，我就批准了它。能够将 C2 流量路由到 microsoft.com 域名，在网络出口过滤和检测方面具有巨大优势。鉴于在此期间发布的威胁情报，该项目实际上两全其美。已观察到多个不同的恶意软件家族使用 Graph API 作为 C2，这些 APT 恶意软件家族被命名为 ：
+当我第一次深入研究这个概念时，仅凭它所提供的技术优势，我就批准了它。能够将 C2 流量路由到 microsoft.com 域名，在网络出口过滤和检测方面具有巨大优势。鉴于在此期间发布的威胁情报，该项目实际上两全其美。已观察到多个不同的恶意软件家族使用 Graph API 作为 C2，这些 APT 恶意软件家族被命名为：
 
 1.  [BLUELIGHT – APT37/InkySquid/ScarCruft](https://www.volexity.com/blog/2021/08/17/north-korean-apt-inkysquid-infects-victims-using-browser-exploits/)
 2.  [Graphite – APT28/Fancy Bear](https://malpedia.caad.fkie.fraunhofer.de/details/win.graphite)
@@ -48,7 +48,7 @@ GraphStrike：进攻性工具开发剖析
 
 最终，我对这个概念的第一次尝试采用了符合规范的 Cobalt Strike 外部 C2 的形式，它使用 Graph API 通过 Teams 消息发送 Beacon 流量。我从未公开发布过它，但确实在一次会议上介绍过它。这是一个有趣的项目，但也被证明设计和维护非常复杂，因为它涉及用位置无关的 C 语言编写自定义植入程序，以在 Cobalt Strike SMB Beacon 和 Graph API 之间进行通信。
 
-这给我们带来了一些不能被夸大的事情，也是我后来重新审视这个想法的主要原因之一：**对于攻击性工具，技术上“有效”的东西与可靠、可重复且易于部署的东西之间存在很大差异。**我之前的项目是前者； GraphStrike 力求成为后者，尽可能减轻围绕此类功能的设置和部署的头痛和挑战。
+这给我们带来了一些不能被夸大的事情，也是我后来重新审视这个想法的主要原因之一：**对于攻击性工具，技术上“有效”的东西与可靠、可重复且易于部署的东西之间存在很大差异。**我之前的项目是前者；GraphStrike 力求成为后者，尽可能减轻围绕此类功能的设置和部署的头痛和挑战。
 
 从架构的角度来看，我第一次尝试这个概念与第二次尝试之间的有意义的区别在于，不再遵循外部 C2 规范（使用自定义植入物、SMB Beacon，并且进入门槛相对较高）。GraphStrike 提供了通过 HTTPS Beacons 使用 Graph API 的能力。这种设计消除了需要开发、维护和与目标上的 SMB Beacon 一起部署完整的单独植入物的要求。
 
@@ -72,7 +72,7 @@ GraphStrike：进攻性工具开发剖析
 
 [![](assets/1709614992-dd1cd0a9465b16f6e6245ead7f4415bc.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221112-b9a27558-d89e-1.png)
 
-上图显示了正常的 Cobalt Strike（以及大多数其他 C2）HTTPS 流量的通信方式。 Beacon 调用 Cobalt Strike 侦听器中指定的 IP 或域，然后侦听器将 GET 和 POST 请求路由回 Cobalt Strike Team 服务器 (TS)。你正在使用重定向器并且没有公开托管您的 TS，对吗？ TS 响应请求，然后通过重定向器将请求路由回 Beacon。十分简单。
+上图显示了正常的 Cobalt Strike（以及大多数其他 C2）HTTPS 流量的通信方式。Beacon 调用 Cobalt Strike 侦听器中指定的 IP 或域，然后侦听器将 GET 和 POST 请求路由回 Cobalt Strike Team 服务器 (TS)。你正在使用重定向器并且没有公开托管您的 TS，对吗？TS 响应请求，然后通过重定向器将请求路由回 Beacon。十分简单。
 
 GraphStrike 通信模型更为复杂。Beacon 流量不再一路到达 TS，而是停止在 Microsoft 服务器上。从 Beacon 的角度来看，Graph API 服务器响应是 TS 回复 Beacon 的 http-get 和 http-post 请求。同样，在 TS 方面，我们现在需要联系 Microsoft 服务器，以便上传新的 TS 任务并获取 Beacon 输出。此要求由 Python3 服务器（以下称为 GraphStrike 服务器）满足。该服务器向 Microsoft 服务器和 TS 发出 HTTPS GET 和 POST 请求，充当根据需要操作和转换 Cobalt Strike 数据的桥梁，以提供与 Graph API 的功能和兼容性。
 
@@ -86,9 +86,9 @@ GraphStrike 通信模型更为复杂。Beacon 流量不再一路到达 TS，而�
 
 通过第三方服务了解了有关 Graph API 和 C2 的更多信息后，我确定了在项目被认为可行之前需要解决的几个关键障碍：
 
-1.  Graph API 要求所有请求都使用访问令牌，并且该令牌每小时过期。 Cobalt Strike Beacons 不支持在运行时更改其请求标头。
+1.  Graph API 要求所有请求都使用访问令牌，并且该令牌每小时过期。Cobalt Strike Beacons 不支持在运行时更改其请求标头。
 2.  获取新的访问令牌需要向不同的域（login.microsoft.com 而不是 graph.microsoft.com）发出 Web 请求。虽然 Cobalt Strike 确实支持指定侦听器使用的多个域（在 4.9 中甚至支持每个域的流量自定义），但它不提供“存储”请求检索的值以供以后使用的功能。
-3.  必须识别与 Beacon http-get 和 http-post 循环兼容的，某些 Graph API 调用组合。 Beacon 通常连接到 TS 以检索任务并发送输出；现在它需要从一些可通过 Graph API 访问的 Microsoft 数据存储机制中检索任务，并通过类似的方法上传输出。
+3.  必须识别与 Beacon http-get 和 http-post 循环兼容的，某些 Graph API 调用组合。Beacon 通常连接到 TS 以检索任务并发送输出；现在它需要从一些可通过 Graph API 访问的 Microsoft 数据存储机制中检索任务，并通过类似的方法上传输出。
 
 最重要的是，如果我无法找到解决每个问题的方法，那么该项目在真正开始之前就已经死了。
 
@@ -110,7 +110,7 @@ GraphStrike 通信模型更为复杂。Beacon 流量不再一路到达 TS，而�
 
 # 识别兼容的 Graph API 方法
 
-有数百种不同的 Graph API 方法，从创建新日历事件的方法到用于检索安全日志的方法。在评估哪些方法可能适合 C2 目的时，重要的是要考虑在各种情况下可能传输的数据量。 Cobalt Strike 中发出的大多数命令都相对较小，当 Beacon 检查任务分配时，“ps”或“ls”等命令会向 Beacon 发送大约 48 个字节的内容。其他场景（例如尝试通过 Beacon 运行工具）可能会涉及在单次签入期间传输数 MB 的数据，因此我们选择的任何 Graph API 方法都必须支持整个使用场景，这一点至关重要。
+有数百种不同的 Graph API 方法，从创建新日历事件的方法到用于检索安全日志的方法。在评估哪些方法可能适合 C2 目的时，重要的是要考虑在各种情况下可能传输的数据量。Cobalt Strike 中发出的大多数命令都相对较小，当 Beacon 检查任务分配时，“ps”或“ls”等命令会向 Beacon 发送大约 48 个字节的内容。其他场景（例如尝试通过 Beacon 运行工具）可能会涉及在单次签入期间传输数 MB 的数据，因此我们选择的任何 Graph API 方法都必须支持整个使用场景，这一点至关重要。
 
 例如，在 Graph API 的“个人联系人”部分中有一个创建新联系人的方法；为了确定使用联系人进行数据传输的可行性，我们需要查看联系人结构中包含哪些值。有用的是，Graph API 文档包含每种方法的用法示例，我们可以从中了解给定对象中存储的数据类型：
 
@@ -135,11 +135,11 @@ Content-type: application/json
 
 在这种情况下，字段似乎相当有限。它们看起来都不适合存储大量数据。
 
-值得仔细研究一下本文开头列出的 Graph API 恶意软件的现实示例。有趣的是，他们中的大多数都使用一组通用的 Graph API 方法：与 OneDrive 和 SharePoint 文件管理相关的方法。毫不奇怪，最相关的是上传和下载方法。 Upload方法描述如下：
+值得仔细研究一下本文开头列出的 Graph API 恶意软件的现实示例。有趣的是，他们中的大多数都使用一组通用的 Graph API 方法：与 OneDrive 和 SharePoint 文件管理相关的方法。毫不奇怪，最相关的是上传和下载方法。Upload 方法描述如下：
 
 > 在单个 API 调用中提供新文件的内容或更新现有文件的内容。此方法仅支持最大 250 MB 的文件。
 
-这听起来肯定会满足我们的需求。 Beacon 以 512KB 块的形式发送大量输出，因此即使我们想要下载 5GB 的文件，它也会以远低于 Upload 方法的每个请求 250MB 限制的方式完成。看一下这个例子，我们发现了一种非常简单的方法，但有一个明显的问题：
+这听起来肯定会满足我们的需求。Beacon 以 512KB 块的形式发送大量输出，因此即使我们想要下载 5GB 的文件，它也会以远低于 Upload 方法的每个请求 250MB 限制的方式完成。看一下这个例子，我们发现了一种非常简单的方法，但有一个明显的问题：
 
 ```plain
 PUT /me/drive/root:/FolderA/FileB.txt:/content
@@ -148,11 +148,11 @@ Content-Type: text/plain
 The contents of the file goes here.
 ```
 
-Upload 方法使用 HTTP PUT 动词。虽然 Cobalt Strike 配置文件允许用户自定义在 http-get 和 http-post 事务中使用的动词（因此，如果用户想要“仅get”配置文件，则可以自定义），但实际支持的唯一方法是“GET”和 “POST”。运行 Cobalt Strike 配置文件 linter c2lint 证明了这一点。
+Upload 方法使用 HTTP PUT 动词。虽然 Cobalt Strike 配置文件允许用户自定义在 http-get 和 http-post 事务中使用的动词（因此，如果用户想要“仅 get”配置文件，则可以自定义），但实际支持的唯一方法是“GET”和“POST”。运行 Cobalt Strike 配置文件 linter c2lint 证明了这一点。
 
 [![](assets/1709614992-646b245bb5bf4526528f148fa8bce9de.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221145-ccfb8e82-d89e-1.png)
 
-即使 Cobalt Strike 支持 PUT 方法，也很难想象一种能够同时支持多个 Beacon 的可行解决方案。 Beacon 调用的 URI 在配置文件中设置，这意味着生成的每个 Beacon 将尝试调用同一位置。通常，TS 能够通过查看使用 http-gets 发送的元数据和使用 Beacon http-posts 发送的会话 ID 来区分一个 Beacon。
+即使 Cobalt Strike 支持 PUT 方法，也很难想象一种能够同时支持多个 Beacon 的可行解决方案。Beacon 调用的 URI 在配置文件中设置，这意味着生成的每个 Beacon 将尝试调用同一位置。通常，TS 能够通过查看使用 http-gets 发送的元数据和使用 Beacon http-posts 发送的会话 ID 来区分一个 Beacon。
 
 通过引入实际的硬“停止”，其中 Beacon 数据（任务或输出）在被另一方拾取之前处于静止状态，该 Beacon 识别信息将丢失并且必须以其他方式进行通信。为了解决这个问题，需要采取一些方法来操作 Beacon 的 URI，以确保每个 Beacon 在第三方服务中都有自己的“存储”，从而 GraphStrike 可以提供多 Beacon 支持。
 
@@ -160,7 +160,7 @@ Upload 方法使用 HTTP PUT 动词。虽然 Cobalt Strike 配置文件允许用
 
 # 开源工具来拯救
 
-综合来看这些拦截器，我发现的共同需求是，我需要一些在运行时操纵 Beacon 行为的方法。这让我最终看到了 Cobalt Strike 用户定义的反射加载器 (UDRL)。 UDRL 为操作员提供了修改 Beacon 实际加载到内存的方式的机会。至关重要的是，它使操作员能够在第一次实际执行/调用 Beacon 之前的流程中执行其他代码。有几种不同的 UDRL 可供公开使用，但在项目的自述文件中注意到这一点后，我将重点放在了 Kyle Avery 的 AceLdr 上：
+综合来看这些拦截器，我发现的共同需求是，我需要一些在运行时操纵 Beacon 行为的方法。这让我最终看到了 Cobalt Strike 用户定义的反射加载器 (UDRL)。UDRL 为操作员提供了修改 Beacon 实际加载到内存的方式的机会。至关重要的是，它使操作员能够在第一次实际执行/调用 Beacon 之前的流程中执行其他代码。有几种不同的 UDRL 可供公开使用，但在项目的自述文件中注意到这一点后，我将重点放在了 Kyle Avery 的 AceLdr 上：
 
 > 某些 WinAPI 调用是使用欺骗性的返回地址（InternetConnectA、NtWaitForSingleObject、RtlAllocateHeap）执行的。
 
@@ -204,7 +204,7 @@ SECTION( D ) HINTERNET InternetConnectA_Hook( HINTERNET hInternet,
 
 值得注意的是，上面定义的 InternetConnectA\_Hook 函数采用与真实 Windows API InternetConnectA 完全相同的参数。
 
-AceLdr 执行导入地址表 (IAT) 挂钩，其中某些 API（如 InternetConnectA）内存地址在 Beacon 进程导入地址表 (IAT) 内被覆盖，并替换为相应自定义函数的地址。 IAT 可以比作书籍中的目录或索引，其中不同的章节列在它们开始的页面旁边。通过 IAT 挂钩，我们可以有效地更改与章节 (API) 关联的页码（内存地址）。结果是，当调用挂钩的 API 之一时，IAT 返回 AceLdr 等效的用户定义函数的地址，而不是 Microsoft DLL 中的真实函数的地址，并执行该自定义函数。对于 AceLdr 挂钩的大多数 API，所有自定义函数所做的就是使用 SPOOF 宏调用真正的 API（手动解析而不是使用 IAT），以实现返回地址欺骗。
+AceLdr 执行导入地址表 (IAT) 挂钩，其中某些 API（如 InternetConnectA）内存地址在 Beacon 进程导入地址表 (IAT) 内被覆盖，并替换为相应自定义函数的地址。IAT 可以比作书籍中的目录或索引，其中不同的章节列在它们开始的页面旁边。通过 IAT 挂钩，我们可以有效地更改与章节 (API) 关联的页码（内存地址）。结果是，当调用挂钩的 API 之一时，IAT 返回 AceLdr 等效的用户定义函数的地址，而不是 Microsoft DLL 中的真实函数的地址，并执行该自定义函数。对于 AceLdr 挂钩的大多数 API，所有自定义函数所做的就是使用 SPOOF 宏调用真正的 API（手动解析而不是使用 IAT），以实现返回地址欺骗。
 
 返回地址欺骗虽然很酷并且在逃避方面本身非常有价值，但与手头的任务并不真正相关。非常相关的是能够拦截 API 调用、运行一些用户定义的代码，然后将执行修补回进程调用的真实 API。这使我们能够在调用真正的 API 之前拦截和更改 Beacon 发送的参数，并打开大门：
 
@@ -217,9 +217,9 @@ AceLdr 执行导入地址表 (IAT) 挂钩，其中某些 API（如 InternetConne
 
 # 关于 AceLdr 和 UDRL 的一些注释
 
-AceLdr 的发现使这一想法超越了已识别的阻碍因素，进入了可行性领域。我们已经确定了一种在 Beacon 执行之前（通过 UDRL）以及在整个 Beacon 生命周期（通过 UDRL 设置的挂钩函数）运行任意代码的方法，但在我们深入研究如何利用这些功能的细节之前对于 GraphStrike，我们应该仔细研究 AceLdr 的一些相关部分以及它们如何影响该项目。 Cobalt Strike 团队发布了一篇很棒的博客，其中涵盖了 UDRL 背后的一些基本理论和设计，我强烈鼓励读者查看。
+AceLdr 的发现使这一想法超越了已识别的阻碍因素，进入了可行性领域。我们已经确定了一种在 Beacon 执行之前（通过 UDRL）以及在整个 Beacon 生命周期（通过 UDRL 设置的挂钩函数）运行任意代码的方法，但在我们深入研究如何利用这些功能的细节之前对于 GraphStrike，我们应该仔细研究 AceLdr 的一些相关部分以及它们如何影响该项目。Cobalt Strike 团队发布了一篇很棒的博客，其中涵盖了 UDRL 背后的一些基本理论和设计，我强烈鼓励读者查看。
 
-UDRL 开发带来的有趣的额外负担之一是代码必须编写为位置无关的；这限制了 Windows 和 C API 的正常使用以及全局变量和标准字符串的使用。 AceLdr 使用一个巧妙的技巧和一些宏来启用正常的字符串使用，但我们仍然必须为我们想要在代码中使用的任何 API 手动创建函数指针。 AceLdr 使用名为“resolveAceFunctions”的函数来完成此操作，如下所示：
+UDRL 开发带来的有趣的额外负担之一是代码必须编写为位置无关的；这限制了 Windows 和 C API 的正常使用以及全局变量和标准字符串的使用。AceLdr 使用一个巧妙的技巧和一些宏来启用正常的字符串使用，但我们仍然必须为我们想要在代码中使用的任何 API 手动创建函数指针。AceLdr 使用名为“resolveAceFunctions”的函数来完成此操作，如下所示：
 
 ```plain
 SECTION( B ) NTSTATUS resolveAceFunctions( PAPI pApi )
@@ -254,7 +254,7 @@ SECTION( B ) NTSTATUS resolveAceFunctions( PAPI pApi )
 };
 ```
 
-这里，AceLdr 使用一些辅助函数，如“FindModule”和“FindFunction”来解析 NTDLL 中几个不同 API 的内存地址。这些地址与 PAPI 结构中的类型定义（作为参数传递到resolveAceFunctions 中）相结合，以便创建稍后可以使用的函数指针。这可以在“createBeaconThread”函数中看到，该函数使用“RtlCreateUserThread”函数指针：
+这里，AceLdr 使用一些辅助函数，如“FindModule”和“FindFunction”来解析 NTDLL 中几个不同 API 的内存地址。这些地址与 PAPI 结构中的类型定义（作为参数传递到 resolveAceFunctions 中）相结合，以便创建稍后可以使用的函数指针。这可以在“createBeaconThread”函数中看到，该函数使用“RtlCreateUserThread”函数指针：
 
 ```plain
 SECTION( B ) NTSTATUS createBeaconThread( PAPI pApi, PHANDLE thread )
@@ -270,7 +270,7 @@ SECTION( B ) NTSTATUS createBeaconThread( PAPI pApi, PHANDLE thread )
 
 # 技术设计
 
-了解了有关 AceLdr 和 UDRL 的一些基础知识后，是时候弄清楚如何在 GraphStrike 中实现这项工作了。请注意，在本文的其余部分中，GraphStrike 的 UDRL 部分将称为 GraphLdr； AceLdr 仍然是底层的核心和灵魂，但它将经历足够重大的转变，以保证其自己独特的名称。  
+了解了有关 AceLdr 和 UDRL 的一些基础知识后，是时候弄清楚如何在 GraphStrike 中实现这项工作了。请注意，在本文的其余部分中，GraphStrike 的 UDRL 部分将称为 GraphLdr；AceLdr 仍然是底层的核心和灵魂，但它将经历足够重大的转变，以保证其自己独特的名称。  
 下面细分了与 GraphStrike 技术设计细节相关的几个小节。我试图按照某种“顺序”进行创作，但要明白，这些作品中的许多部分本质上是相互联系在一起并相互影响的，因此很难以真正的线性方式进行写作。另请注意，包含的任何代码片段都代表最终产品中找到的“工作”代码；也就是说，这个项目的早期版本远不如您在这里看到的那样精致或高效。
 
 # 替换全局变量
@@ -372,7 +372,7 @@ Stub:
 ... Trimmed for Brevity ...
 ```
 
-然后在项目的主头文件（“include.h”）中，定义了一个结构体 `STUB, *PSTUB` ，并为 `Stub` 变量进行了 extern 声明。在这种情况下，大小写很重要； extern 声明引用 asm 的 `Stub` 部分，而不是 `STUB, *PSTUB` 结构：
+然后在项目的主头文件（“include.h”）中，定义了一个结构体 `STUB, *PSTUB` ，并为 `Stub` 变量进行了 extern 声明。在这种情况下，大小写很重要；extern 声明引用 asm 的 `Stub` 部分，而不是 `STUB, *PSTUB` 结构：
 
 ```plain
 ... Trimmed for Brevity ...
@@ -515,7 +515,7 @@ SECTION( D ) HINTERNET InternetConnectA_Hook( HINTERNET hInternet, LPCSTR lpszSe
 
 另一个值得注意的地方是，Beacon 会按顺序调用这些 API；每次 http-get 或 http-post 循环都会先调用 InternetConnectA，然后再调用 HttpOpenRequestA、HttpSendRequestA，最后（如果服务器返回输出）再调用 InternetReadFile。这样，我们就能从逻辑上将这些 API 调用关联起来，也就是说，如果 Beacon 调用了 HttpSendRequestA，我就知道它是在之前的 HttpOpenRequestA 调用之后进行的，而且这两个调用都是 Beacon 中同一个 http-get 或 http-post 循环的一部分。
 
-# Web请求初始化
+# Web 请求初始化
 
 前面提到的需求之一是，我们需要 Beacon 能够获取自己的访问令牌。正如之前所讨论的，这就带来了一些挑战，因为它们是从 login.microsoft.com 获取的，而 Beacon 的程序设计是通过监听器调用 graph.microsoft.com。在确定我们可以在挂钩函数中运行任意代码后，我想知道我是否有可能在提出网络请求的同时提出一个完全独立的网络请求......。我没有任何技术理由认为我不能这样做，但我决定必须尽快验证这一功能，因为它对 GraphStrike 的成功至关重要。
 
@@ -685,9 +685,9 @@ SECTION( D ) HINTERNET HttpOpenRequestA_Hook( HINTERNET hInternet,
 
 幸运的是，事实证明这种方法完全可行。在第 33 行，我们通过指定 Azure 应用程序 ID 和应用程序客户端秘密（也是应用程序的 "密码"）来组装内容缓冲区。第 36 行调用了 "MakeWebRequest"，并返回 PVOID 响应变量，其中包含我们需要的访问令牌。请记住，这段代码位于 HttpOpenRequestA\_Hook 函数中，每次 Beacon 启动 http-get 循环时都会调用该函数。这样，我们就有机会将 "获取访问令牌 "代码隐藏在条件要求后面，例如 "在您第一次请求时，以及在距离上次获取访问令牌超过 3100 秒时运行此代码"。由于 Azure 访问令牌的有效期为 3600 秒，我们可以确保 Beacon 在旧的访问令牌过期之前自动检索新的访问令牌。
 
-# Beacon数据和配置文件语言
+# Beacon 数据和配置文件语言
 
-熟悉Cobalt Strike的人都知道，，Beacon 可通过可塑配置文件进行高度定制。其中包含的设置会传播到TS生成的所有Beacon，并控制广泛的行为。在这个阶段，我们关注的是与Beacon发送C2流量相关的设置。Beacon HTTP事务表提供了在事务的每个步骤中发送的数据的更多信息：
+熟悉 Cobalt Strike 的人都知道，，Beacon 可通过可塑配置文件进行高度定制。其中包含的设置会传播到 TS 生成的所有 Beacon，并控制广泛的行为。在这个阶段，我们关注的是与 Beacon 发送 C2 流量相关的设置。Beacon HTTP 事务表提供了在事务的每个步骤中发送的数据的更多信息：
 
 | **Request** | **Component** | **Block** | **Data** |
 | --- | --- | --- | --- |
@@ -697,7 +697,7 @@ SECTION( D ) HINTERNET HttpOpenRequestA_Hook( HINTERNET hInternet,
 | http-post | client | output | Beacon’s responses |
 | http-post | server | output | Empty |
 
-在上面的图表中，Beacon是“客户端”。总之，Beacon 的每个 http-get 都必须包含有关该 Beacon/主机/进程的会话元数据（这是在 Cobalt Strike 客户端中填充数据的内容），而每个 http-post 都必须包含 Beacon 的会话 ID，这是一个唯一的多位数。TS 会使用每种请求类型中的这些数据来识别哪个灯塔在请求任务分配或发送输出。在 Cobalt Strike 配置文件中，"metadata"和 "ID "都是必填字段，在 http-get 或 http-post 请求中，可以选择如何发送这两个字段。这些选项包括将数据作为附加标头、参数，甚至附加到请求的 URI 中。Cobalt Strike 手册在[数据转换语言](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/malleable-c2_profile-language.htm#_Toc65482839:~:text=these%20inverse%20statements.-,Data,-Transform%20Language)部分进一步介绍了这些自定义选项：
+在上面的图表中，Beacon 是“客户端”。总之，Beacon 的每个 http-get 都必须包含有关该 Beacon/主机/进程的会话元数据（这是在 Cobalt Strike 客户端中填充数据的内容），而每个 http-post 都必须包含 Beacon 的会话 ID，这是一个唯一的多位数。TS 会使用每种请求类型中的这些数据来识别哪个灯塔在请求任务分配或发送输出。在 Cobalt Strike 配置文件中，"metadata"和 "ID "都是必填字段，在 http-get 或 http-post 请求中，可以选择如何发送这两个字段。这些选项包括将数据作为附加标头、参数，甚至附加到请求的 URI 中。Cobalt Strike 手册在[数据转换语言](https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/malleable-c2_profile-language.htm#_Toc65482839:~:text=these%20inverse%20statements.-,Data,-Transform%20Language)部分进一步介绍了这些自定义选项：
 
 | **Statement** | **What** |
 | --- | --- |
@@ -706,9 +706,9 @@ SECTION( D ) HINTERNET HttpOpenRequestA_Hook( HINTERNET hInternet,
 | print | Send data as a transaction body |
 | uri-append | Append to URI |
 
-与传统的 HTTP/HTTPS C2 的Cobalt Strike配置文件相比，GraphStrike 配置文件中的http-config、http-get 和 http-post 部分非常简单。例如，Beacon 在其请求中没有定义要使用的“header”值，因为我们必须在运行时使用当前的访问令牌手动组装标头。这种简化的配置文件使得在 GraphLdr 设置的被钩住的函数中后续操作 Beacon 数据变得容易。
+与传统的 HTTP/HTTPS C2 的 Cobalt Strike 配置文件相比，GraphStrike 配置文件中的 http-config、http-get 和 http-post 部分非常简单。例如，Beacon 在其请求中没有定义要使用的“header”值，因为我们必须在运行时使用当前的访问令牌手动组装标头。这种简化的配置文件使得在 GraphLdr 设置的被钩住的函数中后续操作 Beacon 数据变得容易。
 
-实际上，GraphStrike 并不真正需要 http-config 块，因为它控制了 Cobalt Strike Web 服务器如何响应请求。在 GraphStrike 模型中， TS 实际上是在响应来自 GraphStrike 服务器而不是 Beacon 的请求，因此所有这些通信都是在本地完成的，不需要任何形式的隐蔽或秘密行动。
+实际上，GraphStrike 并不真正需要 http-config 块，因为它控制了 Cobalt Strike Web 服务器如何响应请求。在 GraphStrike 模型中，TS 实际上是在响应来自 GraphStrike 服务器而不是 Beacon 的请求，因此所有这些通信都是在本地完成的，不需要任何形式的隐蔽或秘密行动。
 
 在查看 http-get 和 http-post 块时，我们无法在配置文件中指定实际的 URI，因为每个 Beacon 都需要一个唯一的 URI，而这将在运行时创建。关于 Beacon 元数据或会话 ID 的任何额外、不必要的操作都是我们以后在 GraphStrike 服务器端要处理的事情，所以我们可以保持简单。Beacon 元数据是一个二进制块，但我们可以对其进行 base64url 编码，以便将其附加到 http-get 请求的 URI 中。会话 ID 可以以未经转换的形式附加到 http-post 请求的 URI 中。
 
@@ -776,7 +776,7 @@ C2lint 可以用来可视化 Beacon 预编程的 http-get 和 http-post 请求�
 
 [![](assets/1709614992-bed44749e49f6cf4ab8504eccf6b02ea.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221203-d8408900-d89e-1.png)
 
-同样，默认请求非常简单且未混淆（更不用说对于 Graph API 来说是非功能性的）。通过以这种方式设置配置文件，我们将自己定位为能够在挂钩函数中解析和操作关键数据。例如，通过注意到 GET URI 以“/*”开头，POST URI 以“/-*”开头，我们可以简单地删除这些前置标识符，以便访问 Beacon 元数据以及会话 ID。示例 TS 任务（http-get 块，蓝色）和 Beacon输出（http-post 块，红色）可以看作是打印在标题下方的乱码字符串。在使重要的 Beacon 数据变得易于访问之后，是时候尝试将其与 SharePoint 文件一起使用了。
+同样，默认请求非常简单且未混淆（更不用说对于 Graph API 来说是非功能性的）。通过以这种方式设置配置文件，我们将自己定位为能够在挂钩函数中解析和操作关键数据。例如，通过注意到 GET URI 以“/*”开头，POST URI 以“/-*”开头，我们可以简单地删除这些前置标识符，以便访问 Beacon 元数据以及会话 ID。示例 TS 任务（http-get 块，蓝色）和 Beacon 输出（http-post 块，红色）可以看作是打印在标题下方的乱码字符串。在使重要的 Beacon 数据变得易于访问之后，是时候尝试将其与 SharePoint 文件一起使用了。
 
 # 格格不入
 
@@ -791,15 +791,15 @@ C2lint 可以用来可视化 Beacon 预编程的 http-get 和 http-post 请求�
 
 [![](assets/1709614992-4babde78601baa0be94e3719e29d983e.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221243-efcb8656-d89e-1.png)
 
-每个红色椭圆形标识一个单独且完全独立的 HTTPS 请求；也就是说，这里不会像通常使用公共重定向器那样转发请求。此外，在 GraphStrike 中，不仅 Beacon 需要连接互联网，服务器端也必须连接以获取数据。这导致 Beacon 和 TS 之间没有真正的同步性。每一方在数据可用时发送数据，另一方必须不断检查/检索可用的新数据。这些因素综合起来导致我将两个 SharePoint 文件用于单个 Beacon； TS 将任务上传到其中，Beacon 从其中下载，Beacon 将输出上传到其中，GraphStrike 服务器从其中下载。
+每个红色椭圆形标识一个单独且完全独立的 HTTPS 请求；也就是说，这里不会像通常使用公共重定向器那样转发请求。此外，在 GraphStrike 中，不仅 Beacon 需要连接互联网，服务器端也必须连接以获取数据。这导致 Beacon 和 TS 之间没有真正的同步性。每一方在数据可用时发送数据，另一方必须不断检查/检索可用的新数据。这些因素综合起来导致我将两个 SharePoint 文件用于单个 Beacon；TS 将任务上传到其中，Beacon 从其中下载，Beacon 将输出上传到其中，GraphStrike 服务器从其中下载。
 
 [![](assets/1709614992-cc215b363a5c0146162770d6d75f41dd.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221248-f2e82b8c-d89e-1.png)
 
-如前所述，TS 任务和 Beacon 输出将存储为 SharePoint 文件的实际内容，因此我们需要以某种方式“标记”这些文件，以便传达关联的 Beacon 元数据和会话 ID。查看 driveItem 资源的结构很有帮助（对于我们的目的而言，driveItem 与“文件”同义）。 DriveItem 的大多数属性都是只读的，但有一些可修改的属性可以满足我们的目的。最明显且易于使用的是 driveItem 的名称，它是用户提供的任意字符串：
+如前所述，TS 任务和 Beacon 输出将存储为 SharePoint 文件的实际内容，因此我们需要以某种方式“标记”这些文件，以便传达关联的 Beacon 元数据和会话 ID。查看 driveItem 资源的结构很有帮助（对于我们的目的而言，driveItem 与“文件”同义）。DriveItem 的大多数属性都是只读的，但有一些可修改的属性可以满足我们的目的。最明显且易于使用的是 driveItem 的名称，它是用户提供的任意字符串：
 
 [![](assets/1709614992-915cd7f3279f35ed9586aba0e80b5663.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221252-f53e5370-d89e-1.png)
 
-在规避/避免 IOC 方面还有更多工作可以做，但为了公开发布和简单起见，我选择使用 Beacon 的 base64url 编码元数据作为 TS 任务文件的名称。对于 Beacon 输出文件，使用 Beacon 元数据和 Beacon 会话 ID，并用预定义的分隔符（“pD9-tk”）分隔，以便我们稍后可以解析这两个值。 SharePoint 中每个文件的示例如下所示：
+在规避/避免 IOC 方面还有更多工作可以做，但为了公开发布和简单起见，我选择使用 Beacon 的 base64url 编码元数据作为 TS 任务文件的名称。对于 Beacon 输出文件，使用 Beacon 元数据和 Beacon 会话 ID，并用预定义的分隔符（“pD9-tk”）分隔，以便我们稍后可以解析这两个值。SharePoint 中每个文件的示例如下所示：
 
 [![](assets/1709614992-d0abf1e8982e537e1b48ecba97bd882c.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240302221259-f9a527cc-d89e-1.png)
 
@@ -820,11 +820,11 @@ C2lint 可以用来可视化 Beacon 预编程的 http-get 和 http-post 请求�
 
 为了将其映射到 Beacon 的 HTTP 事务，Beacon 将向 TS 任务文件发出 http-get 请求以下载文件内容。对 http-get 的服务器响应来自托管 SharePoint 文件（而不是 TS）的 Microsoft 服务器，并包含之前由 GraphStrike 服务器上传的 TS 任务。由于 Beacon 的独特元数据用作文件名，GraphStrike 知道 Cobalt Strike 中发布的针对该特定 Beacon 的所有任务都应上传到治理。
 
-当 Beacon 获得任务输出时，它会启动 http-post 循环，将数据上传到 Beacon 输出文件。 Beacon 实际上并不对 http-post 请求的服务器输出做任何事情，也不关心服务器输出，因此我们可以简单地丢弃 Microsoft 服务器响应此请求的内容。然后，GraphStrike 服务器可以下载 Beacon 输出文件中存储的数据，通过按预定义的分隔符拆分来查找文件名中的 Beacon 会话 ID，然后将此数据传送到 TS 进行处理。
+当 Beacon 获得任务输出时，它会启动 http-post 循环，将数据上传到 Beacon 输出文件。Beacon 实际上并不对 http-post 请求的服务器输出做任何事情，也不关心服务器输出，因此我们可以简单地丢弃 Microsoft 服务器响应此请求的内容。然后，GraphStrike 服务器可以下载 Beacon 输出文件中存储的数据，通过按预定义的分隔符拆分来查找文件名中的 Beacon 会话 ID，然后将此数据传送到 TS 进行处理。
 
 Beacon 负责在 SharePoint 中创建这两个文件，因为它的元数据和会话 ID 是在运行时确定的。执行此操作的代码也驻留在 HttpOpenRequestA\_Hook 函数中，并且在逻辑上是有限制的，因此 Beacon 只能在 SharePoint 中创建一次新文件；TS Tasking 文件是在第一个 http-get 循环中创建的，而输出文件则是在第一个 http-post 循环中创建的。
 
-TS任务文件创建：
+TS 任务文件创建：
 
 ```plain
 ... Trimmed for Brevity ...
@@ -992,12 +992,12 @@ GraphLdr 还支持使用正常的 Cobalt Strike HTTPS Beacon。在导入 "graphs
 
 # 同步与异步
 
-我已经详细讨论了 GraphStrike 的通信模型，本质上是异步的以及随之而来的挑战，但还有一个问题必须讨论和缓解。 Beacon 不断向 TS 任务文件发出 GET 请求以下载任务，GraphStrike 服务器类似地向 Beacon 输出文件发出 GET 请求以下载输出；无论该文件中存储了什么，他们都会采取并采取行动。这提出了两种问题场景：
+我已经详细讨论了 GraphStrike 的通信模型，本质上是异步的以及随之而来的挑战，但还有一个问题必须讨论和缓解。Beacon 不断向 TS 任务文件发出 GET 请求以下载任务，GraphStrike 服务器类似地向 Beacon 输出文件发出 GET 请求以下载输出；无论该文件中存储了什么，他们都会采取并采取行动。这提出了两种问题场景：
 
-1.  在 Cobalt Strike 中发出命令并上传到 TS 任务分配文件。 Beacon 下载命令，运行它，然后发送它的输出。当 Beacon 完成休眠后，它会再次从 TS 任务文件下载并运行相同的命令，因为 Cobalt Strike 没有发出额外的命令来“擦除”任务文件。
+1.  在 Cobalt Strike 中发出命令并上传到 TS 任务分配文件。Beacon 下载命令，运行它，然后发送它的输出。当 Beacon 完成休眠后，它会再次从 TS 任务文件下载并运行相同的命令，因为 Cobalt Strike 没有发出额外的命令来“擦除”任务文件。
 2.  在另一方成功下载第一次上传的数据之前，Beacon 或 GraphStrike 服务器会两次上传到 SharePoint 中各自的文件。这会导致数据丢失并破坏诸如依赖于来回顺序数据交换的 SOCKS 代理之类的功能。
 
-幸运的是，对于这两种情况都有一个单一的解决方案。当 Beacon 向 TS 任务文件发出 GET 请求并返回数据时，会重复调用InternetReadFile，直到没有更多数据可供读取。当然，因为我们已经挂钩了这个 API，所以我们的自定义函数会被调用，其中我们会等到读取所有响应数据，然后再将空白文件上传到 TS 任务文件。这可以在以下代码片段的第 32 行看到，其中调用了“MakeWebRequest”。请注意“httpGetUri”和“PUT\_VERB”一起使用的独特组合：
+幸运的是，对于这两种情况都有一个单一的解决方案。当 Beacon 向 TS 任务文件发出 GET 请求并返回数据时，会重复调用 InternetReadFile，直到没有更多数据可供读取。当然，因为我们已经挂钩了这个 API，所以我们的自定义函数会被调用，其中我们会等到读取所有响应数据，然后再将空白文件上传到 TS 任务文件。这可以在以下代码片段的第 32 行看到，其中调用了“MakeWebRequest”。请注意“httpGetUri”和“PUT\_VERB”一起使用的独特组合：
 
 ```plain
 SECTION( D ) BOOL InternetReadFile_Hook( HINTERNET hFile, 
@@ -1047,7 +1047,7 @@ SECTION( D ) BOOL InternetReadFile_Hook( HINTERNET hFile,
 };
 ```
 
-这与 Beacon 仅上传到 Beacon 输出文件的通常流程相反，但在我们完成读取后，通过将 TS 任务文件清零，Beacon 可以向 GraphStrike 服务器发出信号，表明它已收到最后一个任务并准备好执行更多。这也可以防止 Beacon 多次运行相同的命令，因为下次 Beacon 签入时（即使 GraphStrike 服务器出现故障或停止响应），它会将空白 TS 任务文件解释为“无任务，下次签入” ，然后回去睡眠。 GraphStrike 服务器的逻辑与此配对，等待直到它看到 Beacon 已检索并清零 TS 任务文件，然后再尝试发送更多文件。
+这与 Beacon 仅上传到 Beacon 输出文件的通常流程相反，但在我们完成读取后，通过将 TS 任务文件清零，Beacon 可以向 GraphStrike 服务器发出信号，表明它已收到最后一个任务并准备好执行更多。这也可以防止 Beacon 多次运行相同的命令，因为下次 Beacon 签入时（即使 GraphStrike 服务器出现故障或停止响应），它会将空白 TS 任务文件解释为“无任务，下次签入” ，然后回去睡眠。GraphStrike 服务器的逻辑与此配对，等待直到它看到 Beacon 已检索并清零 TS 任务文件，然后再尝试发送更多文件。
 
 同样的动态也存在于 Beacon 输出文件中。当 GraphStrike 服务器检测到 Beacon 输出文件包含数据时，它会下载输出，然后上传一个空白文件以将 SharePoint 中的文件清零。每次检测到 http-post 循环时，Beacon 在 HttpOpenRequestA\_Hook 中发出一个外带请求，首先检查 Beacon 输出文件是否为空或上次输出是否被 GraphStrike 服务器接收，然后才允许 Beacon 继续上传输出。综合起来，这种方法可以缓解上述两个问题。
 
@@ -1157,7 +1157,7 @@ def BeaconComms(fileName):
 | 22 → 23/27 | 将数据上传到 SharePoint 中的 TS 任务文件，然后切换“taskingReady”事件处理程序，以便我们在下一个循环的第 10 行处阻塞。 |
 | 33  | 睡眠时间与 Beacon 设置的睡眠时间相同，或者直到发出“outputReady”事件处理程序信号，从而提前结束睡眠。 |
 | 36  | 逻辑分支取决于“CheckBeacons”，发现该 Beacon 的输出文件不为空，因此具有应该下载的输出。 |
-| 36 → 44 | 重置 outputReady 事件处理程序，以便我们在下一个循环的第33行阻塞/睡眠。 |
+| 36 → 44 | 重置 outputReady 事件处理程序，以便我们在下一个循环的第 33 行阻塞/睡眠。 |
 | 36 → 47 | 下载 Beacon 输出文件数据 |
 | 36 → 50 | 将空白文件上传到 Beacon 输出文件，以通知 Beacon 它可以发送更多输出。 |
 | 36 → 53 | Beacon 输出发送到 TS |
@@ -1214,11 +1214,11 @@ sub exitFunc {
 }
 ```
 
-Aggressor 允许您覆盖标准的 Beacon 命令；在第1行，定义了一个新的'exit'命令，它调用第5行的'exitFunc'函数。当调用现有命令时，这些自定义函数的运行方式与 GraphLdr 中使用的方式类似，在执行用户预期的原始函数/代码之前，我们会执行一些额外的操作。在这个例子中，我们告诉操作系统运行一个名为'message.py'的 Python3 脚本。这个脚本包含在 GraphStrike 中，并用于连接到在 GraphStrike 服务器上暴露和监听的套接字。使用这个连接，Cobalt Strike 客户端向 GraphStrike 服务器发送一条消息，通知它退出命令和关联的 Beacon ID。对于'exit'命令，在服务器端我们所做的只是终止服务该 Beacon 的线程以节省资源，并从 SharePoint 中删除 TS 任务文件和 Beacon 输出文件。当然，'sleep'命令会调整'BeaconComms'循环中的睡眠时间，以与发给 Beacon 的命令相匹配。
+Aggressor 允许您覆盖标准的 Beacon 命令；在第 1 行，定义了一个新的'exit'命令，它调用第 5 行的'exitFunc'函数。当调用现有命令时，这些自定义函数的运行方式与 GraphLdr 中使用的方式类似，在执行用户预期的原始函数/代码之前，我们会执行一些额外的操作。在这个例子中，我们告诉操作系统运行一个名为'message.py'的 Python3 脚本。这个脚本包含在 GraphStrike 中，并用于连接到在 GraphStrike 服务器上暴露和监听的套接字。使用这个连接，Cobalt Strike 客户端向 GraphStrike 服务器发送一条消息，通知它退出命令和关联的 Beacon ID。对于'exit'命令，在服务器端我们所做的只是终止服务该 Beacon 的线程以节省资源，并从 SharePoint 中删除 TS 任务文件和 Beacon 输出文件。当然，'sleep'命令会调整'BeaconComms'循环中的睡眠时间，以与发给 Beacon 的命令相匹配。
 
 在整个计划中有一个大问题。要做到这一点，TS 和 GraphStrike 服务器必须拥有一些共同的 Beacon 标识符。我能找到的唯一值是 Beacon 会话 ID；这个值包含在 Beacon 输出文件的名称中，位于 Beacon 元数据和分隔符之后。这里存在一个明显的问题，即只有在 Beacon 有输出要发送时才会创建 Beacon 输出文件；在那之前，我们只有 TS 任务文件，因此在我们使 Beacon 运行一个命令并返回输出之前，这个值对我们来说是不可用的...至少我是这么认为的。
 
-开源工具再次挺身而出。我之前看到过各种“Cobalt Strike Beacon 配置解析器”，但从来没有太多理由亲自检查它们。Didier Stevens 几年前发布了一个用于此目的的工具，GraphStrike 服务器使用它来解决 “GetBeaconId” 函数中的这个障碍问题：
+开源工具再次挺身而出。我之前看到过各种“Cobalt Strike Beacon 配置解析器”，但从来没有太多理由亲自检查它们。Didier Stevens 几年前发布了一个用于此目的的工具，GraphStrike 服务器使用它来解决“GetBeaconId”函数中的这个障碍问题：
 
 ```plain
 # External cs-decrypt-metadata.py script from https://github.com/DidierStevens/DidierStevensSuite/blob/master/cs-decrypt-metadata.py
@@ -1275,7 +1275,7 @@ CS_DIR = "/opt/cobaltstrike/"
 SLEEP_TIME = "5000"
 ```
 
-Config.h 被编译到 GraphLdr 中，以便 UDRL 包含使用 Graph API 所需的所有信息。Config.py 同样由 GraphStrike 服务器在运行时加载，这样它就可以做同样的事情。当设置完成后，用户只需要启动他们的 TS，启动他们的 GraphStrike 服务器，然后将 GraphStrike 中的客户端文件夹分发给每个使用 Cobalt Strike 客户端连接到 TS 的操作员。加载 GraphStrike.cna 后，用户就可以创建 GraphStrike beacon了。
+Config.h 被编译到 GraphLdr 中，以便 UDRL 包含使用 Graph API 所需的所有信息。Config.py 同样由 GraphStrike 服务器在运行时加载，这样它就可以做同样的事情。当设置完成后，用户只需要启动他们的 TS，启动他们的 GraphStrike 服务器，然后将 GraphStrike 中的客户端文件夹分发给每个使用 Cobalt Strike 客户端连接到 TS 的操作员。加载 GraphStrike.cna 后，用户就可以创建 GraphStrike beacon 了。
 
 # 结束语
 
@@ -1287,4 +1287,4 @@ Config.h 被编译到 GraphLdr 中，以便 UDRL 包含使用 Graph API 所需�
 
 1.  [Kyle Avery](https://twitter.com/kyleavery_) 的 [AceLdr](https://github.com/kyleavery/AceLdr)
 2.  [Dider Stevens](https://twitter.com/DidierStevens) 的 [cs-decrypt-metadata.py](https://github.com/DidierStevens/DidierStevensSuite/blob/master/cs-decrypt-metadata.py)
-3.  来自Red Siege 团队的 Mike Saunders、Corey Overstreet、Chris Truncer 和 Justin Palk 都善意地测试了 GraphStrike，并确定了在发布前修复的多个问题。
+3.  来自 Red Siege 团队的 Mike Saunders、Corey Overstreet、Chris Truncer 和 Justin Palk 都善意地测试了 GraphStrike，并确定了在发布前修复的多个问题。

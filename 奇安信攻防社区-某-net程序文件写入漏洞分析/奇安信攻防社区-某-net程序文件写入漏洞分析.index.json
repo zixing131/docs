@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709602506",
   "format": "md",
-  "title": "奇安信攻防社区-某.net程序文件写入漏洞分析",
+  "title": "奇安信攻防社区 - 某.net 程序文件写入漏洞分析",
   "link": "https://forum.butian.net/share/2776",
   "category": "default",
   "tags": [
     "forum.butian.net"
   ],
   "created_at": "2024-03-05 09:35:06",
-  "mainPath": "奇安信攻防社区-某-net程序文件写入漏洞分析.md",
+  "mainPath": "奇安信攻防社区 - 某-net 程序文件写入漏洞分析.md",
   "paths": [
-    "奇安信攻防社区-某-net程序文件写入漏洞分析.index.json",
+    "奇安信攻防社区 - 某-net 程序文件写入漏洞分析.index.json",
     "assets/1709602506-57975bf7e23c4c582cde8e837a20ade1.jpg",
     "assets/1709602506-6d821bf92d81a84180627a9ce261c85a.jpg",
     "assets/1709602506-3e7f4df06eb8fdd0a745719379ba00da.jpg",
@@ -32,6 +32,6 @@
     "assets/1709602506-e76c478874f66e5daed3309b50da92c4.jpg",
     "assets/1709602506-612998e51155c3cd3ea51293f717578e.jpg",
     "assets/1709602506-d98fe2c9afed493a0ca3ee346f904e4b.jpg",
-    "奇安信攻防社区-某-net程序文件写入漏洞分析.md"
+    "奇安信攻防社区 - 某-net 程序文件写入漏洞分析.md"
   ]
 }
