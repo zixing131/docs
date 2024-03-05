@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709643457",
   "format": "md",
-  "title": "奇安信攻防社区-SpringWeb中获取@PathVariable参数值的方式与潜在的权限绕过风险",
+  "title": "奇安信攻防社区-SpringWeb 中获取@PathVariable 参数值的方式与潜在的权限绕过风险",
   "link": "https://forum.butian.net/share/2783",
   "category": "default",
   "tags": [
     "forum.butian.net"
   ],
   "created_at": "2024-03-05 20:57:37",
-  "mainPath": "奇安信攻防社区-SpringWeb中获取-PathVariable参数值的方式与潜在的权限绕过风险.md",
+  "mainPath": "奇安信攻防社区-SpringWeb 中获取-PathVariable 参数值的方式与潜在的权限绕过风险.md",
   "paths": [
-    "奇安信攻防社区-SpringWeb中获取-PathVariable参数值的方式与潜在的权限绕过风险.index.json",
+    "奇安信攻防社区-SpringWeb 中获取-PathVariable 参数值的方式与潜在的权限绕过风险.index.json",
     "assets/1709643457-d2f62d1548ee49448e1f84cf06ecbaef.png",
     "assets/1709643457-fc475ea81ec283f082398e2ac42c598d.png",
     "assets/1709643457-57317b906d99a645282aa30187cf54f1.png",
@@ -42,6 +42,6 @@
     "assets/1709643457-5eafc8f9c8b1a9e11d1ab74a399f70b9.png",
     "assets/1709643457-c06bd5013035825f0de2848642ac692f.png",
     "assets/1709643457-2219f0882b3fe4adc47bc56421f39d4a.png",
-    "奇安信攻防社区-SpringWeb中获取-PathVariable参数值的方式与潜在的权限绕过风险.md"
+    "奇安信攻防社区-SpringWeb 中获取-PathVariable 参数值的方式与潜在的权限绕过风险.md"
   ]
 }

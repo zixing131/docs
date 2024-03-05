@@ -1,26 +1,26 @@
 
 
-# 奇安信攻防社区-一种 ysoserial.jar 反序列化Payload的解码
+# 奇安信攻防社区 - 一种 ysoserial.jar 反序列化 Payload 的解码
 
 ## 0x00 前言
 
-小伙伴在分析告警的时候，发现反序列化告警，Payload类似`AKztAA`，不知道咋解，于是有了本文。
+小伙伴在分析告警的时候，发现反序列化告警，Payload 类似`AKztAA`，不知道咋解，于是有了本文。
 
 ## 0x01 文件头
 
 开始之前，先来复习一些涉及到的一些文件头
 
-以`rO0AB`开头，java序列化base64编码的数据  
-以`aced`开头，java序列化的16进制  
+以`rO0AB`开头，java 序列化 base64 编码的数据  
+以`aced`开头，java 序列化的 16 进制  
 以上两个，都可以用 [https://github.com/phith0n/zkar](https://github.com/phith0n/zkar) 和[https://github.com/NickstaDB/SerializationDumper](https://github.com/NickstaDB/SerializationDumper) 去解析
 
-以`cafebabe`开头，java class文件的16进制，保存成class，拖到idea中反编译
+以`cafebabe`开头，java class 文件的 16 进制，保存成 class，拖到 idea 中反编译
 
-有了这些文件头信息，下面就可以开始用ysoserial.jar生成Payload了
+有了这些文件头信息，下面就可以开始用 ysoserial.jar 生成 Payload 了
 
-## 0x02 原始payload
+## 0x02 原始 payload
 
-生成Payload
+生成 Payload
 
 ```bash
 java -jar ysoserial.jar Click1 "touch /tmp/xx" > raw_payload.bin
@@ -28,7 +28,7 @@ java -jar ysoserial.jar Click1 "touch /tmp/xx" > raw_payload.bin
 
 ![Untitled](assets/1709643500-95a7dde73d05ce74089dd419fd8b1ce7.png)
 
-查看生成的Payload的十六进制
+查看生成的 Payload 的十六进制
 
 ```bash
 hexdump -C raw_payload.bin
@@ -36,7 +36,7 @@ hexdump -C raw_payload.bin
 
 ![Untitled](assets/1709643500-3d3eacb81c42a949cf2772e76b25bb4d.png)
 
-显然，以`aced`开头，java序列化的16进制，使用`zkar解析`
+显然，以`aced`开头，java 序列化的 16 进制，使用`zkar解析`
 
 ```bash
 ./zkar dump -f raw_payload.bin > raw_payload_decode.txt
@@ -46,21 +46,21 @@ hexdump -C raw_payload.bin
 
 ![Untitled](assets/1709643500-dab1db7a5106618dc77f32948beff72b.png)
 
-以`cafebabe`开头，java class文件的16进制，保存成class，拖到idea中反编译即可。
+以`cafebabe`开头，java class 文件的 16 进制，保存成 class，拖到 idea 中反编译即可。
 
-## 0x03 编码替换的Payload
+## 0x03 编码替换的 Payload
 
-我们在日常分析的时候，java反序列化的漏洞，可能看到的是下面的`AKztAAV`开头的Payload，对于这类Payload的解码流程，基本上就是先补等号，替换`_`和`-`为`/`和`+`，然后base64解码，跳过开头的空字符，最后的结果丢给zkar解析就行。如果zkar解析出来有看到`ca fe`开头的十六进制，就把它提取出来，保存成class文件，最后将class文件丢给idea反编译，即可看到攻击者最终想要执行的命令了。有点乱？没关系，下面我们会一步步分析。
+我们在日常分析的时候，java 反序列化的漏洞，可能看到的是下面的`AKztAAV`开头的 Payload，对于这类 Payload 的解码流程，基本上就是先补等号，替换`_`和`-`为`/`和`+`，然后 base64 解码，跳过开头的空字符，最后的结果丢给 zkar 解析就行。如果 zkar 解析出来有看到`ca fe`开头的十六进制，就把它提取出来，保存成 class 文件，最后将 class 文件丢给 idea 反编译，即可看到攻击者最终想要执行的命令了。有点乱？没关系，下面我们会一步步分析。
 
 ![1709033466.png](assets/1709643500-2b8ea4386527a9f0d9149c28a9b8aa05.png)
 
-这种Payload 一般执行如下命令：
+这种 Payload 一般执行如下命令：
 
 ```bash
 java -jar ysoserial.jar Click1 "touch /tmp/xx" | (echo -ne \\x00 && cat) | base64 | tr '/+' '_-' | tr -d '='
 ```
 
-命令的意思是，使用`ysoserial.jar`生成一个指定`Click1`这个gadget 去执行`touch /tmp/xx`命令的序列化的Payload，然后在该Payload的前面插入一个空字节（`\x00`），之后对其进行base64编码，编码后的内容，将`/` 替换为 `_`，和 `+` 替换为 `-`，最后将`=`去掉。
+命令的意思是，使用`ysoserial.jar`生成一个指定`Click1`这个 gadget 去执行`touch /tmp/xx`命令的序列化的 Payload，然后在该 Payload 的前面插入一个空字节（`\x00`），之后对其进行 base64 编码，编码后的内容，将`/` 替换为 `_`，和 `+` 替换为 `-`，最后将`=`去掉。
 
 \> 替换`/`和`+`是因为 base64 编码的输出可能包含 `/` 和 `+` 字符，这些字符在 URL 中有特殊含义，因此需要替换成其他字符以避免问题。
 
@@ -79,7 +79,7 @@ cat raw_payload_00_base64.bin | tr '/+' '_-' | tr -d '=' > raw_payload_00_base64
 cat raw_payload_00_base64_replace.bin | tr '_-' '/+'  > restore_raw_payload_00_base64_replace_lack_equal.bin
 ```
 
-然后执行下面的shell脚本
+然后执行下面的 shell 脚本
 
 ```bash
 #!/bin/bash
@@ -113,7 +113,7 @@ echo "$base64_string"
 
 ![Untitled](assets/1709643500-c0aa06a9b52bc0b7f1d58cfb8de4f1a0.png)
 
-接下来开始还原第三步，base64解码即可：
+接下来开始还原第三步，base64 解码即可：
 
 ```bash
 cat restore_raw_payload_00_base64_replace.bin | base64 -d > restore_raw_payload_00.bin
@@ -194,26 +194,26 @@ fi
 echo "$base64_string"
 ```
 
-然后处理base64和开头的`00`的问题
+然后处理 base64 和开头的`00`的问题
 
 ```bash
 cat target_base64.bin | base64 -d > target_00.bin   
 tail -c +2 target_00.bin > restore.bin
 ```
 
-然后就是用zkar解析一波
+然后就是用 zkar 解析一波
 
 ```bash
 ./zkar dump -f restore.bin > restore.txt
 ```
 
-将中间反序列化部分扣出来，保存成ser\_hex.txt
+将中间反序列化部分扣出来，保存成 ser\_hex.txt
 
 ![Untitled](assets/1709643500-ed97069875935b804ec9388ed659d6aa.png)
 
 ![Untitled](assets/1709643500-e3bd817d8c2611c80c967c32f28f55f2.png)
 
-然后执行下面的脚本保存成class文件：
+然后执行下面的脚本保存成 class 文件：
 
 ```bash
 import re
@@ -254,13 +254,13 @@ if __name__ == "__main__":
 python3 extract_hex.py ser_hex.txt restore.class
 ```
 
-拿到class，然后丢到idea中，自己反编译了
+拿到 class，然后丢到 idea 中，自己反编译了
 
 ![Untitled](assets/1709643500-f22db459ab1048e4afeef03f5c307b0e.png)
 
 ## 0x05 后言
 
-在分析的时候，发现 ysoserial 两次生成Payload会不一样的。。。卡了我好一会。。。
+在分析的时候，发现 ysoserial 两次生成 Payload 会不一样的。。。卡了我好一会。。。
 
 ![Untitled](assets/1709643500-33f3c26dbdfa6a8b11e4dfad7214ef9a.png)
 
