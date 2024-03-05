@@ -34,23 +34,23 @@
 
 首先看一个应用示例，以下是一个针对 OA 服务的漏洞扫描工具，以通达 OA 为例，捕获其通讯流量，保存数据包。
 
-[![](assets/1709193239-77a42e5c98c02d5f2b8034769f6d12e7.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161538-8e594d8e-d611-1.png)  
+[![](assets/1709255841-77a42e5c98c02d5f2b8034769f6d12e7.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161538-8e594d8e-d611-1.png)  
 捕获部分通讯流量如下。
 
-[![](assets/1709193239-bb214f42cafe01dbcbe2f2e4d5ebcce8.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161602-9c9893aa-d611-1.png)  
+[![](assets/1709255841-bb214f42cafe01dbcbe2f2e4d5ebcce8.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161602-9c9893aa-d611-1.png)  
 调用 suricata 进行分析。
 
-[![](assets/1709193239-f086400bb85441d13daf6fc987d8762b.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161632-ae60b59a-d611-1.png)
+[![](assets/1709255841-f086400bb85441d13daf6fc987d8762b.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161632-ae60b59a-d611-1.png)
 
 suricata 做规则内容和配置文件自检，然后开始、结束扫描。
 
-[![](assets/1709193239-e5781074eac9264574cd27ab482d7672.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161643-b52cf9a6-d611-1.png)  
+[![](assets/1709255841-e5781074eac9264574cd27ab482d7672.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161643-b52cf9a6-d611-1.png)  
 查看输出的日志信息。
 
-[![](assets/1709193239-2d39c98c012c247cfabeea711679afac.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161656-bcce147e-d611-1.png)  
+[![](assets/1709255841-2d39c98c012c247cfabeea711679afac.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161656-bcce147e-d611-1.png)  
 查看 fast.log 输出的告警信息，其中通达 OA 关联的检测规则是我编写的。
 
-[![](assets/1709193239-5d25ae1ebe862752e49abead4b6fea06.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161814-eafe776c-d611-1.png)
+[![](assets/1709255841-5d25ae1ebe862752e49abead4b6fea06.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228161814-eafe776c-d611-1.png)
 
 ```plain
 - 示例告警：
@@ -77,10 +77,10 @@ suricata 做规则内容和配置文件自检，然后开始、结束扫描。
 
 如果遇到难解决的问题你可以私信我，我将编译好的 SURICATA 二进制文件和其所需依赖打包给你。
 
-[![](assets/1709193239-7a10e268e2f22c915baaf037a1ad521a.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162216-7baac838-d612-1.png)  
+[![](assets/1709255841-7a10e268e2f22c915baaf037a1ad521a.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162216-7baac838-d612-1.png)  
 你可以在文件“/etc/ld.so.conf”中手动添加动态链接库路径，将缺失库放入路径，SURICATA 就可以执行了。
 
-[![](assets/1709193239-06f95e33af3038ef4d41228c61f64f15.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162225-81066d1e-d612-1.png)
+[![](assets/1709255841-06f95e33af3038ef4d41228c61f64f15.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162225-81066d1e-d612-1.png)
 
 ## 五、基本使用
 
@@ -99,27 +99,27 @@ output        告警信息等输出文件
 
 -   模块一，定义网络信息。例如本地资产，熟知端口等，可以在检测规则中使用这些定义。
 
-[![](assets/1709193239-021ab3d04db6e900e9ac19d9b3ddc7ec.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162343-af3bedd0-d612-1.png)
+[![](assets/1709255841-021ab3d04db6e900e9ac19d9b3ddc7ec.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162343-af3bedd0-d612-1.png)
 
 -   模块二，选择启用哪些输出模块，用于记录 Suricata 的日志。例如轻量级告警日志“fast.log”，EVE JSON 格式的日志“eve-log”等，也可以解析和输出部分应用层协议日志，例如 http 访问日志。
 
-[![](assets/1709193239-476a1f10a9e37782917e82fabb05f4b4.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162357-b7ec6a86-d612-1.png)
+[![](assets/1709255841-476a1f10a9e37782917e82fabb05f4b4.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162357-b7ec6a86-d612-1.png)
 
 -   模块三，配置 Suricata 的捕获设置。指定使用的捕获引擎和捕获的网络接口，还有一些捕获策略，(做离线分析的话，这个模块用的不多，主要是研发、运维等人员用)。
 
-[![](assets/1709193239-e3b53a4a44384cc2c919d64cce9c25c7.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162409-bf0d8c6e-d612-1.png)
+[![](assets/1709255841-e3b53a4a44384cc2c919d64cce9c25c7.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162409-bf0d8c6e-d612-1.png)
 
 -   模块四，配置应用层协议的设置，包括应用层协议的解析和检测。(用默认的基本可以满足) 。
 
-[![](assets/1709193239-856f2c7080645d8dfb61586ba4b94d34.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162419-c51a4a02-d612-1.png)
+[![](assets/1709255841-856f2c7080645d8dfb61586ba4b94d34.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162419-c51a4a02-d612-1.png)
 
 -   规则模块配置，也是最重要的配置。在路径“default-rule-path”存放检测规则，在“rule-files”下添加文件名使得规则生效，“classification-file”是对应规则字段 classtype 的规则分类信息。
 
-[![](assets/1709193239-557e96d249f4286619557a9db492c692.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162433-cd2e707e-d612-1.png)
+[![](assets/1709255841-557e96d249f4286619557a9db492c692.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162433-cd2e707e-d612-1.png)
 
 -   检测规则还可以用信誉度检测 (其实就是黑名单)，目标 IP 低于信誉度阈值，即可报警。也可以编写 lua 脚本去做更复杂更灵活的恶意流量检测 (例如 cobalt strike 的部分通讯流量) 。
 
-[![](assets/1709193239-041c767a5ef8ae0432c8e196be09b243.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162442-d2c79d26-d612-1.png)
+[![](assets/1709255841-041c767a5ef8ae0432c8e196be09b243.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228162442-d2c79d26-d612-1.png)
 
 ### 2.待检测数据包
 
@@ -141,7 +141,7 @@ suricata -c /home/suricata/config/suricata.yaml -r /home/work/test-data/* -l /ho
 
 如果你不修改输出的相关配置，输出将会有如下四个。
 
-[![](assets/1709193239-71d55ff2ebd5b50207e19f4b4f070fd4.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228165447-069b4e00-d617-1.png)
+[![](assets/1709255841-71d55ff2ebd5b50207e19f4b4f070fd4.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228165447-069b4e00-d617-1.png)
 
 -   suricata.log，包含 Suricata 运行时的日志信息，如启动、关闭、规则加载等，用于故障排除和监视。
 -   stats.log，包含 Suricata 的统计信息，如流量统计、规则匹配统计等，，用于性能调优和网络活动分析。
@@ -157,10 +157,10 @@ suricata -c /home/suricata/config/suricata.yaml -r /home/work/test-data/* -l /ho
     
     因为社区维护、涵盖应用广泛、用户群体多且活跃等特点，这是在开源渠道可以获取的最全面、时效性最高、且维护质量最高的的规则库。
 
-[![](assets/1709193239-b1515aa0627a2ad8383e0cb94f064230.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163540-5a785f48-d614-1.png)  
+[![](assets/1709255841-b1515aa0627a2ad8383e0cb94f064230.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163540-5a785f48-d614-1.png)  
 它其中一部分规则脱离了网络安全领域，例如 games.rules、policy.rules 等偏向于隐私策略、运维等，或者对于网络攻击层面参考意义不大的规则集。这一部分建议永久停用或暂时停用，下面是我停用的策略，可以作为参考。
 
-[![](assets/1709193239-98ab83171d80ee35862d333f4f65780b.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163549-606357e6-d614-1.png)  
+[![](assets/1709255841-98ab83171d80ee35862d333f4f65780b.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163549-606357e6-d614-1.png)  
 但是它毕竟是国外的靓仔开发和维护，将水土不服体现的淋漓尽致，在 5 万余条规则中，几乎没有国内厂商的 web 应用、网络设备等漏洞利用检测规则。但好在操作系统、底层协议等通用领域检测效果还是值得肯定的。
 
 et/open和下一个要介绍的et/pro规则是被包含关系，规则文件目录结构基本一致，详细到每个规则文件在下一小点中将被介绍。
@@ -174,10 +174,10 @@ et/open和下一个要介绍的et/pro规则是被包含关系，规则文件目�
 
 它是 Emerging Threats 社区维护的付费规则集，这玩意儿在官方渠道很不便宜，订阅一年 749 欧元 (初始库加未来一年的更新推送)，合人民币及税务大概 6500 左右。
 
-[![](assets/1709193239-fbe78dac9f52ed19b8764c7170eaf07c.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163639-7dca9416-d614-1.png)  
+[![](assets/1709255841-fbe78dac9f52ed19b8764c7170eaf07c.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163639-7dca9416-d614-1.png)  
 它包含 et/open，截至此篇公众号发文当日，规则库共计 99941 条规则。
 
-[![](assets/1709193239-759afe0d12eeb6aea534d5bc47321ab1.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163654-870ee932-d614-1.png)  
+[![](assets/1709255841-759afe0d12eeb6aea534d5bc47321ab1.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228163654-870ee932-d614-1.png)  
 毕竟是付费的，总体效果还是很不错的，但还是一整个水土不服。如果你纠结的是哪些规则好用，可以沿用 et/open 的停用策略
 
 #### 3\. 开源 oisf/trafficid

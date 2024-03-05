@@ -38,6 +38,7 @@ jobs:
       - name: Install dependencies and format files
         run: |
           find . -name "*.gif" -type f -exec sh -c 'for gif; do gifsicle -O3 "$gif" --colors 256 -o "${gif}.1.gif" && rm -rf "$gif" && mv "${gif}.1.gif" "$gif"; done' sh {} +
+          find . -maxdepth 1 -type d \( -name "*先知社区" -o -name "*-少数派" -o -name "奇安信攻防社区-*" \) -exec sh -c 'mv -f "$0" "./${0##*/}"' {} \;
 
       # - name: Format markdown files
       #   run: |

@@ -17,9 +17,9 @@
 
 # OBD 诊断插头图解
 
-[![](assets/1709193225-eb1b29d13f464bc2b72365747acdb428.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227174633-1707d38e-d555-1.png)
+[![](assets/1709255861-eb1b29d13f464bc2b72365747acdb428.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227174633-1707d38e-d555-1.png)
 
-[![](assets/1709193225-deadf8d1ebc5dbb16822b5423abd6d53.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228175910-0506408c-d620-1.png)
+[![](assets/1709255861-deadf8d1ebc5dbb16822b5423abd6d53.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228175910-0506408c-d620-1.png)
 
 # 对应关系表
 
@@ -89,7 +89,7 @@ OBD 接口可能存在多种安全风险，我们可以使用安全测试工具�
 
 **电信号如何表示 0 和 1？**
 
-[![](assets/1709193225-b428dd2be32bd226ee9d11e2aafdfcd9.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227175017-9ce03154-d555-1.png)
+[![](assets/1709255861-b428dd2be32bd226ee9d11e2aafdfcd9.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227175017-9ce03154-d555-1.png)
 
 > -   CAN 高：2.5V~3.5V
 > -   CAN 低：1.5V~2.5V
@@ -114,9 +114,9 @@ CAN 总线采用“线与”规则进行冲突仲裁，当多个信号同时发�
 
 ## CAN 标准帧
 
-[![](assets/1709193225-896b8a91c9f3b5b99c06ab33e831aba8.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227175035-a78bbca4-d555-1.png)
+[![](assets/1709255861-896b8a91c9f3b5b99c06ab33e831aba8.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227175035-a78bbca4-d555-1.png)
 
-[![](assets/1709193225-5e578ce2404de746479bd39483f7dce5.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228180018-2dbd930e-d620-1.png)
+[![](assets/1709255861-5e578ce2404de746479bd39483f7dce5.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228180018-2dbd930e-d620-1.png)
 
 > 1.  SOF（Start of Frame）：中文意思是"帧开始"。SOF 是 CAN 消息的起始标志，用于指示一个 CAN 帧的开始。它是一个固定的比特模式，标志着数据帧或远程帧的开始，允许接收方节点进行帧同步和开始接收数据。在 CAN 通信中，SOF 是通信帧结构的一部分，用于确保数据帧的正确传输和解析。
 > 2.  标识符（Identifier）：CAN 消息的标识符，用于唯一标识消息的类型和优先级。
@@ -134,9 +134,9 @@ CAN 总线采用“线与”规则进行冲突仲裁，当多个信号同时发�
 
 ## CAN 拓展帧
 
-[![](assets/1709193225-fce1516d2142dab44f7dff5fbdd19e59.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227175127-c6898d34-d555-1.png)
+[![](assets/1709255861-fce1516d2142dab44f7dff5fbdd19e59.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240227175127-c6898d34-d555-1.png)
 
-[![](assets/1709193225-b43001e8d769660031f18cff6fe1ea57.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228175740-cf5dfb96-d61f-1.png)
+[![](assets/1709255861-b43001e8d769660031f18cff6fe1ea57.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240228175740-cf5dfb96-d61f-1.png)
 
 > 1.  SOF (Start of Frame): 帧开始，是 CAN 消息的起始标志，指示 CAN 帧的开始。它允许接收方节点进行帧同步和开始接收数据。
 > 2.  标识符 (Identifier): CAN 消息的唯一标识符，用于区分不同类型和优先级的消息。
