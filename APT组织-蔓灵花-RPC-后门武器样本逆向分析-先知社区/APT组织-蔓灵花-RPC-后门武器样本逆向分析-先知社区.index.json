@@ -1,0 +1,41 @@
+{
+  "version": "2.0",
+  "clipId": "1709531074",
+  "format": "md",
+  "title": "APT 组织“蔓灵花“RPC”后门武器样本逆向分析 - 先知社区",
+  "link": "https://xz.aliyun.com/t/13977",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-03-04 13:44:34",
+  "mainPath": "APT 组织 - 蔓灵花-RPC-后门武器样本逆向分析 - 先知社区.md",
+  "paths": [
+    "APT 组织 - 蔓灵花-RPC-后门武器样本逆向分析 - 先知社区.index.json",
+    "assets/1709531074-05c1428ff1700a350df95f5db4c466c2.png",
+    "assets/1709531074-80ea09da1490484fa476432b2f9c607b.png",
+    "assets/1709531074-3d9a7c1fca188d38eb76eea0c5ed53d7.png",
+    "assets/1709531074-372a778cd70f5724ebde697a38e71965.png",
+    "assets/1709531074-cb845fac4c4feb4ec7dca7fdde514509.png",
+    "assets/1709531074-8ea65f84723fc18d05edfc800c5dd0f6.png",
+    "assets/1709531074-0c28f29376c2a642ad417f4e0eaf898c.png",
+    "assets/1709531074-cf499f4c66e7ccc5ab0ffd6017cdfa0d.png",
+    "assets/1709531074-2050c7b2bf466349a80b4ebb45fecf79.png",
+    "assets/1709531074-92ee9cebf4a1a8761188cbaa0480d7c2.png",
+    "assets/1709531074-90b282ee55d836779cd48653bd4f94c5.png",
+    "assets/1709531074-03892c01e644e0b93d79a786aaaca25d.png",
+    "assets/1709531074-e538cadbba77bb21d801ce42f362f84d.png",
+    "assets/1709531074-4ebd6d42217e4091abdabddcba36daf6.png",
+    "assets/1709531074-601f46f967cbc3a90cae0ff2c2091289.png",
+    "assets/1709531074-e815770bf2988cf874bc53e8b7cbbcfb.png",
+    "assets/1709531074-9d4a33a1944c90991057aff633926625.png",
+    "assets/1709531074-a2b4ee7bb090a32d889e5e0fc680d4d5.png",
+    "assets/1709531074-70c59be21e582a5324fb7ec8ae378f6c.png",
+    "assets/1709531074-635a69bd73c18a41dc25a86ce7041e1f.png",
+    "assets/1709531074-2bec1511fccbbb06a02af48182cca019.png",
+    "assets/1709531074-3ab01e7b07d58cd89d16a407620abb64.png",
+    "assets/1709531074-8b0678ecb84217fbc5cc4fe6e803c9bd.png",
+    "assets/1709531074-8408cb3f1570a729a8b20c21f4b56175.png",
+    "APT 组织 - 蔓灵花-RPC-后门武器样本逆向分析 - 先知社区.md"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "clipId": "1709530557",
+  "format": "md",
+  "title": "记一次黑名单后缀 + 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区",
+  "link": "https://xz.aliyun.com/t/14030?time__1311=mqmx9DBG0QiQAx05DI7qCuCDfO%3DyDnDUnoD",
+  "category": "default",
+  "tags": [
+    "xz.aliyun.com"
+  ],
+  "created_at": "2024-03-04 13:35:57",
+  "mainPath": "记一次黑名单后缀 - 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区.md",
+  "paths": [
+    "记一次黑名单后缀 - 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区.index.json",
+    "assets/1709530557-7b2b9a7ba46d7c5e20888ee8d7fac5e2.png",
+    "assets/1709530557-1add558260b0d1a455fc30f8a1f76421.png",
+    "assets/1709530557-b0e49a136f22a59a2ef6a520d7d878ca.png",
+    "assets/1709530557-a6cbb06fcc4309aef2efc3bcddabd594.png",
+    "assets/1709530557-e0190f7c786c83f9a143c6c385be2cc7.png",
+    "assets/1709530557-482cebf03a651ff75d2703fb138d55ce.png",
+    "assets/1709530557-344d0a7a9b44cff247a78b96732f7e99.png",
+    "assets/1709530557-8663d67698fbf972d363329ca2c97552.png",
+    "assets/1709530557-9aeff9d466760b65c10e7964dcae8f9f.png",
+    "assets/1709530557-b2d584d533914ed46015e85c330b471e.png",
+    "assets/1709530557-8eca76f3ba4dcdcb5888913ea08a29b0.png",
+    "assets/1709530557-fb4c1195cf22e589b064f592cdf849a8.png",
+    "assets/1709530557-9e29cb7a9b3cf22a3b038876df8d5595.png",
+    "assets/1709530557-a9683613c440b84b5c08462f7752a9b0.png",
+    "assets/1709530557-5d3b098a97461760a629b95ec73b0f82.png",
+    "assets/1709530557-fd889a740076f087d9c864b6346fc188.png",
+    "assets/1709530557-592d6aa7f8368a20a14a702a7afedc2f.png",
+    "assets/1709530557-98f5de57e40297d3799553cc4bf0508a.png",
+    "assets/1709530557-c6bb1723e37c83a1a986cd21ade70feb.png",
+    "assets/1709530557-6b6d3a80870d9444669d16d27596100e.png",
+    "assets/1709530557-4983ab7fe46b7f6bf4e20418b5ae2c96.png",
+    "assets/1709530557-60ac4324dfe1e8fcab1819c10f792755.png",
+    "assets/1709530557-69097ed9323460a6fe5a94c7597956d3.png",
+    "assets/1709530557-3dea2c73e100e91cfa7d7c24ad7bfa47.png",
+    "assets/1709530557-a1725e225ebd3cffdcc3f37a6534a2f8.png",
+    "assets/1709530557-2bcbb01c66a8bb94ef55e6d1d8187cb1.png",
+    "记一次黑名单后缀 - 文件头双重效验的文件上传和 getshell 命令执行绕过 - 先知社区.md"
+  ]
+}
