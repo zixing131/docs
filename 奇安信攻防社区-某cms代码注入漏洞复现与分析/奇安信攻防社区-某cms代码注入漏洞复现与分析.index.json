@@ -2,16 +2,16 @@
   "version": "2.0",
   "clipId": "1709861081",
   "format": "md",
-  "title": "奇安信攻防社区-某cms代码注入漏洞复现与分析",
+  "title": "奇安信攻防社区 - 某 cms 代码注入漏洞复现与分析",
   "link": "https://forum.butian.net/share/2777",
   "category": "default",
   "tags": [
     "forum.butian.net"
   ],
   "created_at": "2024-03-08 09:24:41",
-  "mainPath": "奇安信攻防社区-某cms代码注入漏洞复现与分析.md",
+  "mainPath": "奇安信攻防社区 - 某 cms 代码注入漏洞复现与分析.md",
   "paths": [
-    "奇安信攻防社区-某cms代码注入漏洞复现与分析.index.json",
+    "奇安信攻防社区 - 某 cms 代码注入漏洞复现与分析.index.json",
     "assets/1709861081-ec13726d83b12aea24bf538e65c036c1.jpg",
     "assets/1709861081-2bff4ee3fc05ea31607ca1f0bfb7e59c.jpg",
     "assets/1709861081-66bf81f291b3ff0f5b3a73d277d7c589.jpg",
@@ -30,6 +30,6 @@
     "assets/1709861081-816765495d8b13990fa7e925fa3a2c15.jpg",
     "assets/1709861081-45fbd58f68549bad4768bd95aad7f537.jpg",
     "assets/1709861081-d0aafeb91891b85e21e7494daeb0a1a6.jpg",
-    "奇安信攻防社区-某cms代码注入漏洞复现与分析.md"
+    "奇安信攻防社区 - 某 cms 代码注入漏洞复现与分析.md"
   ]
 }

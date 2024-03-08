@@ -22,7 +22,7 @@ JetBrains TeamCity 鉴权绕过浅析
     这个路径是在类初始化的时候创建并添加到 `myPreHandlingDisabled` 字段中去的  
     [![](assets/1709861012-e29b0cea140a30537335f134b89e2145.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306103440-154e9b00-db62-1.png)  
     有了这个路径，那么我们访问以前以 `/RPC` 作为后缀的 url 均不会被鉴权。  
-    而恰好 jetbrains.buildServer.server.rest.request.UserRequest#createToken(java.lang.String, java.lang.String, java.lang.String) 可以通过 path 变量来创建 token (这里的作用也就是可以创建指定用户的 token，用户指定通过 userLocator ，对于 admin 默认为 `id:1`)，我们直接 name 位置设置为 `RPC2` 便可以绕过鉴权。  
+    而恰好 jetbrains.buildServer.server.rest.request.UserRequest#createToken(java.lang.String, java.lang.String, java.lang.String) 可以通过 path 变量来创建 token (这里的作用也就是可以创建指定用户的 token，用户指定通过 userLocator，对于 admin 默认为 `id:1`)，我们直接 name 位置设置为 `RPC2` 便可以绕过鉴权。  
     [![](assets/1709861012-ab0289ab8046c74b57d8650e5b39b4a0.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306103523-2eeaed52-db62-1.png)
 -   复现  
     [![](assets/1709861012-bab3441e46a015a8370be054afd299f3.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306103633-58a38262-db62-1.png)  
@@ -38,7 +38,7 @@ JetBrains TeamCity 鉴权绕过浅析
 -   补丁 [https://download-cdn.jetbrains.com/teamcity/plugins/internal/security\_patch\_2024\_02.zip](https://download-cdn.jetbrains.com/teamcity/plugins/internal/security_patch_2024_02.zip)  
     用了三种反编译工具结果都不太清楚，可能是 JDK 版本过高的缘故，师傅们可以研究研究
 -   代码分析  
-    分析版本: 2023.11.3  
+    分析版本：2023.11.3  
     以绕过授权端点 `/app/rest/server` 为例子  
     [![](assets/1709861012-aebe9b05543ad43e529ae89e8dd61910.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306104158-1a81167e-db63-1.png)  
     teamcity 业务请求的分发处位于 `jetbrains.buildServer.controllers.BaseController` 首先看如果发送一个需要授权的请求
@@ -49,7 +49,7 @@ JetBrains TeamCity 鉴权绕过浅析
     
     `jetbrains.buildServer.controllers.BaseController#handleRequestInternal`  
     [![](assets/1709861012-35de2b3797c8d7061a67c6162b270777.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306104355-60226bd8-db63-1.png)  
-    可以看到在这里会跳转至 `/unauthorized.html` 未授权页面，同时无法获取到模型视图参数。这是因为 web.xml 当作配置了 error-page ，当 401 时就会跳转到 `/unauthorized.html`  
+    可以看到在这里会跳转至 `/unauthorized.html` 未授权页面，同时无法获取到模型视图参数。这是因为 web.xml 当作配置了 error-page，当 401 时就会跳转到 `/unauthorized.html`  
     [![](assets/1709861012-390c861c9455ba7ecb1f711894a27f43.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306104425-71f363f8-db63-1.png)  
     但如果我们修改为不存在的 uri：
     
@@ -93,12 +93,12 @@ JetBrains TeamCity 鉴权绕过浅析
 
 ### 总结
 
-可能是 Java 版本过高的缘故，分析代码过程中部分核心位置反编译失败导致无法理清逻辑（后续值得研究一下反编译的问题）。不过目前针对 CVE-2024-27198 漏洞利用思路的猜想是：spring 支持当出现 error code 时通过配置 location （渲染视图位置）来响应错误页面，这实际上是做了二次 dispatch 请求. 而 teamcity 的鉴权操作并未对这种类似嵌套的请求作处理，同时视图名又可控，可覆盖默认的配置，导致可以以未授权的方式请求授权页面。(CVE-2024-27199 应该就是另外通过目录穿越的方式来控制第二次 dispatch 的位置)  
+可能是 Java 版本过高的缘故，分析代码过程中部分核心位置反编译失败导致无法理清逻辑（后续值得研究一下反编译的问题）。不过目前针对 CVE-2024-27198 漏洞利用思路的猜想是：spring 支持当出现 error code 时通过配置 location（渲染视图位置）来响应错误页面，这实际上是做了二次 dispatch 请求。而 teamcity 的鉴权操作并未对这种类似嵌套的请求作处理，同时视图名又可控，可覆盖默认的配置，导致可以以未授权的方式请求授权页面。(CVE-2024-27199 应该就是另外通过目录穿越的方式来控制第二次 dispatch 的位置)  
 [![](assets/1709861012-135170c4e814d3b496b2a042cbe97f14.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240306105214-897f21dc-db64-1.png)
 
 ## 参考
 
-\[1\] [CVE-2023-42793 JetBrains TeamCity 权限绕过 - Y4er的博客](https://y4er.com/posts/cve-2023-42793-jetbrains-teamcity-auth-bypass-rce/)  
+\[1\] [CVE-2023-42793 JetBrains TeamCity 权限绕过 - Y4er 的博客](https://y4er.com/posts/cve-2023-42793-jetbrains-teamcity-auth-bypass-rce/)  
 \[2\] [vulhub/teamcity/CVE-2023-42793/README.zh-cn.md at master · vulhub/vulhub (github.com)](https://github.com/vulhub/vulhub/blob/master/teamcity/CVE-2023-42793/README.zh-cn.md)  
 \[3\] [Source Code at Risk: Critical Code Vulnerability in CI/CD Platform TeamCity | Sonar (sonarsource.com)](https://www.sonarsource.com/blog/teamcity-vulnerability/)  
 \[4\] [JetBrains TeamCity RCE - CVE-2023-42793 (projectdiscovery.io)](https://blog.projectdiscovery.io/cve-2023-42793-vulnerability-in-jetbrains-teamcity/)  

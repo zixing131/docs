@@ -65,7 +65,7 @@ This research paper accompanies a presentation at [Black Hat USA](https://www.bl
 
 DEFCONConference
 
-28.5万位订阅者
+28.5 万位订阅者
 
 [DEF CON 31 - Smashing the State Machine the True Potential of Web Race Conditions - James Kettle](https://www.youtube.com/watch?v=tKJzsaB1ZvI)
 
@@ -381,7 +381,7 @@ I've recorded a video demonstrating the full discovery process on a remote Gitla
 
 PortSwigger
 
-2.53万位订阅者
+2.53 万位订阅者
 
 [Discovering a race condition vulnerability in Gitlab with the single-packet attack](https://www.youtube.com/watch?v=Y0NVIVucQNE)
 
