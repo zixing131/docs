@@ -1,27 +1,27 @@
 
 
-# 使用太阿（Tai-e）进行静态代码安全分析（spring-boot篇二） - 先知社区
+# 使用太阿（Tai-e）进行静态代码安全分析（spring-boot 篇二） - 先知社区
 
-使用太阿（Tai-e）进行静态代码安全分析（spring-boot篇二）
+使用太阿（Tai-e）进行静态代码安全分析（spring-boot 篇二）
 
 - - -
 
-**作者: lcark、keanu**
+**作者：lcark、keanu**
 
 # 概述
 
-[Tai-e](https://github.com/pascal-lab/Tai-e)是针对java的静态程序分析框架，支持包括指针分析、数据流分析、污点分析在内的诸多静态程序分析。由于Tai-e并非专门用来做静态代码安全分析，所以并非开箱即用，在实际安全分析中使用有许多问题。准备通过大致如下多篇文章，逐渐将Tai-e改造为开箱即用的静态代码安全分析框架。
+[Tai-e](https://github.com/pascal-lab/Tai-e)是针对 java 的静态程序分析框架，支持包括指针分析、数据流分析、污点分析在内的诸多静态程序分析。由于 Tai-e 并非专门用来做静态代码安全分析，所以并非开箱即用，在实际安全分析中使用有许多问题。准备通过大致如下多篇文章，逐渐将 Tai-e 改造为开箱即用的静态代码安全分析框架。
 
--   分析SpringBoot应用，支持控制翻转、依赖注入、面向切面编程等特性
--   分析基于Mybatis框架的sql注入漏洞
+-   分析 SpringBoot 应用，支持控制翻转、依赖注入、面向切面编程等特性
+-   分析基于 Mybatis 框架的 sql 注入漏洞
 -   优化输出结果
--   Java Api提取,更偏向于支持企业Api安全。
+-   Java Api 提取，更偏向于支持企业 Api 安全。
 -   Pointer Analysis And Taint Analysis Flow Analysis
 
-由于spring-boot实现了控制反转与面向切面编程的设计思想，使得程序并非顺序执行，因此很难通过程序入口来顺序分析所有代码。本篇文章旨在解决依赖注入、控制反转问题。  
+由于 spring-boot 实现了控制反转与面向切面编程的设计思想，使得程序并非顺序执行，因此很难通过程序入口来顺序分析所有代码。本篇文章旨在解决依赖注入、控制反转问题。  
 实验代码为[https://github.com/lcark/Tai-e-demo](https://github.com/lcark/Tai-e-demo)  
 本文章使用的被分析代码为[https://github.com/JoyChou93/java-sec-code](https://github.com/JoyChou93/java-sec-code)  
-阅读本篇文章前请先阅读[使用太阿（Tai-e）进行静态代码安全分析（spring-boot篇一）](https://xz.aliyun.com/t/13775)
+阅读本篇文章前请先阅读[使用太阿（Tai-e）进行静态代码安全分析（spring-boot 篇一）](https://xz.aliyun.com/t/13775)
 
 # 原理分析
 
@@ -57,16 +57,16 @@ public class MovieRecommenderController {
 }
 ```
 
-观察上面两段代码， 发现`service`的实例化和管理被Spring框架控制，而不是由应用程序直接控制。使用控制反转这样的技术可以使代码的对象的创建与使用解耦，降低组件之间的耦合度，使系统更易于维护、扩展和测试。而依赖注入是IoC的一种实现方式。它是指将一个对象的依赖关系通过构造函数、方法参数或属性注入到对象中，而不是在对象内部硬编码这些依赖关系。通过依赖注入，对象变得更加灵活和可配置。
+观察上面两段代码，发现`service`的实例化和管理被 Spring 框架控制，而不是由应用程序直接控制。使用控制反转这样的技术可以使代码的对象的创建与使用解耦，降低组件之间的耦合度，使系统更易于维护、扩展和测试。而依赖注入是 IoC 的一种实现方式。它是指将一个对象的依赖关系通过构造函数、方法参数或属性注入到对象中，而不是在对象内部硬编码这些依赖关系。通过依赖注入，对象变得更加灵活和可配置。
 
 ## 指针分析如何处理函数调用？
 
-在Tai-e，污点分析是作为指针分析的一个插件，在指针分析中完成了污点分析。所以在进一步分析控制反转前，我们需要先了解一下指针分析的基础。  
-指针分析就是计算指针（变量、字段）可以指向哪个对象的过程。指针分析首先需要对New语句进行分析，然后才能对Assign、store、load语句进行分析，在此基础上进行指针分析传播，以及后续method call的处理。而对New语句初始化就需要用到堆抽象技术。
+在 Tai-e，污点分析是作为指针分析的一个插件，在指针分析中完成了污点分析。所以在进一步分析控制反转前，我们需要先了解一下指针分析的基础。  
+指针分析就是计算指针（变量、字段）可以指向哪个对象的过程。指针分析首先需要对 New 语句进行分析，然后才能对 Assign、store、load 语句进行分析，在此基础上进行指针分析传播，以及后续 method call 的处理。而对 New 语句初始化就需要用到堆抽象技术。
 
 ### 堆抽象
 
-指针分析首先要进行堆抽象。对指针所代表的内存内容进行建模，Tai-e使用New Stmt创建一个新的对象(NewObj) 来实现堆抽象，即将指针所代表内容用对象构造时的Stmt代替。该New Stmt如下是是构建一个堆抽象的案例。
+指针分析首先要进行堆抽象。对指针所代表的内存内容进行建模，Tai-e 使用 New Stmt 创建一个新的对象 (NewObj) 来实现堆抽象，即将指针所代表内容用对象构造时的 Stmt 代替。该 New Stmt 如下是是构建一个堆抽象的案例。
 
 ```plain
 A a = new A();
@@ -76,22 +76,22 @@ A a = new A();
 PT(a)={NewObj{<New: void main(java.lang.String[])>[0@L4] new A}}
 ```
 
-这种堆抽象方法又叫做Allocation-Site abstraction，这是指针分析中最常见的堆抽象方法。
+这种堆抽象方法又叫做 Allocation-Site abstraction，这是指针分析中最常见的堆抽象方法。
 
 ### 函数调用处理
 
-在指针分析中会碰到许多函数调用，对象会沿着函数调用进行传播。在处理方法调用时时，需要分析出指针调用的具体方法。java的方法调用大概有以下四种，具体所调用方法的解析原理如下：
+在指针分析中会碰到许多函数调用，对象会沿着函数调用进行传播。在处理方法调用时时，需要分析出指针调用的具体方法。java 的方法调用大概有以下四种，具体所调用方法的解析原理如下：
 
 [![](assets/1709874514-5087d3efed3d7333a09851e55547c149.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240308101500-aa94d57c-dcf1-1.png)
 
-### invokeinterface和invokevirtual
+### invokeinterface 和 invokevirtual
 
 ```plain
 a.f(p1, p2)
 ```
 
-当分析如上语句时，`a.f`所对应的函数就是指针a所对应Method即类A的方法。而在分析控制反转中，无法将`service`与其调用点关联起来，便无法分析出`a.f`实际所调用的函数  
-如上代码便是Tai-e中处理方法调用的相关代码：
+当分析如上语句时，`a.f`所对应的函数就是指针 a 所对应 Method 即类 A 的方法。而在分析控制反转中，无法将`service`与其调用点关联起来，便无法分析出`a.f`实际所调用的函数  
+如上代码便是 Tai-e 中处理方法调用的相关代码：
 
 ```plain
 private void processCall(CSVar recv, PointsToSet pts) {
@@ -117,7 +117,7 @@ private void processCall(CSVar recv, PointsToSet pts) {
 }
 ```
 
-首先遍历pts（指针所指向堆抽象的集合），然后根据obj类型与当前函数调用callSite解析出具体调用的方法。
+首先遍历 pts（指针所指向堆抽象的集合），然后根据 obj 类型与当前函数调用 callSite 解析出具体调用的方法。
 
 ```plain
 public static JMethod resolveCallee(Type type, Invoke callSite) {
@@ -136,9 +136,9 @@ public static JMethod resolveCallee(Type type, Invoke callSite) {
 }
 ```
 
-`resolveCallee`对应的源码如上，如果`callSite`所调用的方法为`interface`或者`virtual`，就会根据obj的类型与方法引用派生出具体的方法。
+`resolveCallee`对应的源码如上，如果`callSite`所调用的方法为`interface`或者`virtual`，就会根据 obj 的类型与方法引用派生出具体的方法。
 
-dispatch会调用`lookupMethod`，其核心逻辑如下：
+dispatch 会调用`lookupMethod`，其核心逻辑如下：
 
 1.  遍历超类，如果超类含有该方法，则返回超类中的该方法
 2.  遍历超类的所实现的所有接口，返回接口中的该方法
@@ -179,8 +179,8 @@ private JMethod lookupMethod(JClass jclass, Subsignature subsignature,
 
 ## 问题分析
 
-在使用控制反转时，类的实例化是由spring的IoC容器控制，而不是应用程序自身控制。这使得在指针分析中，无法通过传统的dispatch获取到callsite具体调用的方法，而无法解析控制反转所控制的实例。  
-如果我们可以分析出当前对象所对应的具体实现类，那便可以在指针分析处理call调用时获取到具体的方法调用。  
+在使用控制反转时，类的实例化是由 spring 的 IoC 容器控制，而不是应用程序自身控制。这使得在指针分析中，无法通过传统的 dispatch 获取到 callsite 具体调用的方法，而无法解析控制反转所控制的实例。  
+如果我们可以分析出当前对象所对应的具体实现类，那便可以在指针分析处理 call 调用时获取到具体的方法调用。  
 代码的具体实现如下：
 
 ```plain
@@ -190,7 +190,7 @@ solver.addPointsTo(solver.getCSManager().getCSVar(csMethod.getContext(), var),
 
 问题的关键就是**如何找出，当前被注入者所对应的具体实现类**。
 
-spring支持两种依赖注入的配置方式:
+spring 支持两种依赖注入的配置方式：
 
 **通过注解配置**
 
@@ -221,9 +221,9 @@ public class HttpServiceImpl implements HttpService {
 }
 ```
 
-如上代码会将字段`httpService`的配置为`HttpServiceImpl`的实例，无需在CustomizedService.java添加构造`httpService`的代码。
+如上代码会将字段`httpService`的配置为`HttpServiceImpl`的实例，无需在 CustomizedService.java 添加构造`httpService`的代码。
 
-**通过xml文件配置**
+**通过 xml 文件配置**
 
 ```plain
 package x.y;
@@ -253,7 +253,7 @@ public class ThingOne {
 
 # 控制反转处理
 
-如下为仓库[https://github.com/JoyChou93/java-sec-code](https://github.com/JoyChou93/java-sec-code)中包含SSRF漏洞且利用了控制反转特性的代码片段
+如下为仓库[https://github.com/JoyChou93/java-sec-code](https://github.com/JoyChou93/java-sec-code)中包含 SSRF 漏洞且利用了控制反转特性的代码片段
 
 ```plain
 @RestController
@@ -282,7 +282,7 @@ public class SSRF {
 }
 ```
 
-这个SSRF漏洞对应的调用链如下，sink点的方法为`org.springframework.web.client.RestTemplate#exchange`，所以需要把该方法加入污点分析的配置文件
+这个 SSRF 漏洞对应的调用链如下，sink 点的方法为`org.springframework.web.client.RestTemplate#exchange`，所以需要把该方法加入污点分析的配置文件
 
 ```plain
 org.joychou.controller.SSRF#RestTemplateUrlBanRedirects
@@ -290,7 +290,7 @@ org.joychou.impl.HttpServiceImpl#RequestHttpBanRedirects
 org.springframework.web.client.RestTemplate#exchange
 ```
 
-另一个漏洞的sink点所调用方法与上个漏洞一致，不过调用链有所区别
+另一个漏洞的 sink 点所调用方法与上个漏洞一致，不过调用链有所区别
 
 ```plain
 org.joychou.controller.SSRF#RestTemplateUrl
@@ -298,9 +298,9 @@ org.joychou.impl.HttpServiceImpl#RequestHttp
 org.springframework.web.client.RestTemplate#exchange
 ```
 
-## 类CHA（Class Hierarchy Analysis）实现方式
+## 类 CHA（Class Hierarchy Analysis）实现方式
 
-根据原理分析一节中的描述，方法调用是通过堆抽象（用obj代表具体的类）所对应的类型解析出来的，当我们分析出当前指针所对应的实际类时，需要构造如下的MockObj，并将类型配置为我们解析出来的类型。
+根据原理分析一节中的描述，方法调用是通过堆抽象（用 obj 代表具体的类）所对应的类型解析出来的，当我们分析出当前指针所对应的实际类时，需要构造如下的 MockObj，并将类型配置为我们解析出来的类型。
 
 ```plain
 default Obj getMockObj(Descriptor desc, Object alloc, Type type) {
@@ -313,7 +313,7 @@ solver.addPointsTo(solver.getCSManager().getCSVar(csMethod.getContext(), var),
                                         solver.getHeapModel().getMockObj(() -> "DEPENDENCY_INJECTION", implementor.getName(), implementor.getType()));
 ```
 
-实际代码如上，其中`implementor`为我们所分析出的具体的实现类。本质是将解析出的实际类所代表的MockObj添加为对应指针的指向集中。  
+实际代码如上，其中`implementor`为我们所分析出的具体的实现类。本质是将解析出的实际类所代表的 MockObj 添加为对应指针的指向集中。  
 具体实现思路如下：  
 遍历被分析代码中的所有方法，提取出`Invoke`语句即方法调用语句
 
@@ -330,7 +330,7 @@ solver.getCallGraph().reachableMethods().forEach(
 )
 ```
 
-如果语句是静态方法调用或special调用，那不用分析
+如果语句是静态方法调用或 special 调用，那不用分析
 
 ```plain
 if(stmt instanceof Invoke invoke &&
@@ -382,7 +382,7 @@ if(implementors.size() <= 3) {
 
 还有最后一个问题，对应的分析代码应该放在指针分析的哪个阶段？
 
-根据`DefaultSolver.java`analyze方法的源码，指针分析会在完毕前调用`onPhaseFinish`，如果把代码放在此处，此时除控制反转外的其他分析都已经完成，会使我们的判断准确。
+根据`DefaultSolver.java`analyze 方法的源码，指针分析会在完毕前调用`onPhaseFinish`，如果把代码放在此处，此时除控制反转外的其他分析都已经完成，会使我们的判断准确。
 
 ```plain
 private void analyze() {
@@ -490,8 +490,8 @@ public class DependencyInjectionHandler implements Plugin {
 
 ## 基于注解的配置解析
 
-在代码中，控制反转是通过xml、注解进行实际配置。因此通过解析xml、注解的实际含义，会使结果更加准确。  
-实现思路为识别注入点以及依赖实现类，然后将依赖实现类构造成的obj添加到注入点变量的的指向集中。
+在代码中，控制反转是通过 xml、注解进行实际配置。因此通过解析 xml、注解的实际含义，会使结果更加准确。  
+实现思路为识别注入点以及依赖实现类，然后将依赖实现类构造成的 obj 添加到注入点变量的的指向集中。
 
 ```plain
 @Service
@@ -520,7 +520,7 @@ public class HttpServiceImpl implements HttpService {
 }
 ```
 
-对于如上代码而言，需要识别出`CustomizedService`的注入点`httpService`，然后找到`HttpService`的实现类，最后把实现类`HttpServiceImpl`已obj的形式添加到变量的指向集中。  
+对于如上代码而言，需要识别出`CustomizedService`的注入点`httpService`，然后找到`HttpService`的实现类，最后把实现类`HttpServiceImpl`已 obj 的形式添加到变量的指向集中。  
 实现方法如下：
 
 ### 注入点识别
@@ -631,16 +631,16 @@ injectedFields.stream().forEach(field -> {
 [![](assets/1709874514-2748935ead70ad29f0c035913a8f2448.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240308101757-147f7d84-dcf2-1.png)  
 [![](assets/1709874514-774d877936a8a8b29bb540a49d71ef6d.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240308101826-258f95dc-dcf2-1.png)
 
-## 基于XML的配置解析
+## 基于 XML 的配置解析
 
-原理与基于注解的配置解析一样，只是需要解析XML文件的具体内容。本篇文章不在赘述。
+原理与基于注解的配置解析一样，只是需要解析 XML 文件的具体内容。本篇文章不在赘述。
 
 # 结果展示
 
-更改的相关代码以及配置文件已经上传至github，见[https://github.com/lcark/Tai-e-demo/tree/main/spring-boot-2](https://github.com/lcark/Tai-e-demo/tree/main/spring-boot-2)  
+更改的相关代码以及配置文件已经上传至 github，见[https://github.com/lcark/Tai-e-demo/tree/main/spring-boot-2](https://github.com/lcark/Tai-e-demo/tree/main/spring-boot-2)  
 具体食用方法如下：
 
-1.下载代码，并移动至spring-boot-2目录下
+1.下载代码，并移动至 spring-boot-2 目录下
 
 ```plain
 git clone https://github.com/lcark/Tai-e-demo
@@ -648,11 +648,11 @@ cd Tai-e-demo/spring-boot-2
 git submodule update --init
 ```
 
-2.将DependencyInjectionHandler.java移动至Tai-e源码的src/main/java/pascal/taie/analysis/pta/plugin/taint/目录下，并重新编译打包
+2.将 DependencyInjectionHandler.java 移动至 Tai-e 源码的 src/main/java/pascal/taie/analysis/pta/plugin/taint/目录下，并重新编译打包
 
 [![](assets/1709874514-9f8c8ecf6083bbde59c7fae88d76cf29.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240308101846-313d3fe2-dcf2-1.png)
 
-3.使用如下命令运行tai-e便可以成功获取到扫描结果
+3.使用如下命令运行 tai-e 便可以成功获取到扫描结果
 
 ```plain
 java -cp ~/Downloads/Tai-e/build/tai-e-all-0.5.1-SNAPSHOT.jar pascal.taie.Main --options-file=options.yml

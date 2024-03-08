@@ -32,7 +32,7 @@ JA4+ 首发于 2023 年九月，是 JA3/3s 的升级替代，它由早期针对 
 启动 WireShark 后还需要在【编辑】—> 【首选项】中进行配置  
 [![](assets/1709874394-e9e726c9dd53090e848f0b4fcb294319.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229094058-965e06b8-d6a3-1.png)
 
-打开首选项中的【外观】—> 【列】，点击`+`号添加一个新的列，类型选择自定义(Custom)，具体配置可参考官方的配置表  
+打开首选项中的【外观】—> 【列】，点击`+`号添加一个新的列，类型选择自定义 (Custom)，具体配置可参考官方的配置表  
 [![](assets/1709874394-eb9fb5c5bc3b1f6fd10946414f7139a5.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229094127-a7977658-d6a3-1.png)
 
 假设我们这里添加了 JA4 的规则，打开抓包页面后就会出现一条与 JA4 相关的列  
@@ -71,7 +71,7 @@ JA4 对标的是早期的 JA3，主要是对 Client Hello 报文实现指纹化�
 
 ### 什么是 QUIC
 
-对于用户侧来说 QUIC 主要解决的是延迟的问题，这里我们主要说一下它和 TCP 的区别，简单来说，QUIC 进行了一次 “资源整合”，它把之前 HTTP/2、TLS、TCP 三者的优势集合起来
+对于用户侧来说 QUIC 主要解决的是延迟的问题，这里我们主要说一下它和 TCP 的区别，简单来说，QUIC 进行了一次“资源整合”，它把之前 HTTP/2、TLS、TCP 三者的优势集合起来
 
 由于 QUIC 已经整合了这些内容，那么让它继续工作在 HTTP/2 下会出现许多问题，所以便催生了 HTTP/3，因为 QUIC 本身是要取代 TCP 的，所以它的传输层协议选择的是 UDP  
 [![](assets/1709874394-9151d547e55c738c347dac6035332a4d.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229094403-048b1536-d6a4-1.png)
@@ -134,7 +134,7 @@ JA4\_b 的计算根据是 Cipher Suite 值，使用`,`分隔不同字段（忽�
 JA4_b = 8daaf6152771
 ```
 
-这里排序的意义在于降低 “Cipher Stunting“ 的影响，关于什么是 “Cipher Stunting“ 请见【JA3 优化】部分，但是并不是说顺序不重要，这里是为了保真度所做的取舍，作者给出的原因是，在研究时发现大多数应用使用的是独特的 Cipher，而不是独特的 Cipher Suite 排序（It does but in our research we’ve found that applications and libraries choose a unique cipher list more than unique ordering）
+这里排序的意义在于降低“Cipher Stunting“的影响，关于什么是“Cipher Stunting“请见【JA3 优化】部分，但是并不是说顺序不重要，这里是为了保真度所做的取舍，作者给出的原因是，在研究时发现大多数应用使用的是独特的 Cipher，而不是独特的 Cipher Suite 排序（It does but in our research we’ve found that applications and libraries choose a unique cipher list more than unique ordering）
 
 #### JA4\_c
 
@@ -244,7 +244,7 @@ JA4H\_c 是基于网站的 Cookie 字段计算的，同样是按照 HTTP 报文�
 
 #### JA4H\_d
 
-JA4H\_d 在官方 Blog 中被称为 “用户指纹”，其本质还是对 Cookie 的计算，只是加入了用户的 Cookie 值（不包含敏感的个人身份信息），
+JA4H\_d 在官方 Blog 中被称为“用户指纹”，其本质还是对 Cookie 的计算，只是加入了用户的 Cookie 值（不包含敏感的个人身份信息），
 
 换句话说，就是将网站的 Cookie 字段和用户唯一的 Cookie 值一起作为算子，依然是按照 HTTP 报文的顺序排列后进行 SHA256 加密后取其前 12 位作为 JA4H\_d（若不存在 Cookie 则输出 12 个 0 占位）  
 [![](assets/1709874394-5220bb16935b8e3bac16626870b356e0.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240229094956-d6f6a940-d6a4-1.png)
@@ -291,7 +291,7 @@ $$
 
 -   D：Distance，距离
 -   j：JA4L\_a
--   c：光速常量，0.128英里/μs或0.206公里/μs
+-   c：光速常量，0.128 英里/μs 或 0.206 公里/μs
 -   p：Propagation delay factor，延迟传播系数
 
 关于延迟传播系数，Blog 给出了两种，对应了恶劣和良好两种情况
@@ -315,7 +315,7 @@ $$
 | 65-128 | 128 |
 | \>128 | 155 |
 
-## JA4X（JA4-X.509）
+## JA4X (JA4-X.509)
 
 JA4X 主要是对 X.509 TLS 证书进行指纹识别，但是其核心并不是识别证书中的值，而是对生成方式进行归类，因为证书的值是随机的，但是证书的生成方式相对单一，所以对生成方式的归类更为有效
 
@@ -362,7 +362,7 @@ tcp.len
 例如这里就使用了`chacha20-poly1305`加密，当客户端在 SSH 终端中键入一个字符时，该字符会被填充为 36 字节的数据包加密，然后发送到服务器，服务器将在 36 字节数据包中以相同的字符进行响应  
 [![](assets/1709874394-7ab48515754a4cab547b16e31df05203.png)](https://s2.loli.net/2024/02/27/uUOaWwP5kB1D43r.png)
 
-需要注意的是，Client 和 Server 的 TCP Payload 并不是一直保持相等的，例如，当 SCP 文件传输时， JA4SSH 为`c112s1460_c0s179_c21s0`，表明 Server 端的 TCP Payload 长度已经到达最大值 1460，而 Client 只有 112
+需要注意的是，Client 和 Server 的 TCP Payload 并不是一直保持相等的，例如，当 SCP 文件传输时，JA4SSH 为`c112s1460_c0s179_c21s0`，表明 Server 端的 TCP Payload 长度已经到达最大值 1460，而 Client 只有 112
 
 #### JA4SSH\_b
 

